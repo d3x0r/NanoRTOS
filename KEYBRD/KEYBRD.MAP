@@ -1,0 +1,197 @@
+
+ Start  Stop   Length Name               Class
+
+ 00000H 01020H 01021H _TEXT              CODE
+ 01022H 011FBH 001DAH _DATA              DATA
+ 011FCH 01289H 0008EH _BSS               BSS
+
+
+Detailed map of segments
+
+ 0000:0000 0099 C=CODE   S=_TEXT          G=(none)  M=mmodhead.ASM ACBP=48
+ 0000:0099 0B4B C=CODE   S=_TEXT          G=(none)  M=keybrd.c   ACBP=28
+ 0000:0BE4 0084 C=CODE   S=_TEXT          G=(none)  M=kintr.ASM  ACBP=48
+ 0000:0C68 0078 C=CODE   S=_TEXT          G=(none)  M=vidkey.asm ACBP=48
+ 0000:0CE0 0341 C=CODE   S=_TEXT          G=(none)  M=OSLIB      ACBP=48
+ 0102:0002 0058 C=DATA   S=_DATA          G=DGROUP  M=mmodhead.ASM ACBP=48
+ 0102:005A 0149 C=DATA   S=_DATA          G=DGROUP  M=keybrd.c   ACBP=48
+ 0102:01A4 0038 C=DATA   S=_DATA          G=DGROUP  M=kintr.ASM  ACBP=48
+ 0102:01DC 0000 C=DATA   S=_DATA          G=DGROUP  M=vidkey.asm ACBP=48
+ 0102:01DC 0000 C=DATA   S=_DATA          G=DGROUP  M=OSLIB      ACBP=48
+ 0102:01DC 008E C=BSS    S=_BSS           G=DGROUP  M=keybrd.c   ACBP=48
+
+  Address         Publics by Name
+
+ 0102:002E       _Allocate
+ 0000:0D17 idle  _atoi
+ 0000:0BE4       _beep
+ 0000:0C02 idle  _biostrap
+ 0102:01E1 idle  _c
+ 0000:0115 idle  _call
+ 0102:004A idle  _change_priority
+ 0000:0DBB       _close
+ 0102:003E idle  _Connect_Int
+ 0000:00B1 idle  _connect_kbd
+ 0000:0D83 idle  _create
+ 0102:0262 idle  _current_path
+ 0000:0000 idle  _dataseg
+ 0102:0056 idle  _delay
+ 0000:004C idle  _destory
+ 0102:001A idle  _device_name
+ 0102:0042 idle  _Disconnect_Int
+ 0000:00FC idle  _disconnect_kbd
+ 0102:006E idle  _disconnect_kbdname
+ 0000:0124 idle  _do_local
+ 0102:0006       _Exit
+ 0102:0012 idle  _Export
+ 0102:0002 idle  _externals
+ 0000:0051 idle  _fork
+ 0102:0032 idle  _Free
+ 0102:007E idle  _functions
+ 0000:0C68       _getdisplay
+ 0102:0046 idle  _gettime
+ 0102:002A idle  _Get_environ
+ 0102:0016 idle  _Import
+ 0102:0036 idle  _Inquire_begin
+ 0000:0ED2 idle  _itoa
+ 0102:01A8       _kbdch
+ 0102:005E idle  _keyhead
+ 0000:0C02       _keyintr
+ 0102:005F idle  _keytail
+ 0102:0266       _keytask
+ 0102:01E2 idle  _key_buf
+ 0000:005D idle  _ldiv
+ 0102:0060 idle  _led_status
+ 0000:0071 idle  _lmod
+ 0000:0088 idle  _lmult
+ 0000:0099 idle  _Locate
+ 0000:0A22       _main
+ 0000:0FE9 idle  _memset
+ 0000:0CA4       _moddisplay
+ 0000:0F40 idle  _movmem
+ 0102:004E       _my_tcbptr
+ 0102:01A4       _old_key
+ 0000:0D4D       _open
+ 0102:0062 idle  _option
+ 0102:005A idle  _output
+ 0000:0047       _perish
+ 0000:03FA idle  _process
+ 0102:003A idle  _process_control
+ 0000:09A7 idle  _rawkeypressed
+ 0102:00A2 idle  _rawkeypressedname
+ 0000:09E4 idle  _rawreadch
+ 0102:00B0 idle  _rawreadchname
+ 0000:0DF2       _read
+ 0000:078A idle  _read_kbd_data
+ 0102:000A       _Relinquish
+ 0102:0002       _Request
+ 0102:01DA       _schead
+ 0102:01DB       _sctail
+ 0102:0061 idle  _sft_status
+ 0000:0CE0 idle  _Shell
+ 0102:01E0 idle  _skip
+ 0102:0026 idle  _spawn
+ 0102:0022 idle  _spawn_batch
+ 0000:0FB1       _strcat
+ 0000:0E99       _stricmp
+ 0000:0F08 idle  _strlen
+ 0000:0F78       _strncpy
+ 0000:0E5F idle  _strnicmp
+ 0102:0052 idle  _swap_to
+ 0102:01DC idle  _tempkbd
+ 0102:000E idle  _Terminate
+ 0102:001E idle  _Wake
+ 0000:0E28 idle  _write
+ 0000:00DF idle  __disconnect_kbd
+ 0000:098A idle  __rawkeypressed
+ 0000:09C7 idle  __rawreadch
+
+  Address         Publics by Value
+
+ 0000:0000 idle  _dataseg
+ 0000:0047       _perish
+ 0000:004C idle  _destory
+ 0000:0051 idle  _fork
+ 0000:005D idle  _ldiv
+ 0000:0071 idle  _lmod
+ 0000:0088 idle  _lmult
+ 0000:0099 idle  _Locate
+ 0000:00B1 idle  _connect_kbd
+ 0000:00DF idle  __disconnect_kbd
+ 0000:00FC idle  _disconnect_kbd
+ 0000:0115 idle  _call
+ 0000:0124 idle  _do_local
+ 0000:03FA idle  _process
+ 0000:078A idle  _read_kbd_data
+ 0000:098A idle  __rawkeypressed
+ 0000:09A7 idle  _rawkeypressed
+ 0000:09C7 idle  __rawreadch
+ 0000:09E4 idle  _rawreadch
+ 0000:0A22       _main
+ 0000:0BE4       _beep
+ 0000:0C02       _keyintr
+ 0000:0C02 idle  _biostrap
+ 0000:0C68       _getdisplay
+ 0000:0CA4       _moddisplay
+ 0000:0CE0 idle  _Shell
+ 0000:0D17 idle  _atoi
+ 0000:0D4D       _open
+ 0000:0D83 idle  _create
+ 0000:0DBB       _close
+ 0000:0DF2       _read
+ 0000:0E28 idle  _write
+ 0000:0E5F idle  _strnicmp
+ 0000:0E99       _stricmp
+ 0000:0ED2 idle  _itoa
+ 0000:0F08 idle  _strlen
+ 0000:0F40 idle  _movmem
+ 0000:0F78       _strncpy
+ 0000:0FB1       _strcat
+ 0000:0FE9 idle  _memset
+ 0102:0002 idle  _externals
+ 0102:0002       _Request
+ 0102:0006       _Exit
+ 0102:000A       _Relinquish
+ 0102:000E idle  _Terminate
+ 0102:0012 idle  _Export
+ 0102:0016 idle  _Import
+ 0102:001A idle  _device_name
+ 0102:001E idle  _Wake
+ 0102:0022 idle  _spawn_batch
+ 0102:0026 idle  _spawn
+ 0102:002A idle  _Get_environ
+ 0102:002E       _Allocate
+ 0102:0032 idle  _Free
+ 0102:0036 idle  _Inquire_begin
+ 0102:003A idle  _process_control
+ 0102:003E idle  _Connect_Int
+ 0102:0042 idle  _Disconnect_Int
+ 0102:0046 idle  _gettime
+ 0102:004A idle  _change_priority
+ 0102:004E       _my_tcbptr
+ 0102:0052 idle  _swap_to
+ 0102:0056 idle  _delay
+ 0102:005A idle  _output
+ 0102:005E idle  _keyhead
+ 0102:005F idle  _keytail
+ 0102:0060 idle  _led_status
+ 0102:0061 idle  _sft_status
+ 0102:0062 idle  _option
+ 0102:006E idle  _disconnect_kbdname
+ 0102:007E idle  _functions
+ 0102:00A2 idle  _rawkeypressedname
+ 0102:00B0 idle  _rawreadchname
+ 0102:01A4       _old_key
+ 0102:01A8       _kbdch
+ 0102:01DA       _schead
+ 0102:01DB       _sctail
+ 0102:01DC idle  _tempkbd
+ 0102:01E0 idle  _skip
+ 0102:01E1 idle  _c
+ 0102:01E2 idle  _key_buf
+ 0102:0262 idle  _current_path
+ 0102:0266       _keytask
+
+Program entry point at 0000:0002
+Warning: No stack
+

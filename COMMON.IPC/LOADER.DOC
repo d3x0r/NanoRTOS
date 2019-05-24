@@ -1,0 +1,57 @@
+
+
+
+Loader-
+  This is a program that serves as the loading system for other modules.
+  At first, it will have all routines that require that they access the
+  system, ie. the disk routines.  It reads a configuration file to find
+  out what it should load.  The configuration file currently contains
+  the modules name and the amount of stack that it expects to use.
+  When first loaded, a module will fill the beginning of its space- 0-100h
+  with the identity numbers of the routines that it requests.  It then
+  calls Request_fill().
+     Request_fill will then go through the beginning space and replace
+  those indexes which it knows about, and stores in the program's task
+  structure those which it did not.  It then fills in that entry with an
+  index into routine_not_avail().  This routine checks to see if that
+  routine is now availiable.  If it is not, then it puts that module to
+  sleep until it is known.
+
+
+  Status of the modules is as follows
+     0000 0000 0000 0000 0000 0000 0000 0001  Should never be awoken
+     XXXX XXXX XXXX XXXX 0000 0000 0000 0010  waiting for a routine- routine
+                                                 number is in the upper word
+
+
+03-02-92
+  The configuration file provides for environment entries-
+  any line with an = in it turns into an environment variable, accessable
+  from other modules via a get_environment routine, which returns
+  a pointer to a character string.  It is called with a pointer to a
+  name string.
+      The parameters after the name is the amount of stack space to
+  reserve for that module.
+
+  4 routines are predefined- Request_fill, Exit, Relinquish,
+  Register_routine, Export, Import.
+
+  the next long following these definitions is the the handler's device
+  number...as designated by the configuration file.
+
+
+
+  operation on the Export function is as followes-
+     xxxxx x 00   do not wait for operation to complete
+     xxxxx x 01   wait for operation to quiess
+     xxxxx x 10   wait for full operation to complete
+
+     00000 x xx   open
+     00001 x xx   close
+     00010 x xx   position
+     00011 x xx   write
+     00100 x xx   read
+
+6-29-92
+  Previous ideas on Export are changed, and new technology invented.  For
+  Current information on operating principles, refer to OS.DOC.

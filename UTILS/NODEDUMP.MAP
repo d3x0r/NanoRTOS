@@ -1,0 +1,143 @@
+
+ Start  Stop   Length Name               Class
+
+ 00000H 007B3H 007B4H _TEXT              CODE
+ 007B4H 008A1H 000EEH _DATA              DATA
+ 008A2H 008B6H 00015H _BSS               BSS
+
+
+Detailed map of segments
+
+ 0000:0000 008B C=CODE   S=_TEXT          G=(none)  M=mmodhead.ASM ACBP=48
+ 0000:008B 02FC C=CODE   S=_TEXT          G=(none)  M=nodedump.c ACBP=28
+ 0000:0388 003D C=CODE   S=_TEXT          G=(none)  M=pcalib.ASM ACBP=48
+ 0000:03C6 03EE C=CODE   S=_TEXT          G=(none)  M=vidlib.ASM ACBP=48
+ 007B:0004 0058 C=DATA   S=_DATA          G=DGROUP  M=mmodhead.ASM ACBP=48
+ 007B:005C 0096 C=DATA   S=_DATA          G=DGROUP  M=nodedump.c ACBP=48
+ 007B:00F2 0000 C=DATA   S=_DATA          G=DGROUP  M=pcalib.ASM ACBP=48
+ 007B:00F2 0000 C=DATA   S=_DATA          G=DGROUP  M=vidlib.ASM ACBP=48
+ 007B:00F2 0015 C=BSS    S=_BSS           G=DGROUP  M=nodedump.c ACBP=48
+
+  Address         Publics by Name
+
+ 007B:0030 idle  _Allocate
+ 007B:00F2 idle  _ch
+ 007B:004C idle  _change_priority
+ 0000:06C0 idle  _closedisplay
+ 0000:060B idle  _clr_display
+ 0000:043A idle  _Clr_window
+ 007B:0040 idle  _Connect_Int
+ 0000:0388       _Create_node
+ 007B:00F7 idle  _cur
+ 0000:0000 idle  _dataseg
+ 007B:0058 idle  _delay
+ 0000:0045 idle  _destory
+ 007B:001C idle  _device_name
+ 007B:0044 idle  _Disconnect_Int
+ 0000:04EB idle  _display
+ 0000:0524       _displayln
+ 0000:06FE idle  _dupdisplay
+ 007B:0008 idle  _Exit
+ 007B:0014 idle  _Export
+ 007B:0004 idle  _externals
+ 007B:00FB idle  _first
+ 0000:004A idle  _fork
+ 007B:0034 idle  _Free
+ 0000:05D2 idle  _getattr
+ 0000:0648 idle  _getdisplay
+ 007B:0048 idle  _gettime
+ 007B:002C idle  _Get_environ
+ 0000:04B3 idle  _get_xy
+ 007B:00F5 idle  _i
+ 007B:0018 idle  _Import
+ 007B:0038 idle  _Inquire_begin
+ 0000:03C6       _keypressed
+ 0000:004F idle  _ldiv
+ 0000:0063 idle  _lmod
+ 0000:007A idle  _lmult
+ 0000:008B       _main
+ 0000:0684 idle  _moddisplay
+ 007B:00FF idle  _my_node
+ 007B:0050 idle  _my_tcbptr
+ 0000:0476       _opendisplay
+ 007B:0103 idle  _output
+ 007B:00F3 idle  _p
+ 007B:005C idle  _page
+ 0000:0040 idle  _perish
+ 0000:055F       _position
+ 007B:003C idle  _process_control
+ 0000:073A idle  _rawkeypressed
+ 0000:0779 idle  _rawreadch
+ 0000:0402       _readch
+ 007B:000C       _Relinquish
+ 007B:0004       _Request
+ 0000:0599 idle  _setattr
+ 007B:0028 idle  _spawn
+ 007B:0024 idle  _spawn_batch
+ 007B:0054 idle  _swap_to
+ 007B:0010 idle  _Terminate
+ 007B:0020 idle  _Wake
+
+  Address         Publics by Value
+
+ 0000:0000 idle  _dataseg
+ 0000:0040 idle  _perish
+ 0000:0045 idle  _destory
+ 0000:004A idle  _fork
+ 0000:004F idle  _ldiv
+ 0000:0063 idle  _lmod
+ 0000:007A idle  _lmult
+ 0000:008B       _main
+ 0000:0388       _Create_node
+ 0000:03C6       _keypressed
+ 0000:0402       _readch
+ 0000:043A idle  _Clr_window
+ 0000:0476       _opendisplay
+ 0000:04B3 idle  _get_xy
+ 0000:04EB idle  _display
+ 0000:0524       _displayln
+ 0000:055F       _position
+ 0000:0599 idle  _setattr
+ 0000:05D2 idle  _getattr
+ 0000:060B idle  _clr_display
+ 0000:0648 idle  _getdisplay
+ 0000:0684 idle  _moddisplay
+ 0000:06C0 idle  _closedisplay
+ 0000:06FE idle  _dupdisplay
+ 0000:073A idle  _rawkeypressed
+ 0000:0779 idle  _rawreadch
+ 007B:0004 idle  _externals
+ 007B:0004       _Request
+ 007B:0008 idle  _Exit
+ 007B:000C       _Relinquish
+ 007B:0010 idle  _Terminate
+ 007B:0014 idle  _Export
+ 007B:0018 idle  _Import
+ 007B:001C idle  _device_name
+ 007B:0020 idle  _Wake
+ 007B:0024 idle  _spawn_batch
+ 007B:0028 idle  _spawn
+ 007B:002C idle  _Get_environ
+ 007B:0030 idle  _Allocate
+ 007B:0034 idle  _Free
+ 007B:0038 idle  _Inquire_begin
+ 007B:003C idle  _process_control
+ 007B:0040 idle  _Connect_Int
+ 007B:0044 idle  _Disconnect_Int
+ 007B:0048 idle  _gettime
+ 007B:004C idle  _change_priority
+ 007B:0050 idle  _my_tcbptr
+ 007B:0054 idle  _swap_to
+ 007B:0058 idle  _delay
+ 007B:005C idle  _page
+ 007B:00F2 idle  _ch
+ 007B:00F3 idle  _p
+ 007B:00F5 idle  _i
+ 007B:00F7 idle  _cur
+ 007B:00FB idle  _first
+ 007B:00FF idle  _my_node
+ 007B:0103 idle  _output
+
+Program entry point at 0000:0002
+Warning: No stack
+

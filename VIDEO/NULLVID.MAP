@@ -1,0 +1,180 @@
+
+ Start  Stop   Length Name               Class
+
+ 00000H 00098H 00099H _TEXT              CODE
+ 00099H 0031FH 00287H NULLVID_TEXT       CODE
+ 00320H 0040DH 000EEH _DATA              DATA
+ 0040EH 0040EH 00000H _BSS               BSS
+
+
+Detailed map of segments
+
+ 0000:0000 0099 C=CODE   S=_TEXT          G=(none)  M=mmodhead.ASM ACBP=48
+ 0009:0009 0287 C=CODE   S=NULLVID_TEXT   G=(none)  M=nullvid.c  ACBP=28
+ 0032:0000 0058 C=DATA   S=_DATA          G=DGROUP  M=mmodhead.ASM ACBP=48
+ 0032:0058 0096 C=DATA   S=_DATA          G=DGROUP  M=nullvid.c  ACBP=48
+ 0032:00EE 0000 C=BSS    S=_BSS           G=DGROUP  M=nullvid.c  ACBP=48
+
+  Address         Publics by Name
+
+ 0032:002C idle  _Allocate
+ 0009:010A idle  _bury_window
+ 0032:008E idle  _bury_windowname
+ 0032:0048 idle  _change_priority
+ 0009:01EF idle  _closedisplay
+ 0032:00CF idle  _closedisplayname
+ 0009:00C6 idle  _clr_display
+ 0032:007B idle  _clr_displayname
+ 0032:003C idle  _Connect_Int
+ 0000:0000 idle  _dataseg
+ 0032:0054 idle  _delay
+ 0000:004C idle  _destory
+ 0032:0018 idle  _device_name
+ 0032:0040 idle  _Disconnect_Int
+ 0009:003E idle  _display
+ 0009:0060 idle  _displayln
+ 0032:0060 idle  _displaylnname
+ 0032:0058 idle  _displayname
+ 0009:0152 idle  _dupdisplay
+ 0032:00A2 idle  _dupdisplayname
+ 0032:0004 idle  _Exit
+ 0032:0010 idle  _Export
+ 0032:0000 idle  _externals
+ 0000:0051 idle  _fork
+ 0032:0030 idle  _Free
+ 0009:012C idle  _getattr
+ 0032:009A idle  _getattrname
+ 0009:01A1 idle  _getdisplay
+ 0032:00B8 idle  _getdisplayname
+ 0032:0044 idle  _gettime
+ 0032:0028 idle  _Get_environ
+ 0009:00E8 idle  _get_xy
+ 0032:0087 idle  _get_xyname
+ 0032:0014 idle  _Import
+ 0032:0034 idle  _Inquire_begin
+ 0009:0215 idle  _keypressed
+ 0032:00DC idle  _keypressedname
+ 0000:005D idle  _ldiv
+ 0000:0071 idle  _lmod
+ 0000:0088 idle  _lmult
+ 0009:0009 idle  _Locate
+ 0009:0244       _main
+ 0009:017A idle  _moddisplay
+ 0032:00AD idle  _moddisplayname
+ 0032:004C idle  _my_tcbptr
+ 0009:01C7 idle  _opendisplay
+ 0032:00C3 idle  _opendisplayname
+ 0000:0047 idle  _perish
+ 0009:00A4 idle  _position
+ 0032:0072 idle  _positionname
+ 0032:0038 idle  _process_control
+ 0009:023B idle  _readch
+ 0032:00E7 idle  _readchname
+ 0032:0008       _Relinquish
+ 0032:0000 idle  _Request
+ 0009:0082 idle  _setattr
+ 0032:006A idle  _setattrname
+ 0032:0024 idle  _spawn
+ 0032:0020 idle  _spawn_batch
+ 0032:0050 idle  _swap_to
+ 0032:000C idle  _Terminate
+ 0032:001C idle  _Wake
+ 0009:00ED idle  __bury_window
+ 0009:01D2 idle  __closedisplay
+ 0009:00A9 idle  __clr_display
+ 0009:0021 idle  __display
+ 0009:0043 idle  __displayln
+ 0009:0135 idle  __dupdisplay
+ 0009:010F idle  __getattr
+ 0009:0184 idle  __getdisplay
+ 0009:00CB idle  __get_xy
+ 0009:01F8 idle  __keypressed
+ 0009:015D idle  __moddisplay
+ 0009:01AA idle  __opendisplay
+ 0009:0087 idle  __position
+ 0009:021E idle  __readch
+ 0009:0065 idle  __setattr
+
+  Address         Publics by Value
+
+ 0000:0000 idle  _dataseg
+ 0000:0047 idle  _perish
+ 0000:004C idle  _destory
+ 0000:0051 idle  _fork
+ 0000:005D idle  _ldiv
+ 0000:0071 idle  _lmod
+ 0000:0088 idle  _lmult
+ 0009:0009 idle  _Locate
+ 0009:0021 idle  __display
+ 0009:003E idle  _display
+ 0009:0043 idle  __displayln
+ 0009:0060 idle  _displayln
+ 0009:0065 idle  __setattr
+ 0009:0082 idle  _setattr
+ 0009:0087 idle  __position
+ 0009:00A4 idle  _position
+ 0009:00A9 idle  __clr_display
+ 0009:00C6 idle  _clr_display
+ 0009:00CB idle  __get_xy
+ 0009:00E8 idle  _get_xy
+ 0009:00ED idle  __bury_window
+ 0009:010A idle  _bury_window
+ 0009:010F idle  __getattr
+ 0009:012C idle  _getattr
+ 0009:0135 idle  __dupdisplay
+ 0009:0152 idle  _dupdisplay
+ 0009:015D idle  __moddisplay
+ 0009:017A idle  _moddisplay
+ 0009:0184 idle  __getdisplay
+ 0009:01A1 idle  _getdisplay
+ 0009:01AA idle  __opendisplay
+ 0009:01C7 idle  _opendisplay
+ 0009:01D2 idle  __closedisplay
+ 0009:01EF idle  _closedisplay
+ 0009:01F8 idle  __keypressed
+ 0009:0215 idle  _keypressed
+ 0009:021E idle  __readch
+ 0009:023B idle  _readch
+ 0009:0244       _main
+ 0032:0000 idle  _externals
+ 0032:0000 idle  _Request
+ 0032:0004 idle  _Exit
+ 0032:0008       _Relinquish
+ 0032:000C idle  _Terminate
+ 0032:0010 idle  _Export
+ 0032:0014 idle  _Import
+ 0032:0018 idle  _device_name
+ 0032:001C idle  _Wake
+ 0032:0020 idle  _spawn_batch
+ 0032:0024 idle  _spawn
+ 0032:0028 idle  _Get_environ
+ 0032:002C idle  _Allocate
+ 0032:0030 idle  _Free
+ 0032:0034 idle  _Inquire_begin
+ 0032:0038 idle  _process_control
+ 0032:003C idle  _Connect_Int
+ 0032:0040 idle  _Disconnect_Int
+ 0032:0044 idle  _gettime
+ 0032:0048 idle  _change_priority
+ 0032:004C idle  _my_tcbptr
+ 0032:0050 idle  _swap_to
+ 0032:0054 idle  _delay
+ 0032:0058 idle  _displayname
+ 0032:0060 idle  _displaylnname
+ 0032:006A idle  _setattrname
+ 0032:0072 idle  _positionname
+ 0032:007B idle  _clr_displayname
+ 0032:0087 idle  _get_xyname
+ 0032:008E idle  _bury_windowname
+ 0032:009A idle  _getattrname
+ 0032:00A2 idle  _dupdisplayname
+ 0032:00AD idle  _moddisplayname
+ 0032:00B8 idle  _getdisplayname
+ 0032:00C3 idle  _opendisplayname
+ 0032:00CF idle  _closedisplayname
+ 0032:00DC idle  _keypressedname
+ 0032:00E7 idle  _readchname
+
+Program entry point at 0000:0002
+Warning: No stack
+

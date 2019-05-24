@@ -1,0 +1,89 @@
+
+ Start  Stop   Length Name               Class
+
+ 00000H 000EDH 000EEH _TEXT              CODE
+ 000EEH 00147H 0005AH _DATA              DATA
+ 00148H 00148H 00000H _BSS               BSS
+
+
+Detailed map of segments
+
+ 0000:0000 0092 C=CODE   S=_TEXT          G=(none)  M=mmodhead.ASM ACBP=48
+ 0000:0092 005C C=CODE   S=_TEXT          G=(none)  M=threads.c  ACBP=28
+ 000E:000E 0058 C=DATA   S=_DATA          G=DGROUP  M=mmodhead.ASM ACBP=48
+ 000E:0066 0002 C=DATA   S=_DATA          G=DGROUP  M=threads.c  ACBP=48
+ 000E:0068 0000 C=BSS    S=_BSS           G=DGROUP  M=threads.c  ACBP=48
+
+  Address         Publics by Name
+
+ 000E:003A idle  _Allocate
+ 000E:0056 idle  _change_priority
+ 000E:004A idle  _Connect_Int
+ 0000:0000 idle  _dataseg
+ 000E:0062 idle  _delay
+ 0000:0045 idle  _destory
+ 000E:0026 idle  _device_name
+ 000E:004E idle  _Disconnect_Int
+ 000E:0012 idle  _Exit
+ 000E:001E idle  _Export
+ 000E:000E idle  _externals
+ 0000:004A       _fork
+ 000E:003E idle  _Free
+ 000E:0052 idle  _gettime
+ 000E:0036 idle  _Get_environ
+ 000E:0022 idle  _Import
+ 000E:0042 idle  _Inquire_begin
+ 0000:0056 idle  _ldiv
+ 0000:006A idle  _lmod
+ 0000:0081 idle  _lmult
+ 0000:0092 idle  _Locate
+ 0000:00AA       _main
+ 000E:005A idle  _my_tcbptr
+ 0000:0040 idle  _perish
+ 000E:0046 idle  _process_control
+ 000E:0016       _Relinquish
+ 000E:000E idle  _Request
+ 000E:0032 idle  _spawn
+ 000E:002E idle  _spawn_batch
+ 000E:005E idle  _swap_to
+ 000E:001A idle  _Terminate
+ 000E:002A idle  _Wake
+
+  Address         Publics by Value
+
+ 0000:0000 idle  _dataseg
+ 0000:0040 idle  _perish
+ 0000:0045 idle  _destory
+ 0000:004A       _fork
+ 0000:0056 idle  _ldiv
+ 0000:006A idle  _lmod
+ 0000:0081 idle  _lmult
+ 0000:0092 idle  _Locate
+ 0000:00AA       _main
+ 000E:000E idle  _externals
+ 000E:000E idle  _Request
+ 000E:0012 idle  _Exit
+ 000E:0016       _Relinquish
+ 000E:001A idle  _Terminate
+ 000E:001E idle  _Export
+ 000E:0022 idle  _Import
+ 000E:0026 idle  _device_name
+ 000E:002A idle  _Wake
+ 000E:002E idle  _spawn_batch
+ 000E:0032 idle  _spawn
+ 000E:0036 idle  _Get_environ
+ 000E:003A idle  _Allocate
+ 000E:003E idle  _Free
+ 000E:0042 idle  _Inquire_begin
+ 000E:0046 idle  _process_control
+ 000E:004A idle  _Connect_Int
+ 000E:004E idle  _Disconnect_Int
+ 000E:0052 idle  _gettime
+ 000E:0056 idle  _change_priority
+ 000E:005A idle  _my_tcbptr
+ 000E:005E idle  _swap_to
+ 000E:0062 idle  _delay
+
+Program entry point at 0000:0002
+Warning: No stack
+

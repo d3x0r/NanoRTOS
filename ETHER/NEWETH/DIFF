@@ -1,0 +1,272 @@
+Comparing files ETHER.C and ..\WDETHER\ETHER.C
+***** ETHER.C
+  {
+    tmpcon->I.length=intswap(sizeof(IP_layer)+sizeof(TCP_layer)+block->length);
+***** ..\WDETHER\ETHER.C
+  {
+    if (tmpcon->status&RECORD_SOCKET)                 /*if it is a record socket*/
+    {
+      temp_rec=tmpcon->cur_rec;
+      temp_rec++;
+      if (temp_rec==tmpcon->last_rec) temp_rec=0;
+      if (temp_rec==tmpcon->first_rec)       /*if there are NO more records, lie*/
+      {
+        temp_win=tmpcon->T.window;
+        tmpcon->T.window=0;
+      }
+    }
+    tmpcon->I.length=intswap(sizeof(IP_layer)+sizeof(TCP_layer)+block->length);
+*****
+
+***** ETHER.C
+
+void wake_output()
+{
+***** ..\WDETHER\ETHER.C
+
+wake_output()
+{
+*****
+
+***** ETHER.C
+  temp->status|=(opts&QUICK_IO);
+  if (cmpIP(dest_address,"\0\0\0\0")&&
+***** ..\WDETHER\ETHER.C
+  temp->status|=(opts&QUICK_IO);
+  if (opts&RECORD_SOC)
+    temp->status|=RECORD_SOCKET;
+  if (cmpIP(dest_address,"\0\0\0\0")&&
+*****
+
+***** ETHER.C
+{
+  ether->ihead=ether->itail=ether->base=ether->hend=0;
+***** ..\WDETHER\ETHER.C
+{
+  if (ether->status&RECORD_SOCKET)
+  {
+    ether->first_rec=ether->cur_rec=0;
+  }
+  ether->ihead=ether->itail=ether->base=ether->hend=0;
+*****
+
+***** ETHER.C
+  Free(ether->inbuf);
+  /*unlink from queue and deallocate connection structure */
+***** ..\WDETHER\ETHER.C
+  Free(ether->inbuf);
+  if (ether->status&RECORD_SOCKET)
+    Free(ether->rec_list);
+
+  /*unlink from queue and deallocate connection structure */
+*****
+
+***** ETHER.C
+  unsigned short first_rec,cur_rec;
+
+***** ..\WDETHER\ETHER.C
+  unsigned short first_rec,cur_rec;
+  unsigned short count_read=0;
+
+*****
+
+***** ETHER.C
+  ether->status&=~READ_TERM; /*make sure we don't have a terminate left over*/
+  {
+    tail=ether->itail;
+    head=ether->base;
+    while ((tail!=head)&&(c < maxlength))
+    {
+      buffer[c++]=ether->inbuf[tail++];
+      if (tail==socketwindow) tail=0;
+    }
+    ether->itail=tail;
+    ether->T.window=intswap(intswap(ether->T.window)+c);
+
+    if ((ether->last_ad + 1000) <= intswap(ether->T.window) ||
+        (ether->last_ad < socketwindow &&
+         intswap(ether->T.window)==socketwindow))
+             /*make sure enough window advertised*/
+      ether->flags|=TACK;  /*say that we should send ack*/
+
+  }
+  ether->users--; /*added 6/11/93- used for closing connections*/
+  Restore_DS;
+  if (ether->state)
+  {
+                      /*6/11/93  If there is a state flag, then the
+                        connection is invalid and we need to return the
+                        error to the caller.*/
+    return(-1);
+  }
+***** ..\WDETHER\ETHER.C
+  ether->status&=~READ_TERM; /*make sure we don't have a terminate left over*/
+  if ((ether->status&RECORD_SOCKET)&&(maxlength>1))    /*if it is a record socket*/
+  {
+    do
+    {
+      cur_rec=ether->first_rec;
+      while (ether->cur_rec==cur_rec&&!(ether->status&READ_TERM)&&
+             !(ether->state)) /*added check to state 6/11/93*/
+      {
+        if (ether->status&QUICK_IO)
+          return(count_read);
+        Relinquish(0L);
+      }
+      if (ether->state)   /*6/11/93  If there is a state flag, then the
+                            connection is invalid and we need to return the
+                            error to the caller.*/
+      {
+        break;
+      }
+      if (ether->status&READ_TERM) break;
+      tail=ether->rec_list[cur_rec].base;        /*start of record*/
+      head=tail+ether->rec_list[cur_rec].length; /*end of record*/
+      if (head >= socketwindow) head-=socketwindow;
+      /*if there is more data than the read size, then just toss it*/
+      while ((tail!=head)&&(c < maxlength))
+      {
+        buffer[c++]=ether->inbuf[tail++];
+        if (tail==socketwindow) tail=0;
+      }
+      count_read=c;
+      ether->itail=head;
+      ether->T.window=intswap(intswap(ether->T.window)+
+                               ether->rec_list[cur_rec].length);
+      if (++ether->first_rec==ether->last_rec)
+         ether->first_rec=0;
+
+      if ((ether->last_ad + 1000) <= intswap(ether->T.window) ||
+          (ether->last_ad < socketwindow &&
+           intswap(ether->T.window)==socketwindow))
+               /*make sure enough window advertised*/
+        ether->flags|=TACK;  /*say that we should send ack*/
+
+    } while (!(ether->rec_list[cur_rec].flags&0x88));
+          /*keep going until EOF/EOR*/
+  }
+*****
+
+***** ETHER.C
+  else
+    return(c);         /*we can return the actual count read*/
+}
+
+public(unsigned short,sendether,
+       (char far *buffer,unsigned short length,connection far *ether))
+{
+  unsigned short temp_length;
+  unsigned short block;
+  seq_data far *current;
+  seq_data far *seqtemp;
+  char done;
+  unsigned short pos;
+
+  Load_DS;
+
+  ether->status&=~WRITE_TERM;  /*make sure we don't have a terminate laying about*/
+  if (ether->status&QUICK_IO&&ether->bytes_outstanding)
+    goto check_write_done;
+  if (ether->state||shuttingdown||!ether)
+  {
+    Restore_DS;
+    return(-1);
+***** ..\WDETHER\ETHER.C
+  else
+  {
+    tail=ether->itail;
+    head=ether->base;
+    while ((tail!=head)&&(c < maxlength))
+    {
+      buffer[c++]=ether->inbuf[tail++];
+      if (tail==socketwindow) tail=0;
+    }
+    ether->itail=tail;
+    ether->T.window=intswap(intswap(ether->T.window)+c);
+
+    if ((ether->last_ad + 1000) <= intswap(ether->T.window) ||
+        (ether->last_ad < socketwindow &&
+         intswap(ether->T.window)==socketwindow))
+             /*make sure enough window advertised*/
+      ether->flags|=TACK;  /*say that we should send ack*/
+
+  }
+  ether->users--; /*added 6/11/93- used for closing connections*/
+  Restore_DS;
+  if (ether->state)
+  {
+                      /*6/11/93  If there is a state flag, then the
+                        connection is invalid and we need to return the
+                        error to the caller.*/
+    return(-1);
+*****
+
+***** ETHER.C
+  }
+
+***** ..\WDETHER\ETHER.C
+  }
+  else
+    return(c);         /*we can return the actual count read*/
+}
+
+public(unsigned short,sendether,
+       (char far *buffer,unsigned short length,connection far *ether))
+{
+  unsigned short temp_length;
+  unsigned short block;
+  seq_data far *current;
+  seq_data far *seqtemp;
+  char done;
+  unsigned short pos;
+
+  Load_DS;
+
+  ether->status&=~WRITE_TERM;  /*make sure we don't have a terminate laying about*/
+  if (ether->status&QUICK_IO&&ether->bytes_outstanding)
+    goto check_write_done;
+  if (ether->state||shuttingdown||!ether)
+  {
+    Restore_DS;
+    return(-1);
+  }
+
+*****
+
+***** ETHER.C
+
+          lngth=intswap(tcpptr->I.length)-
+***** ..\WDETHER\ETHER.C
+
+          if (tmpcon->status&RECORD_SOCKET)
+          {
+            short recs_left=tmpcon->first_rec-tmpcon->cur_rec;
+            if (recs_left<=0)
+              recs_left+=max_records;
+            if (recs_left<2)
+            {
+              lngth=0;
+              goto overflow;
+            }
+          }
+
+          lngth=intswap(tcpptr->I.length)-
+*****
+
+***** ETHER.C
+              tmpcon->T.window=intswap(intswap(tmpcon->T.window)-cnt);
+            }
+***** ..\WDETHER\ETHER.C
+              tmpcon->T.window=intswap(intswap(tmpcon->T.window)-cnt);
+              if (tmpcon->status&RECORD_SOCKET)
+              {
+                tmpcon->rec_list[tmpcon->cur_rec].flags=tcpptr->T.control;
+                tmpcon->rec_list[tmpcon->cur_rec].base=idx;
+                tmpcon->rec_list[tmpcon->cur_rec].length=cnt;
+                tmpcon->cur_rec++;
+                if (tmpcon->cur_rec==tmpcon->last_rec) tmpcon->cur_rec=0;
+              }
+            }
+*****
+
+

@@ -1,0 +1,127 @@
+
+ Start  Stop   Length Name               Class
+
+ 00000H 00611H 00612H _TEXT              CODE
+ 00612H 00681H 00070H _DATA              DATA
+ 00682H 00685H 00004H _BSS               BSS
+
+
+Detailed map of segments
+
+ 0000:0000 008B C=CODE   S=_TEXT          G=(none)  M=mmodhead.ASM ACBP=48
+ 0000:008B 0198 C=CODE   S=_TEXT          G=(none)  M=command.c  ACBP=28
+ 0000:0224 03EE C=CODE   S=_TEXT          G=(none)  M=vidlib.ASM ACBP=48
+ 0061:0002 0058 C=DATA   S=_DATA          G=DGROUP  M=mmodhead.ASM ACBP=48
+ 0061:005A 0018 C=DATA   S=_DATA          G=DGROUP  M=command.c  ACBP=48
+ 0061:0072 0000 C=DATA   S=_DATA          G=DGROUP  M=vidlib.ASM ACBP=48
+ 0061:0072 0004 C=BSS    S=_BSS           G=DGROUP  M=command.c  ACBP=48
+
+  Address         Publics by Name
+
+ 0061:002E idle  _Allocate
+ 0061:004A idle  _change_priority
+ 0000:051E idle  _closedisplay
+ 0000:0469 idle  _clr_display
+ 0000:0298 idle  _Clr_window
+ 0061:003E idle  _Connect_Int
+ 0000:0000 idle  _dataseg
+ 0061:0056 idle  _delay
+ 0000:0045 idle  _destory
+ 0061:001A idle  _device_name
+ 0061:0042 idle  _Disconnect_Int
+ 0000:0349       _display
+ 0000:0382       _displayln
+ 0000:055C idle  _dupdisplay
+ 0061:0006 idle  _Exit
+ 0061:0012 idle  _Export
+ 0061:0002 idle  _externals
+ 0000:004A idle  _fork
+ 0061:0032 idle  _Free
+ 0000:0430 idle  _getattr
+ 0000:04A6 idle  _getdisplay
+ 0000:008B idle  _getline
+ 0061:0046 idle  _gettime
+ 0061:002A idle  _Get_environ
+ 0000:0311 idle  _get_xy
+ 0061:0016 idle  _Import
+ 0061:0036 idle  _Inquire_begin
+ 0000:0224 idle  _keypressed
+ 0000:004F idle  _ldiv
+ 0000:0063 idle  _lmod
+ 0000:007A idle  _lmult
+ 0000:01B2       _main
+ 0000:04E2 idle  _moddisplay
+ 0061:004E idle  _my_tcbptr
+ 0000:02D4       _opendisplay
+ 0061:0072 idle  _output
+ 0000:0040 idle  _perish
+ 0000:03BD idle  _position
+ 0061:003A idle  _process_control
+ 0000:0598 idle  _rawkeypressed
+ 0000:05D7 idle  _rawreadch
+ 0000:0260       _readch
+ 0061:000A idle  _Relinquish
+ 0061:0002       _Request
+ 0000:03F7 idle  _setattr
+ 0061:0026 idle  _spawn
+ 0061:0022 idle  _spawn_batch
+ 0061:0052 idle  _swap_to
+ 0061:000E idle  _Terminate
+ 0061:001E idle  _Wake
+
+  Address         Publics by Value
+
+ 0000:0000 idle  _dataseg
+ 0000:0040 idle  _perish
+ 0000:0045 idle  _destory
+ 0000:004A idle  _fork
+ 0000:004F idle  _ldiv
+ 0000:0063 idle  _lmod
+ 0000:007A idle  _lmult
+ 0000:008B idle  _getline
+ 0000:01B2       _main
+ 0000:0224 idle  _keypressed
+ 0000:0260       _readch
+ 0000:0298 idle  _Clr_window
+ 0000:02D4       _opendisplay
+ 0000:0311 idle  _get_xy
+ 0000:0349       _display
+ 0000:0382       _displayln
+ 0000:03BD idle  _position
+ 0000:03F7 idle  _setattr
+ 0000:0430 idle  _getattr
+ 0000:0469 idle  _clr_display
+ 0000:04A6 idle  _getdisplay
+ 0000:04E2 idle  _moddisplay
+ 0000:051E idle  _closedisplay
+ 0000:055C idle  _dupdisplay
+ 0000:0598 idle  _rawkeypressed
+ 0000:05D7 idle  _rawreadch
+ 0061:0002 idle  _externals
+ 0061:0002       _Request
+ 0061:0006 idle  _Exit
+ 0061:000A idle  _Relinquish
+ 0061:000E idle  _Terminate
+ 0061:0012 idle  _Export
+ 0061:0016 idle  _Import
+ 0061:001A idle  _device_name
+ 0061:001E idle  _Wake
+ 0061:0022 idle  _spawn_batch
+ 0061:0026 idle  _spawn
+ 0061:002A idle  _Get_environ
+ 0061:002E idle  _Allocate
+ 0061:0032 idle  _Free
+ 0061:0036 idle  _Inquire_begin
+ 0061:003A idle  _process_control
+ 0061:003E idle  _Connect_Int
+ 0061:0042 idle  _Disconnect_Int
+ 0061:0046 idle  _gettime
+ 0061:004A idle  _change_priority
+ 0061:004E idle  _my_tcbptr
+ 0061:0052 idle  _swap_to
+ 0061:0056 idle  _delay
+ 0061:0072 idle  _output
+
+Program entry point at 0000:0002
+Warning: No stack
+

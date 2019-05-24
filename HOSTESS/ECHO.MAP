@@ -1,0 +1,82 @@
+
+ Start  Stop   Length Name               Class
+
+ 00000H 0008AH 0008BH _TEXT              CODE
+ 0008CH 000E3H 00058H _DATA              DATA
+
+
+Detailed map of segments
+
+ 0000:0000 008B C=CODE   S=_TEXT          G=(none)  M=mmodhead.ASM ACBP=48
+ 0008:000C 0058 C=DATA   S=_DATA          G=DGROUP  M=mmodhead.ASM ACBP=48
+
+  Address         Publics by Name
+
+ 0008:0038 idle  _Allocate
+ 0008:0054 idle  _change_priority
+ 0008:0048 idle  _Connect_Int
+ 0000:0000 idle  _dataseg
+ 0008:0060 idle  _delay
+ 0000:0045 idle  _destory
+ 0008:0024 idle  _device_name
+ 0008:004C idle  _Disconnect_Int
+ 0008:0010 idle  _Exit
+ 0008:001C idle  _Export
+ 0008:000C idle  _externals
+ 0000:004A idle  _fork
+ 0008:003C idle  _Free
+ 0008:0050 idle  _gettime
+ 0008:0034 idle  _Get_environ
+ 0008:0020 idle  _Import
+ 0008:0040 idle  _Inquire_begin
+ 0000:004F idle  _ldiv
+ 0000:0063 idle  _lmod
+ 0000:007A idle  _lmult
+ 0008:0058 idle  _my_tcbptr
+ 0000:0040 idle  _perish
+ 0008:0044 idle  _process_control
+ 0008:0014 idle  _Relinquish
+ 0008:000C idle  _Request
+ 0008:0030 idle  _spawn
+ 0008:002C idle  _spawn_batch
+ 0008:005C idle  _swap_to
+ 0008:0018 idle  _Terminate
+ 0008:0028 idle  _Wake
+
+  Address         Publics by Value
+
+ 0000:0000 idle  _dataseg
+ 0000:0040 idle  _perish
+ 0000:0045 idle  _destory
+ 0000:004A idle  _fork
+ 0000:004F idle  _ldiv
+ 0000:0063 idle  _lmod
+ 0000:007A idle  _lmult
+ 0008:000C idle  _externals
+ 0008:000C idle  _Request
+ 0008:0010 idle  _Exit
+ 0008:0014 idle  _Relinquish
+ 0008:0018 idle  _Terminate
+ 0008:001C idle  _Export
+ 0008:0020 idle  _Import
+ 0008:0024 idle  _device_name
+ 0008:0028 idle  _Wake
+ 0008:002C idle  _spawn_batch
+ 0008:0030 idle  _spawn
+ 0008:0034 idle  _Get_environ
+ 0008:0038 idle  _Allocate
+ 0008:003C idle  _Free
+ 0008:0040 idle  _Inquire_begin
+ 0008:0044 idle  _process_control
+ 0008:0048 idle  _Connect_Int
+ 0008:004C idle  _Disconnect_Int
+ 0008:0050 idle  _gettime
+ 0008:0054 idle  _change_priority
+ 0008:0058 idle  _my_tcbptr
+ 0008:005C idle  _swap_to
+ 0008:0060 idle  _delay
+
+Error: Undefined symbol _main in module mmodhead.ASM
+Program entry point at 0000:0002
+Warning: No stack
+

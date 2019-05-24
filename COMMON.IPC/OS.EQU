@@ -1,0 +1,23 @@
+NAMESIZE EQU 8
+TASK STRUC
+        tname           db NAMESIZE dup(?)
+        child           dd ?
+        elder           dd ?
+        parent          dd ?
+        next            dd ?
+        prior           dd ?
+        pstack          dd ?
+        code            dd ?
+        psize           dw ?
+        ssize           dw ?
+        maxsize         dw ?
+        status          dd ?
+        stackseg        dw ?
+        stackofs        dw ?
+        Acum_Time       dd ?
+        Priority        db ?
+        options         db ?
+        environ         dd ?
+        Mdevice_name     dd ?
+        load_path       dd ?
+TASK ends

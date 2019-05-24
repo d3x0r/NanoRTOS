@@ -1,0 +1,46 @@
+       253,952   C:\Work\Nipc   [5,185,536]
+        65,536   |--Batch.ipc
+         8,192   |--Cmdwnd
+        81,920   |--Comm
+       327,680   |--Common.ipc
+        90,112   |--Disk
+        73,728   |--Ether   [688,128]
+       212,992   |  |--Neweth
+       221,184   |  |--Tcpip
+             0   |  |  +--Calc
+       180,224   |  +--Wdether
+        57,344   |--Handlers   [360,448]
+        32,768   |  |--Itc
+        65,536   |  |--Multeth
+        49,152   |  |--Newcom
+       147,456   |  |--Printer
+         8,192   |  +--Userio
+       565,248   |--Hostess
+       360,448   |--Keybrd
+        73,728   |--Lisp
+       212,992   |--Loader
+       196,608   |--Multhand
+       450,560   |--Pca
+       155,648   |--Pcm   [294,912]
+        32,768   |  |--Command
+        49,152   |  |--Newpcm
+        57,344   |  +--Pcmprgs
+       286,720   |--Pnthros
+        49,152   |--Pointer
+       204,800   |--Tests
+        40,960   |--Ups
+       204,800   |--Utils
+        40,960   +--Video   [368,640]
+       114,688      |--Graphics
+         8,192      |--Remote
+       204,800      +--Text
+
+Files examined:
+     Used space:      5,185,536 bytes
+   Wasted space:      2,266,607 bytes (43% of used)
+
+Drive C:
+   Cluster size:          8,192 bytes
+     Free space:      4,308,992 bytes (1% of capacity)
+     Used space:    266,248,192 bytes
+       Capacity:    270,557,184 bytes

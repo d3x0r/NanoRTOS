@@ -1,0 +1,13 @@
+
+
+
+   PC Mynah in order to port it over to the newest operating system needs
+   little to be changed.  The biggest part that was a sprawling gargantuan
+   was the menu system.  The Keyboard will use the Data transport system to
+   send the keystrokes to the appropriate task.  The keyboard will also
+   listen for who it is supposed to be sending the strokes to.
+   The mouse can click on a window, which will select that window, and will
+   also give the keyboard to that window.  so, while windows are up, they
+   can just sit an listen for keystrokes.  all windows will listen, but
+   because the keyboard is glued to whom it is talking to, nobody else will
+   hear the keystrokes.

@@ -1,0 +1,1 @@
+call mkutil memsize

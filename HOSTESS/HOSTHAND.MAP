@@ -1,0 +1,193 @@
+
+ Start  Stop   Length Name               Class
+
+ 00000H 0268AH 0268BH _TEXT              CODE
+ 0268CH 028C4H 00239H hostlib_TEXT       CODE
+ 028C6H 029D3H 0010EH _DATA              DATA
+ 029D4H 02B7BH 001A8H _BSS               BSS
+
+
+Detailed map of segments
+
+ 0000:0000 008B C=CODE   S=_TEXT          G=(none)  M=mmodhead.ASM ACBP=48
+ 0000:008B 1C2D C=CODE   S=_TEXT          G=(none)  M=hosthand.c ACBP=28
+ 0000:1CB8 05A7 C=CODE   S=_TEXT          G=(none)  M=multthrd.c ACBP=28
+ 0000:2260 03EE C=CODE   S=_TEXT          G=(none)  M=vidlib.ASM ACBP=48
+ 0000:264E 003D C=CODE   S=_TEXT          G=(none)  M=pcalib.ASM ACBP=48
+ 0268:000C 0239 C=CODE   S=hostlib_TEXT   G=(none)  M=hostlib.ASM ACBP=48
+ 028C:0006 0058 C=DATA   S=_DATA          G=DGROUP  M=mmodhead.ASM ACBP=48
+ 028C:005E 00B1 C=DATA   S=_DATA          G=DGROUP  M=hosthand.c ACBP=48
+ 028C:0110 0004 C=DATA   S=_DATA          G=DGROUP  M=multthrd.c ACBP=48
+ 028C:0114 0000 C=DATA   S=_DATA          G=DGROUP  M=hostlib.ASM ACBP=48
+ 028C:0114 0000 C=DATA   S=_DATA          G=DGROUP  M=vidlib.ASM ACBP=48
+ 028C:0114 0000 C=DATA   S=_DATA          G=DGROUP  M=pcalib.ASM ACBP=48
+ 028C:0114 01A8 C=BSS    S=_BSS           G=DGROUP  M=hosthand.c ACBP=48
+ 028C:02BC 0000 C=BSS    S=_BSS           G=DGROUP  M=multthrd.c ACBP=48
+
+  Address         Publics by Name
+
+ 0000:014C idle  _abort_node
+ 028C:0032       _Allocate
+ 028C:005E idle  _bauds
+ 028C:0114 idle  _breaks
+ 028C:0194 idle  _card_data
+ 028C:004E idle  _change_priority
+ 0000:1DF0       _check_outstanding
+ 0000:255A idle  _closedisplay
+ 0000:24A5 idle  _clr_display
+ 0000:22D4 idle  _Clr_window
+ 028C:0042 idle  _Connect_Int
+ 0000:264E       _Create_node
+ 028C:00A6 idle  _curline
+ 0000:0000 idle  _dataseg
+ 0000:213A       _deactivate
+ 028C:005A idle  _delay
+ 0000:0045       _destory
+ 028C:001E idle  _device_name
+ 028C:0046 idle  _Disconnect_Int
+ 0000:2385 idle  _display
+ 0000:23BE       _displayln
+ 0000:2598 idle  _dupdisplay
+ 028C:000A       _Exit
+ 028C:0016       _Export
+ 028C:0006 idle  _externals
+ 028C:0110       _first_thread
+ 0000:004A       _fork
+ 028C:0036       _Free
+ 0000:246C idle  _getattr
+ 0000:24E2 idle  _getdisplay
+ 028C:004A idle  _gettime
+ 028C:002E idle  _Get_environ
+ 0000:1F22       _get_old_node
+ 0000:234D idle  _get_xy
+ 0268:00F0       _hiclose
+ 0268:0129 idle  _hiflush
+ 0268:01D3 idle  _higetblk
+ 0268:019B       _higetc
+ 0268:000C       _higetline
+ 0268:00B8       _hiopen
+ 0268:0047       _hiread
+ 0268:020D       _hiterm
+ 0268:007F       _hiwrite
+ 0268:0162       _hold_IO
+ 028C:001A       _Import
+ 0000:13C2       _init_local_structs
+ 028C:003A idle  _Inquire_begin
+ 0000:2260       _keypressed
+ 0000:004F idle  _ldiv
+ 028C:00A7 idle  _linefeeds
+ 028C:01D4 idle  _lines
+ 0000:0063 idle  _lmod
+ 0000:007A idle  _lmult
+ 0000:21E6       _main
+ 0000:251E idle  _moddisplay
+ 028C:0052       _my_tcbptr
+ 028C:02B4 idle  _nodestuff
+ 0000:2310       _opendisplay
+ 028C:02B8 idle  _output
+ 0000:0040       _perish
+ 0000:23F9       _position
+ 028C:003E idle  _process_control
+ 0000:02A2       _process_node
+ 0000:25D4 idle  _rawkeypressed
+ 0000:2613 idle  _rawreadch
+ 0000:229C       _readch
+ 028C:000E       _Relinquish
+ 028C:0006       _Request
+ 0000:2433       _setattr
+ 0000:1CB8       _Slough_work
+ 028C:002A idle  _spawn
+ 028C:0026 idle  _spawn_batch
+ 0000:1D08 idle  _store_node
+ 028C:0056 idle  _swap_to
+ 028C:0012 idle  _Terminate
+ 0000:008B idle  _terminate_watch
+ 0000:2024 idle  _thread_active
+ 028C:0022 idle  _Wake
+ 0000:01C6 idle  _write_formfeed
+
+  Address         Publics by Value
+
+ 0000:0000 idle  _dataseg
+ 0000:0040       _perish
+ 0000:0045       _destory
+ 0000:004A       _fork
+ 0000:004F idle  _ldiv
+ 0000:0063 idle  _lmod
+ 0000:007A idle  _lmult
+ 0000:008B idle  _terminate_watch
+ 0000:014C idle  _abort_node
+ 0000:01C6 idle  _write_formfeed
+ 0000:02A2       _process_node
+ 0000:13C2       _init_local_structs
+ 0000:1CB8       _Slough_work
+ 0000:1D08 idle  _store_node
+ 0000:1DF0       _check_outstanding
+ 0000:1F22       _get_old_node
+ 0000:2024 idle  _thread_active
+ 0000:213A       _deactivate
+ 0000:21E6       _main
+ 0000:2260       _keypressed
+ 0000:229C       _readch
+ 0000:22D4 idle  _Clr_window
+ 0000:2310       _opendisplay
+ 0000:234D idle  _get_xy
+ 0000:2385 idle  _display
+ 0000:23BE       _displayln
+ 0000:23F9       _position
+ 0000:2433       _setattr
+ 0000:246C idle  _getattr
+ 0000:24A5 idle  _clr_display
+ 0000:24E2 idle  _getdisplay
+ 0000:251E idle  _moddisplay
+ 0000:255A idle  _closedisplay
+ 0000:2598 idle  _dupdisplay
+ 0000:25D4 idle  _rawkeypressed
+ 0000:2613 idle  _rawreadch
+ 0000:264E       _Create_node
+ 0268:000C       _higetline
+ 0268:0047       _hiread
+ 0268:007F       _hiwrite
+ 0268:00B8       _hiopen
+ 0268:00F0       _hiclose
+ 0268:0129 idle  _hiflush
+ 0268:0162       _hold_IO
+ 0268:019B       _higetc
+ 0268:01D3 idle  _higetblk
+ 0268:020D       _hiterm
+ 028C:0006 idle  _externals
+ 028C:0006       _Request
+ 028C:000A       _Exit
+ 028C:000E       _Relinquish
+ 028C:0012 idle  _Terminate
+ 028C:0016       _Export
+ 028C:001A       _Import
+ 028C:001E idle  _device_name
+ 028C:0022 idle  _Wake
+ 028C:0026 idle  _spawn_batch
+ 028C:002A idle  _spawn
+ 028C:002E idle  _Get_environ
+ 028C:0032       _Allocate
+ 028C:0036       _Free
+ 028C:003A idle  _Inquire_begin
+ 028C:003E idle  _process_control
+ 028C:0042 idle  _Connect_Int
+ 028C:0046 idle  _Disconnect_Int
+ 028C:004A idle  _gettime
+ 028C:004E idle  _change_priority
+ 028C:0052       _my_tcbptr
+ 028C:0056 idle  _swap_to
+ 028C:005A idle  _delay
+ 028C:005E idle  _bauds
+ 028C:00A6 idle  _curline
+ 028C:00A7 idle  _linefeeds
+ 028C:0110       _first_thread
+ 028C:0114 idle  _breaks
+ 028C:0194 idle  _card_data
+ 028C:01D4 idle  _lines
+ 028C:02B4 idle  _nodestuff
+ 028C:02B8 idle  _output
+
+Program entry point at 0000:0002
+Warning: No stack
+

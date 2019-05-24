@@ -1,0 +1,291 @@
+;*****************************************************************************
+;File:    cp.equ
+;Purpose: Equates for sample control programs for HOSTESS i.
+;Company: Comtrol Corporation
+;Author:  Craig Harrison
+;Release: 1.00, 8-23-91 - Original release.
+;*****************************************************************************
+;Copyright 1991 Comtrol Corporation. All rights reserved. Subject to developers
+;license agreement.
+;*****************************************************************************
+
+;Interrupt Controller (PIC) Registers
+EOI_VAL          equ     20h           ;end of interrupt value
+INT1_type        equ     33h           ;system interrupt vector type
+INTCTL           equ     09070h        ;PIC port
+INTCTL1          equ     09071h        ;PIC port for initialization command word
+
+;Timer registers
+TIMER1_LSB       equ     0ffh          ;12/sec counter LSB
+TIMER1_MSB       equ     0ffh          ;12/sec counter MSB
+TIM0_type        equ     34h           ;timer 0 interrupt vector type
+TIM1_type        equ     35h           ;timer 1 interrupt vector type
+TIM2_type        equ     36h           ;timer 2 interrupt vector type
+TIMER0           equ     09074h        ;timer 0 count reg address
+TIMER1           equ     09075h        ;timer 1 count reg address
+TIMER2           equ     09076h        ;timer 2 count reg address
+TIM_CTL          equ     09077h        ;timer Control Word
+
+C2Sint_reg       equ     0ef60h        ;COM uP to SYS uP interrupt register
+C2Sint_hi        equ     0             ;value to set interrupt line high
+C2Sint_low       equ     0008h         ;value to set interrupt line low
+
+Txb_size         equ      512          ;transmit buffer size
+Txq_mask         equ      Txb_size-1
+Rxb_size         equ      1024         ;receive buffer size
+Rxq_mask         equ      Rxb_size-1
+Rxb_ovr          equ      Rxb_size/4
+Rxb_undr         equ      Rxb_size-(Rxb_size/4+Rxb_size/8)
+
+
+base_vector      equ     80h           ;base interrupt vector type
+
+
+;Message Queue Equates
+msg_len          equ     16            ;message length
+msgq_size        equ     32            ;number of message queue entries
+msgq_mask        equ     msgq_size-1
+
+;------------------------------------------------------------------------------
+;Line Table data structure
+
+line_entry       struc
+
+io_base          dw      ?             ;SCC base I/O address
+line_status      dw      ?             ;line status (defined below)
+
+;SCC register values
+WR2_             db      ?
+WR3_             db      ?
+WR4_             db      ?
+WR5_             db      ?
+WR12_            db      ?
+WR13_            db      ?
+WR15_            db      ?
+RR0_             db      ?              ;read reg 0... for Break/CTS/DCD
+
+;Transmit queue data
+Txq_head         dw      ?
+Txq_tail         dw      ?
+Txq_offset       dw      ?
+
+;Receive queue data
+Rxq_head         dw      ?
+Rxq_tail         dw      ?
+Rxq_offset       dw      ?
+
+Flow_control     db      ?              ;data for flow control
+status           db      ?              ;status of the line-breaks
+Break_char       db      0              ;value of the break character
+                 db      ?              ;filler
+                 dw      ?              ;filler
+                 dw      ?              ;filler
+
+line_entry       ends
+line_entry_len   equ     size line_entry
+
+
+;------------------------------------------------------------------------------
+;line_status definitions
+
+line_active      equ     0001h         ;line is active
+Tx_active        equ     0002h         ;transmit is active (char is going out)
+
+;------------------------------------------------------------------------------
+; flow_control definitions
+
+Inbound_soft     equ     02h  ;in/outbound refers to data direction, not
+Inbound_hard     equ     01h  ;direction of flow control assertion
+Inbound_flowed   equ     80h
+Outbound_soft    equ     08h
+Outbound_hard    equ     04h
+Outbound_flowed  equ     10h  ;if received xon/xoff
+Respect_soft     equ     20h  ;if we should respect x-on/x-off sent to us
+Command_soft     equ     40h  ;If we should command x-on/x-off to other end
+
+;------------------------------------------------------------------------------
+; status definitions
+
+Break_recvd      equ     01h
+Flowed           equ     02h
+Send_XON         equ     04h
+Send_XOFF        equ     08h
+
+;------------------------------------------------------------------------------
+;Message Queue definition
+
+msgq_entry       struc
+msgq_head        dw      ?             ;queue head pointer
+msgq_tail        dw      ?             ;queue tail pointer
+msgq_area        db      msgq_size*msg_len dup (?)   ;queue buffers
+msgq_entry       ends
+
+XONCHAR  equ     17
+XOFFCHAR equ     19
+
+
+;SCC register equates
+WR0      equ     0
+WR1      equ     1
+WR2      equ     2
+WR3      equ     3
+WR4      equ     4
+WR5      equ     5
+WR6      equ     6
+WR7      equ     7
+WR8      equ     8
+WR9      equ     9
+WR10     equ     10
+WR11     equ     11
+WR12     equ     12
+WR13     equ     13
+WR14     equ     14
+WR15     equ     15
+
+RR0      equ     0
+RR1      equ     1
+RR2      equ     2
+RR3      equ     3
+RR8      equ     8
+RR10     equ     10
+RR12     equ     12
+RR13     equ     13
+RR15     equ     15
+
+; Baud Rate Generator Time Constants - x16 Baud Rate Factor
+; (based on a 4.9152 MHz clock)
+bps50           equ     3070
+bps75           equ     2046
+bps110          equ     1394            ; 0.026 percent error
+bps134          equ     1140            ; 0.001 percent error
+bps150          equ     1022
+bps300          equ     510
+bps600          equ     254
+bps1200         equ     126
+bps1800         equ     83              ; 0.401 percent error
+bps2000         equ     75              ; 1.06 percent error
+bps2400         equ     62
+bps3600         equ     41              ; 1.62 percent error
+bps4800         equ     30
+bps7200         equ     19              ; 1.75 percent error
+bps9600         equ     14
+bps19200        equ     6
+bps38400        equ     2
+bps56000        equ     1               ; 74.3 percent error
+bps76800        equ     0
+
+
+;*****************************************************************************
+;
+;Write Register Definitions (for basic asynchronous communications)
+;
+;*****************************************************************************
+
+;Write Register 0 - command register
+reset_ext        equ     10h
+reset_Tx_int     equ     28h
+error_reset      equ     30h
+reset_ius        equ     38h
+
+;Write Register 1 - Tx/Rx interrupt and data transfer mode definition
+ext_int_enable   equ     01h
+Tx_int_enable    equ     02h
+parity_special   equ     04h
+Rx_int_enable    equ     10h
+
+;Write Register 2 - interrupt vector
+
+;Write Register 3 - Rx parameters and controls
+Rx_enable        equ     01h
+Rx5_bit_char     equ     00h
+Rx7_bit_char     equ     40h
+Rx6_bit_char     equ     80h
+Rx8_bit_char     equ     0c0h
+
+
+;Write Register 4 - Tx/Rx miscellaneous parameters and modes
+parity_enable    equ     01h
+parity_even      equ     02h
+parity_odd       equ     00h
+one_stop_bit     equ     04h
+one$_stop_bits   equ     08h
+two_stop_bits    equ     0ch
+x16_clock        equ     40h
+
+;Write Register 5 - Tx parameters and controls
+RTS              equ     02h
+Tx_enable        equ     08h
+BREAK            equ     10h
+Tx5_bit_char     equ     00h
+Tx7_bit_char     equ     20h
+Tx6_bit_char     equ     40h
+Tx8_bit_char     equ     60h
+DTR              equ     80h
+
+;Write Register 6 - sync character or SDLC address field
+
+;Write Register 7 - sync character or SDLC flag
+
+;Write Register 8 - transmit buffer
+
+;Write Register 9 - master interrupt control
+VIS              equ     01h
+NV               equ     02h
+DLC              equ     04h
+MIE              equ     08h
+status_lo        equ     00h
+status_hi        equ     10h
+reset_ch_B       equ     40h
+reset_ch_A       equ     80h
+hardware_reset   equ     0c0h
+
+;Write Register 10 - miscellaneous Tx/Rx control bits
+
+;Write Register 11 - clock mode control
+Tx_clk_eq_BRG    equ     10h
+Rx_clk_eq_BRG    equ     40h
+
+;Write Register 12 - lower byte of baud generator time constant
+
+;Write Register 13 - upper byte of baud generator time constant
+
+;Write Register 14 - miscellaneous control bits
+BRG_enable       equ     01h
+BRG_eq_sys_clk   equ     02h
+
+;Write Register 15 - external/status interrupt control
+DCD_ie           equ     08h
+CTS_ie           equ     20h
+break_ie         equ     80h
+
+;*****************************************************************************
+;
+;Read Register Definitions (for basic asynchronous communications)
+;
+;*****************************************************************************
+
+;Read Register 0 - Tx/Rx buffer status and external status
+Rx_buffer        equ     01h
+Tx_buffer        equ     04h
+DCD_             equ     08h
+CTS_             equ     20h
+break_cond       equ     80h
+
+;Read Register 1 - special receive condition status
+parity_error     equ     10h
+overrun_error    equ     20h
+framing_error    equ     40h
+
+;Read Register 2 - interrupt vector
+
+;Read Register 3 - interrupt pending status
+
+;Read Register 8 - receive data register
+
+;Read Register 10 - miscellaneous status bits
+
+;Read Register 12 - value stored in WR12
+
+;Read Register 13 - value stored in WR13
+
+;Read Register 15 - value stored in WR15

@@ -1,0 +1,158 @@
+
+ Start  Stop   Length Name               Class
+
+ 00000H 006B8H 006B9H _TEXT              CODE
+ 006BAH 00779H 000C0H _DATA              DATA
+ 0077AH 00781H 00008H _BSS               BSS
+
+
+Detailed map of segments
+
+ 0000:0000 7610 C=       S=DPRAM          G=<none> M=hilib.ASM  ACBP=00
+ 0000:0000 008B C=CODE   S=_TEXT          G=(none)  M=mmodhead.ASM ACBP=48
+ 0000:008B 0116 C=CODE   S=_TEXT          G=(none)  M=hostess.c  ACBP=28
+ 0000:01A2 01D6 C=CODE   S=_TEXT          G=(none)  M=hilib.ASM  ACBP=48
+ 0000:0378 0341 C=CODE   S=_TEXT          G=(none)  M=OSLIB      ACBP=48
+ 006B:000A 0058 C=DATA   S=_DATA          G=DGROUP  M=mmodhead.ASM ACBP=48
+ 006B:0062 0028 C=DATA   S=_DATA          G=DGROUP  M=hostess.c  ACBP=48
+ 006B:008A 0040 C=DATA   S=_DATA          G=DGROUP  M=hilib.ASM  ACBP=48
+ 006B:00CA 0000 C=DATA   S=_DATA          G=DGROUP  M=OSLIB      ACBP=48
+ 006B:00CA 0008 C=BSS    S=_BSS           G=DGROUP  M=hostess.c  ACBP=48
+
+  Address         Publics by Name
+
+ 006B:0036 idle  _Allocate
+ 0000:03AF       _atoi
+ 006B:0052 idle  _change_priority
+ 0000:0453 idle  _close
+ 006B:0046 idle  _Connect_Int
+ 0000:041B idle  _create
+ 0000:0000 idle  _dataseg
+ 006B:005E idle  _delay
+ 0000:0045 idle  _destory
+ 006B:0022 idle  _device_name
+ 006B:004A idle  _Disconnect_Int
+ 006B:00D0       _DPRAM_ADDR
+ 006B:000E idle  _Exit
+ 006B:001A idle  _Export
+ 006B:000A idle  _externals
+ 0000:004A idle  _fork
+ 006B:003A idle  _Free
+ 006B:004E idle  _gettime
+ 006B:0032       _Get_environ
+ 0000:0210       _hiclose
+ 006B:0078 idle  _hiclosename
+ 0000:01A2       _hiopen
+ 006B:0071 idle  _hiopenname
+ 0000:0268       _hiread
+ 006B:0062 idle  _hireadname
+ 0000:02E1       _hiwrite
+ 006B:0069 idle  _hiwritename
+ 006B:001E idle  _Import
+ 006B:003E idle  _Inquire_begin
+ 0000:0000 idle  _interact_flag
+ 006B:00CE       _IO_ADDR
+ 0000:056A idle  _itoa
+ 0000:004F idle  _ldiv
+ 0000:0063 idle  _lmod
+ 0000:007A idle  _lmult
+ 0000:00FF       _main
+ 0000:0681 idle  _memset
+ 0000:05D8 idle  _movmem
+ 006B:0056 idle  _my_tcbptr
+ 0000:03E5 idle  _open
+ 006B:00CA idle  _page
+ 006B:00CC idle  _page_size
+ 0000:0040       _perish
+ 006B:0042 idle  _process_control
+ 0000:048A idle  _read
+ 006B:0012       _Relinquish
+ 006B:000A       _Request
+ 0000:0378 idle  _Shell
+ 006B:002E idle  _spawn
+ 006B:002A idle  _spawn_batch
+ 0000:0649 idle  _strcat
+ 0000:0531 idle  _stricmp
+ 0000:05A0 idle  _strlen
+ 0000:0610 idle  _strncpy
+ 0000:04F7 idle  _strnicmp
+ 006B:005A idle  _swap_to
+ 006B:0016 idle  _Terminate
+ 006B:00AA idle  _terminates
+ 006B:0026 idle  _Wake
+ 0000:04C0 idle  _write
+ 0000:00E2 idle  __hiclose
+ 0000:00C5 idle  __hiopen
+ 0000:008B idle  __hiread
+ 0000:00A8 idle  __hiwrite
+
+  Address         Publics by Value
+
+ 0000:0000 idle  _dataseg
+ 0000:0040       _perish
+ 0000:0045 idle  _destory
+ 0000:004A idle  _fork
+ 0000:004F idle  _ldiv
+ 0000:0063 idle  _lmod
+ 0000:007A idle  _lmult
+ 0000:008B idle  __hiread
+ 0000:00A8 idle  __hiwrite
+ 0000:00C5 idle  __hiopen
+ 0000:00E2 idle  __hiclose
+ 0000:00FF       _main
+ 0000:01A2       _hiopen
+ 0000:0210       _hiclose
+ 0000:0268       _hiread
+ 0000:02E1       _hiwrite
+ 0000:0378 idle  _Shell
+ 0000:03AF       _atoi
+ 0000:03E5 idle  _open
+ 0000:041B idle  _create
+ 0000:0453 idle  _close
+ 0000:048A idle  _read
+ 0000:04C0 idle  _write
+ 0000:04F7 idle  _strnicmp
+ 0000:0531 idle  _stricmp
+ 0000:056A idle  _itoa
+ 0000:05A0 idle  _strlen
+ 0000:05D8 idle  _movmem
+ 0000:0610 idle  _strncpy
+ 0000:0649 idle  _strcat
+ 0000:0681 idle  _memset
+ 006B:000A idle  _externals
+ 006B:000A       _Request
+ 006B:000E idle  _Exit
+ 006B:0012       _Relinquish
+ 006B:0016 idle  _Terminate
+ 006B:001A idle  _Export
+ 006B:001E idle  _Import
+ 006B:0022 idle  _device_name
+ 006B:0026 idle  _Wake
+ 006B:002A idle  _spawn_batch
+ 006B:002E idle  _spawn
+ 006B:0032       _Get_environ
+ 006B:0036 idle  _Allocate
+ 006B:003A idle  _Free
+ 006B:003E idle  _Inquire_begin
+ 006B:0042 idle  _process_control
+ 006B:0046 idle  _Connect_Int
+ 006B:004A idle  _Disconnect_Int
+ 006B:004E idle  _gettime
+ 006B:0052 idle  _change_priority
+ 006B:0056 idle  _my_tcbptr
+ 006B:005A idle  _swap_to
+ 006B:005E idle  _delay
+ 006B:0062 idle  _hireadname
+ 006B:0069 idle  _hiwritename
+ 006B:0071 idle  _hiopenname
+ 006B:0078 idle  _hiclosename
+ 006B:00AA idle  _terminates
+ 006B:00CA idle  _page
+ 006B:00CC idle  _page_size
+ 006B:00CE       _IO_ADDR
+ 006B:00D0       _DPRAM_ADDR
+ 0000:0000 idle  _interact_flag
+
+Program entry point at 0000:0002
+Warning: No stack
+

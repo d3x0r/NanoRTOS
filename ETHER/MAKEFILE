@@ -1,0 +1,28 @@
+
+
+CC      =       \nipc\batch.ipc\mc
+
+ASM     =       \nipc\batch.ipc\asm
+
+LINK    =       \nipc\batch.ipc\ml
+
+MODDEP  =       \nipc\common.ipc\mod.h\
+                \nipc\common.ipc\os.h
+
+VIDDEP  =       \nipc\video\text\video.h
+
+DESTNAME=       nulleth.exe
+
+!if $d(DEST)
+$(DEST)\$(DESTNAME) : $(DESTNAME)
+        copy $(DESTNAME) $(DEST)
+!endif
+
+
+$(DESTNAME) : Nulleth.obj \nipc\video\text\vidlib.obj
+        $(LINK) nulleth \nipc\video\text\vidlib
+
+nulleth.obj : nulleth.c $(MODDEP) $(VIDDEP)
+        $(CC) nulleth
+
+

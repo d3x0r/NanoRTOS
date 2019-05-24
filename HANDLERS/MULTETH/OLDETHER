@@ -1,0 +1,105 @@
+      case 0:/*read*/
+             temp=readether(output[me>>1],(char far*)what->Data,
+                             what->Node.Byte_count,0);
+             destory();              /*kill all children*/
+
+#ifdef DEBUG
+             displayln(win,"D3*d",me);
+#endif
+
+             if (temp==0)     /*End of file status*/
+               what->Return.Status=0x0020;
+             if (temp==0xffff)
+             {
+               Slough_work(what);
+               if (close_connection(output[me>>1]))   /*6/10/93 return added so we can detect non closed connections*/
+               {
+                 output[me>>1]=0L;
+               }
+               what->Return.Status=0x9000;
+               temp=0;
+               /*some kind of error occured*/
+             }
+             while (what->Tracking.Status&WORK_IN_MAIL)
+               Relinquish(0L);
+             what->Tracking.Side=ODD;
+             what->Return.Byte_count=temp;
+             what->Node.FPI++;
+             what->Return.Opcode=COMPLETE;
+             Relinquish(0L);        /*Wait one time to handle the possibility
+                                      of an ack&data packet*/
+             break;
+      case 1:
+
+#ifdef DEBUG
+             displayln(win,"f4*d",me);
+#endif
+
+             if (fork(CHILD))
+               terminate_watch(what,output[me>>1],false);
+             temp=sendether(output[me>>1],(char far *)what->Data,
+                            what->Node.Byte_count);
+             destory();
+
+#ifdef DEBUG
+             displayln(win,"D4*d",me);
+#endif
+
+             if (temp==0xffff)   /*some kind of error occured*/
+             {
+               Slough_work(what);
+               if (close_connection(output[me>>1])) /*6/10/93 return added so we can detect non closed connections*/
+                 output[me>>1]=0L;
+
+               what->Return.Status=0x9000;
+             }
+             Free(what->Data); /* we are done with the buffer,so we can take
+                                     care of destorying it. */
+             what->Data=NULL;  /* zero data so it doesn't try to DMA
+                                     the buffer to the modcomp! */
+             what->Node.FPI++;
+             what->Return.Opcode=COMPLETE;
+             break;
+      case 7:
+
+#ifdef DEBUG
+             displayln(win,"f5*d",me);
+#endif
+
+             if (fork(CHILD))
+               terminate_watch(what,output[me>>1],false);
+             temp=sendether(output[me>>1],0,0);
+             if (temp==0xffff)   /*some kind of error occured*/
+             {
+               Slough_work(what);
+               what->Return.Status=0x9000;
+               if (close_connection(output[me>>1])) /*6/10/93 return added so we can detect non closed connections*/
+                 output[me>>1]=0L;
+             }
+             destory();
+
+#ifdef DEBUG
+             displayln(win,"D5*d",me);
+#endif
+
+             what->Node.FPI++;
+             what->Return.Opcode=COMPLETE;
+             break;
+
+      case 2:
+      case 3:
+      case 4:
+      case 5:
+      case 6:
+      case 8:
+             if (output[me>>1]->state)
+             {
+               Slough_work(what);
+               what->Return.Status=0x9000;
+               if (close_connection(output[me>>1])) /*6/10/93 return added so we can detect non closed connections*/
+                 output[me>>1]=0L;
+             }
+             what->Node.FPI++;
+             what->Return.Opcode=COMPLETE;
+             break;
+

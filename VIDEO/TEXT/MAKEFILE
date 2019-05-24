@@ -1,0 +1,36 @@
+BASE    =   $(IPCBASE)
+LINK    =   $(BASE)\batch.ipc\ml
+PCADEP  =   $(BASE)\pca\npca.h
+COMDEP  =   $(BASE)\comm\comm.h
+MODDEP  =   $(BASE)\common.ipc\mod.h\
+            $(BASE)\common.ipc\os.h
+VIDDEP  =   $(BASE)\video\text\video.h
+
+DESTNAME=   video.exe
+
+CFLAGS  =   -I$(BASE)\common.ipc -DDEBUG -w-pro -2 -r- -ms! -c -Drelocatable
+
+.c.obj:
+        bcc $(CFLAGS) $<
+
+.asm.obj:
+        tasm /i$(BASE)\common.ipc /ml $<
+
+!if $d(DEST)
+$(DEST)\$(DESTNAME) : $(DESTNAME)
+        copy $(DESTNAME) $(DEST)
+!endif
+
+all: $(DESTNAME) vidkey.obj
+
+vidkey.obj: vidkey.asm 
+
+$(DESTNAME) : video.obj vidasm.obj display.obj keylib.obj
+        $(LINK) video vidasm display keylib
+
+video.obj : video.c $(MODDEP) $(VIDDEP)
+
+vidasm.obj : vidasm.asm window.inc
+
+display.obj : display.asm window.inc
+

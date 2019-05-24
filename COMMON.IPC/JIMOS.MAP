@@ -1,0 +1,50 @@
+
+ Start  Stop   Length Name               Class
+
+ 00000H 00F0CH 00F0DH _TEXT              CODE
+ 00F0EH 0101EH 00111H _DATA              DATA
+ 01020H 01037H 00018H _BSS               BSS
+
+
+Detailed map of segments
+
+ 0000:0000 0F0D C=CODE   S=_TEXT          G=(none)  M=diskhand.c ACBP=28
+ 00F0:000E 0111 C=DATA   S=_DATA          G=DGROUP  M=diskhand.c ACBP=48
+ 00F0:0120 0018 C=BSS    S=_BSS           G=DGROUP  M=diskhand.c ACBP=48
+
+  Address         Publics by Name
+
+ 0000:0D33 idle  _init_local_structs
+ 0000:0000 idle  _Locate
+ 00F0:0134 idle  _output
+ 0000:01C6 idle  _process_node
+
+  Address         Publics by Value
+
+ 0000:0000 idle  _Locate
+ 0000:01C6 idle  _process_node
+ 0000:0D33 idle  _init_local_structs
+ 00F0:0134 idle  _output
+
+Error: Undefined symbol _displayln in module diskhand.c
+Error: Undefined symbol N_LXURSH@ in module diskhand.c
+Error: Undefined symbol _Relinquish in module diskhand.c
+Error: Undefined symbol _get_sectors in module diskhand.c
+Error: Undefined symbol _Allocate in module diskhand.c
+Error: Undefined symbol _Free in module diskhand.c
+Error: Undefined symbol _Export in module diskhand.c
+Error: Undefined symbol _gettime in module diskhand.c
+Error: Undefined symbol _position in module diskhand.c
+Error: Undefined symbol _put_sectors in module diskhand.c
+Error: Undefined symbol _release_sector in module diskhand.c
+Error: Undefined symbol _find_sector in module diskhand.c
+Error: Undefined symbol _opendisplay in module diskhand.c
+Error: Undefined symbol _atoi in module diskhand.c
+Error: Undefined symbol __fstrtok in module diskhand.c
+Error: Undefined symbol _atol in module diskhand.c
+Error: Undefined symbol _Get_environ in module diskhand.c
+Error: Undefined symbol _deactivate in module diskhand.c
+Error: Undefined symbol _get_old_node in module diskhand.c
+Program entry point at 0000:0000
+Warning: No stack
+

@@ -1,0 +1,30 @@
+Publics by module
+
+FSTRTOK 	size = 174
+	_fstrtok                        
+
+H_LDIV  	size = 174
+	F_LDIV@                           F_LMOD@
+	F_LUDIV@                          F_LUMOD@
+	LDIV@                             LMOD@
+	LUDIV@                            LUMOD@
+	N_LDIV@                           N_LMOD@
+	N_LUDIV@                          N_LUMOD@
+
+H_LLSH  	size = 33
+	F_LXLSH@                          LXLSH@
+	N_LXLSH@                        
+
+N_LXMUL 	size = 23
+	N_LXMUL@                        
+
+VIDLIB  	size = 1006
+	_Clr_window                       _closedisplay
+	_clr_display                      _display
+	_displayln                        _dupdisplay
+	_get_display                      _get_xy
+	_getattr                          _getch
+	_keypressed                       _moddisplay
+	_opendisplay                      _position
+	_rawkeypressed                    _rawreadch
+	_setattr                        

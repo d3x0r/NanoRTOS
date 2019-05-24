@@ -1,0 +1,163 @@
+Comparing files PCA.C and PCA.NEW
+***** PCA.C
+
+Node blank_work;
+
+***** PCA.NEW
+
+
+*****
+
+***** PCA.C
+    gettime(&endtime);
+    endtime+=(10+(work_count>>7));
+    while ((!(int_work&(ODDTC|ODDTERM)))&&
+***** PCA.NEW
+    gettime(&endtime);
+    endtime+=(100+(work_count>>6));
+    while ((!(int_work&(ODDTC|ODDTERM)))&&
+*****
+
+***** PCA.C
+    gettime(&endtime);
+    endtime+=(10+(work_count>>7));
+    while ((!(int_work&(EVENTERM|EVENTC)))&&
+***** PCA.NEW
+    gettime(&endtime);
+    endtime+=(100+(work_count>>6));
+    while ((!(int_work&(EVENTERM|EVENTC)))&&
+*****
+
+***** PCA.C
+{
+  if (node==&blank_work)
+    return;
+  if (node->Tracking.Status&SAVE_WHEN_DONE)
+***** PCA.NEW
+{
+  if (node->Tracking.Status&SAVE_WHEN_DONE)
+*****
+
+***** PCA.C
+  {
+    destroy_next=false;
+***** PCA.NEW
+  {
+    show_error(nodes,"Dumping Node...");
+    destroy_next=false;
+*****
+
+***** PCA.C
+    {
+      proc_in_mail(Mod_mail_in,int_work&EVENTI,0);
+***** PCA.NEW
+    {
+/*      if (int_work&EVENSEL)
+        displayln(nodes,"Select");
+      if (int_work&EVENTI)
+        displayln(nodes,"TransInit");*/
+      proc_in_mail(Mod_mail_in,int_work&EVENTI,0);
+*****
+
+***** PCA.C
+        show_error(nodes,"Card Disarmed");
+        Export(device_name,&blank_work);
+        if (error_latch&DISARMERROR)
+***** PCA.NEW
+        show_error(nodes,"Card Disarmed");
+        if (error_latch&DISARMERROR)
+*****
+
+***** PCA.C
+        write_port(MAIL_DATA,0);    /*make sure outgoing mail is marked read*/
+        write_port(INTR_QUEUE,read_port(INTR_QUEUE));
+***** PCA.NEW
+        write_port(MAIL_DATA,0);    /*make sure outgoing mail is marked read*/
+        outportb(0xa0,0x20);  /*send EOI's to the interupts chips.  5/5/93*/
+        outportb(0x20,0x20);
+        write_port(INTR_QUEUE,read_port(INTR_QUEUE));
+*****
+
+***** PCA.C
+    }
+/*    if (charac=='B')
+    {
+***** PCA.NEW
+    }
+    if (charac=='B')
+    {
+*****
+
+***** PCA.C
+      goto top;
+    }*/
+    charac=0;
+***** PCA.NEW
+      goto top;
+    }
+    charac=0;
+*****
+
+***** PCA.C
+          /* nodetrack */
+  blank_work.Tracking.Side=0;
+  blank_work.Tracking.start_time=0;
+***** PCA.NEW
+          /* nodetrack */
+/*  blank_work.Tracking.Side=0;
+  blank_work.Tracking.start_time=0;
+*****
+
+***** PCA.C
+
+  blank_work.Data=NULL;
+
+***** PCA.NEW
+
+  blank_work.Data=NULL;*/
+
+*****
+
+***** PCA.C
+         /* returndata */
+  blank_work.Return.Opcode=0;
+  blank_work.Return.Status=0;
+***** PCA.NEW
+         /* returndata */
+/*  blank_work.Return.Opcode=0;
+  blank_work.Return.Status=0;
+*****
+
+***** PCA.C
+
+  blank_work.Node.Node_Address=0;
+
+***** PCA.NEW
+
+  blank_work.Node.Node_Address=0;*/
+
+*****
+
+***** PCA.C
+          /* data_track */
+  blank_work.Data_handle.Preamble=NULL;
+  blank_work.Data_handle.index=0;
+
+***** PCA.NEW
+          /* data_track */
+/*  blank_work.Data_handle.Preamble=NULL;
+  blank_work.Data_handle.index=0;*/
+
+*****
+
+***** PCA.C
+  }
+  out_port(INTR_QUEUE,read_port(INTR_QUEUE));
+***** PCA.NEW
+  }
+  outportb(0xa0,0x20);  /*send EOI's to the interupts chips.  5/5/93*/
+  outportb(0x20,0x20);
+  out_port(INTR_QUEUE,read_port(INTR_QUEUE));
+*****
+
+

@@ -1,0 +1,31 @@
+
+
+
+CC      =       \nipc\batch.ipc\mc
+
+ASM     =       \nipc\batch.ipc\asm
+
+LINK    =       \nipc\batch.ipc\ml
+
+MODDEP  =       \nipc\common.ipc\mod.h\
+                \nipc\common.ipc\os.h
+
+VIDDEP  =       \nipc\video\text\video.h
+
+DESTNAME=       pca.exe
+
+!if $d(DEST)
+$(DEST)\$(DESTNAME) : $(DESTNAME)
+        copy $(DESTNAME) $(DEST)
+!endif
+
+
+$(DESTNAME) : pca.obj npcaasm.obj \nipc\video\text\vidlib.obj
+        $(LINK) pca npcaasm \nipc\video\text\vidlib
+
+pca.obj : pca.c npca.h pcadef.h $(MODDEP) $(VIDDEP)
+        $(CC)   pca
+
+npcaasm.obj : npcaasm.asm npcaasm.inc \nipc\common.ipc\os.equ
+        $(ASM)  npcaasm
+

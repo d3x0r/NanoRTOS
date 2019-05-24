@@ -1,0 +1,198 @@
+
+ Start  Stop   Length Name               Class
+
+ 00000H 008B6H 008B7H _TEXT              CODE
+ 008B7H 00CE2H 0042CH TASKLIST_TEXT      CODE
+ 00CE4H 00DB3H 000D0H _DATA              DATA
+ 00DB4H 00DC9H 00016H _BSS               BSS
+
+
+Detailed map of segments
+
+ 0000:0000 0099 C=CODE   S=_TEXT          G=(none)  M=mmodhead.ASM ACBP=48
+ 0000:009A 042D C=CODE   S=_TEXT          G=(none)  M=vidlib.asm ACBP=48
+ 0000:04C7 00AE C=CODE   S=_TEXT          G=(none)  M=H_LDIV     ACBP=28
+ 0000:0576 0341 C=CODE   S=_TEXT          G=(none)  M=OSLIB      ACBP=48
+ 008B:0007 042C C=CODE   S=TASKLIST_TEXT  G=(none)  M=tasklist.c ACBP=28
+ 00CE:0004 0058 C=DATA   S=_DATA          G=DGROUP  M=mmodhead.ASM ACBP=48
+ 00CE:005C 0078 C=DATA   S=_DATA          G=DGROUP  M=tasklist.c ACBP=48
+ 00CE:00D4 0000 C=DATA   S=_DATA          G=DGROUP  M=vidlib.asm ACBP=48
+ 00CE:00D4 0000 C=DATA   S=_DATA          G=DGROUP  M=H_LDIV     ACBP=48
+ 00CE:00D4 0000 C=DATA   S=_DATA          G=DGROUP  M=OSLIB      ACBP=48
+ 00CE:00D4 0016 C=BSS    S=_BSS           G=DGROUP  M=tasklist.c ACBP=48
+
+  Address         Publics by Name
+
+ 0000:04CA       F_LDIV@
+ 0000:04D9 idle  F_LMOD@
+ 0000:04D1       F_LUDIV@
+ 0000:04E1 idle  F_LUMOD@
+ 0000:04CA idle  LDIV@
+ 0000:04D9 idle  LMOD@
+ 0000:04D1 idle  LUDIV@
+ 0000:04E1 idle  LUMOD@
+ 0000:04C7 idle  N_LDIV@
+ 0000:04D6 idle  N_LMOD@
+ 0000:04CE idle  N_LUDIV@
+ 0000:04DE idle  N_LUMOD@
+ 00CE:0030 idle  _Allocate
+ 0000:05AD       _atoi
+ 00CE:004C idle  _change_priority
+ 0000:0651 idle  _close
+ 0000:0394 idle  _closedisplay
+ 0000:02DF       _clr_display
+ 0000:010E idle  _Clr_window
+ 00CE:0040 idle  _Connect_Int
+ 0000:0619 idle  _create
+ 00CE:00E4 idle  _current
+ 0000:0000 idle  _dataseg
+ 00CE:0058 idle  _delay
+ 0000:004C idle  _destory
+ 00CE:001C idle  _device_name
+ 00CE:0044 idle  _Disconnect_Int
+ 0000:0488 idle  _disowndisplay
+ 0000:01BF       _display
+ 0000:01F8       _displayln
+ 0000:03D2 idle  _dupdisplay
+ 00CE:0008       _Exit
+ 00CE:0014 idle  _Export
+ 00CE:0004 idle  _externals
+ 00CE:00E0 idle  _first
+ 0000:0051 idle  _fork
+ 00CE:0034 idle  _Free
+ 00CE:00DC idle  _gencnt
+ 0000:02A6 idle  _getattr
+ 0000:031C idle  _getdisplay
+ 00CE:0048       _gettime
+ 00CE:002C       _Get_environ
+ 0000:0187 idle  _get_xy
+ 00CE:0018 idle  _Import
+ 00CE:0038       _Inquire_begin
+ 0000:0768 idle  _itoa
+ 0000:009A       _keypressed
+ 0000:005D idle  _ldiv
+ 00CE:00E8 idle  _lines
+ 0000:0071 idle  _lmod
+ 0000:0088 idle  _lmult
+ 008B:0007 idle  _Locate
+ 008B:001F       _main
+ 0000:087F idle  _memset
+ 0000:0358       _moddisplay
+ 0000:07D6 idle  _movmem
+ 00CE:0050       _my_tcbptr
+ 0000:05E3 idle  _open
+ 0000:014A       _opendisplay
+ 00CE:00D8 idle  _output
+ 0000:0047 idle  _perish
+ 0000:0233       _position
+ 00CE:003C idle  _process_control
+ 0000:040E idle  _rawkeypressed
+ 0000:044D idle  _rawreadch
+ 0000:0688 idle  _read
+ 0000:00D6       _readch
+ 00CE:000C       _Relinquish
+ 00CE:0004       _Request
+ 0000:026D       _setattr
+ 0000:0576 idle  _Shell
+ 00CE:0028 idle  _spawn
+ 00CE:0024 idle  _spawn_batch
+ 0000:0847 idle  _strcat
+ 0000:072F idle  _stricmp
+ 0000:079E idle  _strlen
+ 0000:080E idle  _strncpy
+ 0000:06F5 idle  _strnicmp
+ 00CE:0054 idle  _swap_to
+ 00CE:0010 idle  _Terminate
+ 00CE:00D4 idle  _timer
+ 00CE:0020 idle  _Wake
+ 0000:06BE idle  _write
+
+  Address         Publics by Value
+
+ 0000:0000 idle  _dataseg
+ 0000:0047 idle  _perish
+ 0000:004C idle  _destory
+ 0000:0051 idle  _fork
+ 0000:005D idle  _ldiv
+ 0000:0071 idle  _lmod
+ 0000:0088 idle  _lmult
+ 0000:009A       _keypressed
+ 0000:00D6       _readch
+ 0000:010E idle  _Clr_window
+ 0000:014A       _opendisplay
+ 0000:0187 idle  _get_xy
+ 0000:01BF       _display
+ 0000:01F8       _displayln
+ 0000:0233       _position
+ 0000:026D       _setattr
+ 0000:02A6 idle  _getattr
+ 0000:02DF       _clr_display
+ 0000:031C idle  _getdisplay
+ 0000:0358       _moddisplay
+ 0000:0394 idle  _closedisplay
+ 0000:03D2 idle  _dupdisplay
+ 0000:040E idle  _rawkeypressed
+ 0000:044D idle  _rawreadch
+ 0000:0488 idle  _disowndisplay
+ 0000:04C7 idle  N_LDIV@
+ 0000:04CA       F_LDIV@
+ 0000:04CA idle  LDIV@
+ 0000:04CE idle  N_LUDIV@
+ 0000:04D1       F_LUDIV@
+ 0000:04D1 idle  LUDIV@
+ 0000:04D6 idle  N_LMOD@
+ 0000:04D9 idle  F_LMOD@
+ 0000:04D9 idle  LMOD@
+ 0000:04DE idle  N_LUMOD@
+ 0000:04E1 idle  LUMOD@
+ 0000:04E1 idle  F_LUMOD@
+ 0000:0576 idle  _Shell
+ 0000:05AD       _atoi
+ 0000:05E3 idle  _open
+ 0000:0619 idle  _create
+ 0000:0651 idle  _close
+ 0000:0688 idle  _read
+ 0000:06BE idle  _write
+ 0000:06F5 idle  _strnicmp
+ 0000:072F idle  _stricmp
+ 0000:0768 idle  _itoa
+ 0000:079E idle  _strlen
+ 0000:07D6 idle  _movmem
+ 0000:080E idle  _strncpy
+ 0000:0847 idle  _strcat
+ 0000:087F idle  _memset
+ 008B:0007 idle  _Locate
+ 008B:001F       _main
+ 00CE:0004 idle  _externals
+ 00CE:0004       _Request
+ 00CE:0008       _Exit
+ 00CE:000C       _Relinquish
+ 00CE:0010 idle  _Terminate
+ 00CE:0014 idle  _Export
+ 00CE:0018 idle  _Import
+ 00CE:001C idle  _device_name
+ 00CE:0020 idle  _Wake
+ 00CE:0024 idle  _spawn_batch
+ 00CE:0028 idle  _spawn
+ 00CE:002C       _Get_environ
+ 00CE:0030 idle  _Allocate
+ 00CE:0034 idle  _Free
+ 00CE:0038       _Inquire_begin
+ 00CE:003C idle  _process_control
+ 00CE:0040 idle  _Connect_Int
+ 00CE:0044 idle  _Disconnect_Int
+ 00CE:0048       _gettime
+ 00CE:004C idle  _change_priority
+ 00CE:0050       _my_tcbptr
+ 00CE:0054 idle  _swap_to
+ 00CE:0058 idle  _delay
+ 00CE:00D4 idle  _timer
+ 00CE:00D8 idle  _output
+ 00CE:00DC idle  _gencnt
+ 00CE:00E0 idle  _first
+ 00CE:00E4 idle  _current
+ 00CE:00E8 idle  _lines
+
+Program entry point at 0000:0002
+Warning: No stack
+

@@ -1,0 +1,24 @@
+
+CC      =       \batch.ipc\mc
+
+ASM     =       \batch.ipc\asm
+
+LINK    =       \batch.ipc\ml
+
+PCADEP  =       \nipc\pca\npca.h
+
+COMDEP  =       \nipc\comm\comm.h
+
+MODDEP  =       \common.ipc\mod.h\
+                \common.ipc\os.h
+
+VIDDEP  =       \nipc\video\text\video.h
+
+DESTNAME=       newkbd.exe
+
+!if $d(DEST)
+$(DEST)\$(DESTNAME) : $(DESTNAME)
+        copy $(DESTNAME) $(DEST)
+!endif
+
+$(DESTNAME) :

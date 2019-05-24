@@ -1,0 +1,176 @@
+
+ Start  Stop   Length Name               Class
+
+ 00000H 00666H 00667H _TEXT              CODE
+ 00667H 00CA8H 00642H COMM_TEXT          CODE
+ 00CAAH 00D3FH 00096H _DATA              DATA
+ 00D40H 00D43H 00004H _BSS               BSS
+
+
+Detailed map of segments
+
+ 0000:0000 0099 C=CODE   S=_TEXT          G=(none)  M=mmodhead.ASM ACBP=48
+ 0000:009A 01A0 C=CODE   S=_TEXT          G=(none)  M=comware.ASM ACBP=48
+ 0000:023A 042D C=CODE   S=_TEXT          G=(none)  M=vidlib.asm ACBP=48
+ 0066:0007 0642 C=CODE   S=COMM_TEXT      G=(none)  M=comm.c     ACBP=28
+ 00CA:000A 0058 C=DATA   S=_DATA          G=DGROUP  M=mmodhead.ASM ACBP=48
+ 00CA:0062 003E C=DATA   S=_DATA          G=DGROUP  M=comm.c     ACBP=48
+ 00CA:00A0 0000 C=DATA   S=_DATA          G=DGROUP  M=comware.ASM ACBP=48
+ 00CA:00A0 0000 C=DATA   S=_DATA          G=DGROUP  M=vidlib.asm ACBP=48
+ 00CA:00A0 0004 C=BSS    S=_BSS           G=DGROUP  M=comm.c     ACBP=48
+
+  Address         Publics by Name
+
+ 00CA:0036       _Allocate
+ 00CA:0052 idle  _change_priority
+ 0000:0534 idle  _closedisplay
+ 0000:047F idle  _clr_display
+ 0000:02AE idle  _Clr_window
+ 0066:038D idle  _comclose
+ 0066:0059 idle  _comopen
+ 00CA:007B idle  _comopenname
+ 0066:03AF idle  _comread
+ 00CA:0083 idle  _comreadname
+ 0066:0576 idle  _comsetmodem
+ 00CA:0094 idle  _comsetmodemname
+ 0066:04B8 idle  _comwrite
+ 00CA:008B idle  _comwritename
+ 00CA:0046 idle  _Connect_Int
+ 0000:00C7       _connect_irqs
+ 0000:0000 idle  _dataseg
+ 00CA:005E idle  _delay
+ 0000:004C idle  _destory
+ 00CA:0022 idle  _device_name
+ 00CA:004A idle  _Disconnect_Int
+ 0000:0117       _disconnect_irqs
+ 00CA:0062 idle  _disconnect_irqsname
+ 0000:0628 idle  _disowndisplay
+ 0000:035F idle  _display
+ 0000:0398 idle  _displayln
+ 0000:0572 idle  _dupdisplay
+ 00CA:000E       _Exit
+ 00CA:001A idle  _Export
+ 00CA:000A idle  _externals
+ 0000:0051 idle  _fork
+ 00CA:003A       _Free
+ 0000:0446 idle  _getattr
+ 0000:04BC idle  _getdisplay
+ 00CA:004E idle  _gettime
+ 00CA:0032 idle  _Get_environ
+ 0000:0327 idle  _get_xy
+ 00CA:001E idle  _Import
+ 0000:00A6       _inport
+ 00CA:003E idle  _Inquire_begin
+ 00CA:0073       _IRQ3
+ 00CA:0077       _IRQ4
+ 0000:023A idle  _keypressed
+ 0000:005D idle  _ldiv
+ 0000:0071 idle  _lmod
+ 0000:0088 idle  _lmult
+ 0066:0007 idle  _Locate
+ 0066:05AD       _main
+ 0000:04F8 idle  _moddisplay
+ 00CA:0056 idle  _my_tcbptr
+ 0000:02EA idle  _opendisplay
+ 0000:009A       _outport
+ 00CA:00A0 idle  _output
+ 0000:0047 idle  _perish
+ 0000:03D3 idle  _position
+ 00CA:0042 idle  _process_control
+ 0000:05AE idle  _rawkeypressed
+ 0000:05ED idle  _rawreadch
+ 0000:0276 idle  _readch
+ 00CA:0012       _Relinquish
+ 00CA:000A       _Request
+ 0066:0428 idle  _Send_char
+ 0000:040D idle  _setattr
+ 00CA:002E idle  _spawn
+ 00CA:002A idle  _spawn_batch
+ 00CA:005A idle  _swap_to
+ 00CA:0016 idle  _Terminate
+ 00CA:0026 idle  _Wake
+ 0066:003C idle  __comopen
+ 0066:0392 idle  __comread
+ 0066:0559 idle  __comsetmodem
+ 0066:049B idle  __comwrite
+ 0066:001F idle  __disconnect_irqs
+
+  Address         Publics by Value
+
+ 0000:0000 idle  _dataseg
+ 0000:0047 idle  _perish
+ 0000:004C idle  _destory
+ 0000:0051 idle  _fork
+ 0000:005D idle  _ldiv
+ 0000:0071 idle  _lmod
+ 0000:0088 idle  _lmult
+ 0000:009A       _outport
+ 0000:00A6       _inport
+ 0000:00C7       _connect_irqs
+ 0000:0117       _disconnect_irqs
+ 0000:023A idle  _keypressed
+ 0000:0276 idle  _readch
+ 0000:02AE idle  _Clr_window
+ 0000:02EA idle  _opendisplay
+ 0000:0327 idle  _get_xy
+ 0000:035F idle  _display
+ 0000:0398 idle  _displayln
+ 0000:03D3 idle  _position
+ 0000:040D idle  _setattr
+ 0000:0446 idle  _getattr
+ 0000:047F idle  _clr_display
+ 0000:04BC idle  _getdisplay
+ 0000:04F8 idle  _moddisplay
+ 0000:0534 idle  _closedisplay
+ 0000:0572 idle  _dupdisplay
+ 0000:05AE idle  _rawkeypressed
+ 0000:05ED idle  _rawreadch
+ 0000:0628 idle  _disowndisplay
+ 0066:0007 idle  _Locate
+ 0066:001F idle  __disconnect_irqs
+ 0066:003C idle  __comopen
+ 0066:0059 idle  _comopen
+ 0066:038D idle  _comclose
+ 0066:0392 idle  __comread
+ 0066:03AF idle  _comread
+ 0066:0428 idle  _Send_char
+ 0066:049B idle  __comwrite
+ 0066:04B8 idle  _comwrite
+ 0066:0559 idle  __comsetmodem
+ 0066:0576 idle  _comsetmodem
+ 0066:05AD       _main
+ 00CA:000A idle  _externals
+ 00CA:000A       _Request
+ 00CA:000E       _Exit
+ 00CA:0012       _Relinquish
+ 00CA:0016 idle  _Terminate
+ 00CA:001A idle  _Export
+ 00CA:001E idle  _Import
+ 00CA:0022 idle  _device_name
+ 00CA:0026 idle  _Wake
+ 00CA:002A idle  _spawn_batch
+ 00CA:002E idle  _spawn
+ 00CA:0032 idle  _Get_environ
+ 00CA:0036       _Allocate
+ 00CA:003A       _Free
+ 00CA:003E idle  _Inquire_begin
+ 00CA:0042 idle  _process_control
+ 00CA:0046 idle  _Connect_Int
+ 00CA:004A idle  _Disconnect_Int
+ 00CA:004E idle  _gettime
+ 00CA:0052 idle  _change_priority
+ 00CA:0056 idle  _my_tcbptr
+ 00CA:005A idle  _swap_to
+ 00CA:005E idle  _delay
+ 00CA:0062 idle  _disconnect_irqsname
+ 00CA:0073       _IRQ3
+ 00CA:0077       _IRQ4
+ 00CA:007B idle  _comopenname
+ 00CA:0083 idle  _comreadname
+ 00CA:008B idle  _comwritename
+ 00CA:0094 idle  _comsetmodemname
+ 00CA:00A0 idle  _output
+
+Program entry point at 0000:0002
+Warning: No stack
+

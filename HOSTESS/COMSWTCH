@@ -1,0 +1,424 @@
+    data_buffer=(unsigned char far *)what->Data;
+    switch(what->Node.Rex&0xf)
+    {
+      case READ:/*read*/
+             if (what->Tracking.Side==EVEN)
+             {
+               Slough_work(what);
+              }
+/*At this point we could have a terminated node on our hands */
+
+             if (what->Node.XOptions&UFTXOPFLU)
+             {
+//               hiflush(line);
+             }
+             opptr=&extrnop;
+             if (fork(CHILD))
+             {
+               terminate_watch(what,opptr);
+             }
+             else
+             {
+              unsigned char data_read;
+              unsigned short bufferidx=0;
+              if (what->Node.Options&UFTOPTBI)
+              {
+                if (!(what->Node.Options&UFTOPTDDO))
+                {
+                 /*read into the buffer until a non null character is
+                   read.*/
+                  do
+                  {
+                    extrnop=TRMGETC;
+                    if (higetc(line,&data_read)&&ECHO(what))
+                    {
+                      extrnop=TRMWRITE;
+                      hiwrite(&data_read,1,line);
+                    }
+                    if (!what->Node.Node_Address) goto return_now;
+                  }
+                  while (!data_read);
+                  data_buffer[bufferidx++]=data_read;
+                }
+                if (what->Node.Options&UFTOPTSTD)
+                { /*standard binary*/
+                  if (!(what->Node.Options&UFTOPTTBX))
+                  {
+                    while (bufferidx<2)
+                    {
+                      extrnop=TRMGETC;
+                      if (higetc(line,data_buffer+bufferidx++)&&ECHO(what))
+                      {
+                        extrnop=TRMWRITE;
+//                        hiwrite(data_buffer+bufferidx,1,line);
+                      }
+                      if (!what->Node.Node_Address) goto return_now;
+                    }
+                    if (*((short far *)data_buffer)==0x2424)
+                    {
+                      what->Return.Status=UFTSTAEOF;
+                      break;
+                    }
+                  }
+                  if (!bufferidx)
+                  {
+                    extrnop=TRMGETC;
+                    if (higetc(line,data_buffer+bufferidx++)&&ECHO(what))
+                    {
+                      extrnop=TRMWRITE;
+//                      hiwrite(data_buffer+bufferidx,1,line);
+                    }
+                    if (!what->Node.Node_Address) goto return_now;
+                  }
+                  if (data_buffer[0]==3||data_buffer[0]==7)
+                  {
+                    short block_size;
+standard_binary:
+                    while (bufferidx<4)
+                    {
+                      extrnop=TRMGETC;
+                      if (higetc(line,data_buffer+bufferidx++)&&ECHO(what))
+                      {
+                        extrnop=TRMWRITE;
+//                        hiwrite(data_buffer+bufferidx,1,line);
+                      }
+                      if (!what->Node.Node_Address) goto return_now;
+                    }
+                    block_size=intswap(*(short far*)(data_buffer+2));
+                    while (bufferidx<block_size&&
+                           what->Node.Node_Address)
+                    {
+                      short tsize;
+                      bufferidx+=(tsize=hiread(data_buffer+bufferidx,
+                             block_size-bufferidx,
+                             line));
+                      extrnop=TRMWRITE;
+                      if (tsize&&ECHO(what))
+                      {
+                        hiwrite(data_buffer+bufferidx-tsize,
+                                tsize,
+                                line);
+                      }
+
+                      if (bufferidx<block_size)
+                        Relinquish(0L);
+                    }
+                    if (!what->Node.Node_Address) goto return_now;
+                  }
+                }
+                else
+                {  /*non standard binary*/
+                  while (bufferidx<what->Node.Byte_count&&
+                         what->Node.Node_Address)
+                  {
+                    short tsize;
+                    bufferidx+= hiread(data_buffer+bufferidx,
+                                       what->Node.Byte_count-bufferidx,
+                                       line);
+                    extrnop=TRMWRITE;
+                    if (tsize&&ECHO(what))
+                    {
+                      hiwrite(data_buffer+bufferidx-tsize,
+                              tsize,
+                              line);
+                    }
+
+                    if (bufferidx<what->Node.Byte_count)
+                      Relinquish(0L);
+                  }
+
+                  if (!what->Node.Node_Address) goto return_now;
+                }
+              }
+              else
+              {
+                char tchar,gotone=false;
+                if (!(what->Node.Options&UFTOPTDDO))
+                {
+                  extrnop=TRMWRITE;
+                  hiwrite("\r\n",2,line);
+                  lines[line].CLP++;
+                  if (!what->Node.Node_Address) goto return_now;
+                }
+                else
+                {
+                  do
+                  {
+                    extrnop=TRMGETC;
+                    if (higetc(line,&tchar)&&ECHO(what))
+                    {
+                      extrnop=TRMWRITE;
+                      hiwrite(&tchar,1,line);
+                    }
+                    if (!what->Node.Node_Address) goto return_now;
+                  }
+                  while (!tchar);
+                  gotone=true;
+                }
+                if (what->Node.Options&UFTOPTSTD)
+                { /*standard ascii*/
+                  char done=false;
+                  while (!done&&bufferidx<what->Node.Byte_count)
+                  {
+                    if (bufferidx)
+                    {
+                      if (data_buffer[0]==3||data_buffer[0]==7)
+                        goto standard_binary;
+                    }
+                    if (!gotone)
+                    {
+                      extrnop=TRMGETC;
+                      if (higetc(line,&tchar)&&ECHO(what))
+                      {
+                        extrnop=TRMWRITE;
+                        hiwrite(&tchar,1,line);
+                      }
+                      if (!what->Node.Node_Address) goto return_now;
+                    }
+                    else
+                      gotone=false;
+                    switch(tchar)
+                    {
+                      case '\r':
+                      case 0   :
+                                if (!(what->Node.Options&UFTOPTTBX)&&bufferidx)
+                                {
+                                  bufferidx--;
+                                  while (data_buffer[bufferidx]==' ')
+                                    bufferidx--;
+                                  bufferidx++;
+                                }
+                                if ((bufferidx&1)&&
+                                    (bufferidx+1<what->Node.Byte_count))
+                                {
+                                  data_buffer[bufferidx++]=' ';
+                                  what->Return.XStatus=-1;
+                                }
+                                if (!(what->Node.Options&UFTOPTTBX)&&
+                                    (bufferidx+2<what->Node.Byte_count))
+                                {
+                                  data_buffer[bufferidx++]=0;
+                                  data_buffer[bufferidx++]=0;
+                                  what->Return.XStatus-=2;
+                                }
+                                what->Return.XStatus&=0x1ff;
+                                done=true;
+                      case '\n':break;
+                      case '\b':if (bufferidx)
+                                  bufferidx--;
+                                break;
+                      case 127:bufferidx=0;
+                               extrnop=TRMWRITE;
+                               hiwrite("\r\n",2,line);
+                               lines[line].CLP++;
+                               if (!what->Node.Node_Address) goto return_now;
+                               break;
+                      default:data_buffer[bufferidx++]=tchar;
+                    }
+                  }
+                  if ((bufferidx>2)&&!(what->Node.Options&UFTOPTTBX))
+                    if (*(short far *)data_buffer==0x2424)
+                      what->Return.Status|=UFTSTAEOF;
+                }
+                else
+                { /*non standard ascii */
+                  while (bufferidx<what->Node.Byte_count)
+                  {
+                    if (!gotone)
+                    {
+                      extrnop=TRMGETC;
+                      if (higetc(line,&tchar)&&ECHO(what))
+                      {
+                        extrnop=TRMWRITE;
+                        hiwrite(&tchar,1,line);
+                      }
+                      if (!what->Node.Node_Address) goto return_now;
+                    }
+                    else
+                      gotone=false;
+                    data_buffer[bufferidx++]=tchar;
+                    if (!(what->Node.Options&UFTOPTNT))
+                    {
+                      if (tchar==(what->Node.Options&UFTOPTTRM))
+                      {
+                        what->Return.XStatus=(-1)&0x1ff;
+                        break;
+                      }
+                    }
+                  }
+                }
+                what->Return.Byte_count=bufferidx;
+              }
+             }
+return_now:
+             destory();
+             while (what->Tracking.Status&(WORK_IN_MAIL|WORK_IN_PROGRESS))
+               Relinquish(0L);
+
+             what->Tracking.Side=ODD;
+             what->Node.FPI++;
+             what->Return.Opcode=COMPLETE;
+             break;
+      case WRITE:
+            {
+              unsigned short count_sent=1;
+             extrnop=TRMWRITE;
+             if (fork(CHILD))
+             {
+               terminate_watch(what,&extrnop);
+             }
+             else
+             {
+              if (what->Node.Options&UFTOPTBI)
+              {
+                if (what->Node.Options&UFTOPTSTD)
+                {
+                  if (data_buffer[0]==3||data_buffer[0]==7)
+                  {
+                    unsigned short output_count=*((short *)(data_buffer+2));
+                    if (output_count>what->Node.Byte_count)
+                      output_count=what->Node.Byte_count;
+                    hiwrite(data_buffer,output_count,line);
+                    if (!what->Node.Node_Address) goto return_now;
+                    what->Return.Byte_count=output_count;
+                  }
+                  else
+                  {
+                    what->Return.Status=UFTSTAER|UFTSTASBV;
+                    what->Return.Byte_count=0;
+                  }
+                }
+                else
+                {
+                  hiwrite(data_buffer,
+                          (short)what->Node.Byte_count,
+                          line);
+                  if (!what->Node.Node_Address) goto return_now;
+                  what->Return.Byte_count=what->Node.Byte_count;
+                }
+              }
+              else
+              {
+                unsigned short idx,bias=0;
+                if (what->Node.Options&UFTOPTSTD)
+                {
+                  switch(data_buffer[0])
+                  {
+                    case '0':
+                             hiwrite("\r\n\n",3,line);
+                             lines[line].CLP+=2;
+                             if (!what->Node.Node_Address) goto return_now;
+                             break;
+                    case '1':
+                    case '-':
+                             write_formfeed(what,line);
+                             if (!what->Node.Node_Address) goto return_now;
+                             break;
+                    case '+':
+                             hiwrite("\r",1,line);
+                             if (!what->Node.Node_Address) goto return_now;
+                             break;
+                    default:
+                             hiwrite("\r\n",2,line);
+                             lines[line].CLP++;
+                             if (!what->Node.Node_Address) goto return_now;
+                             break;
+                  }
+                  data_buffer++;
+                  bias++;
+                  what->Node.Byte_count--;
+                  if (data_buffer[1]==2)
+                  {
+                    data_buffer++;
+                    bias++;
+                    what->Node.Byte_count--;
+                  }
+                  for (idx=0;idx<what->Node.Byte_count&&
+                             data_buffer[idx];idx++);
+                }
+                else
+                {
+                  unsigned short terminator;
+
+                  if (what->Node.Options&UFTOPTNT)
+                    terminator=256;
+                  else
+                    terminator=what->Node.Options&UFTOPTTRM;
+
+                  for (idx=0;
+                      (idx<what->Node.Byte_count)&&
+                       data_buffer[idx]!=terminator;
+                       idx++);
+                }
+                hiwrite(data_buffer,idx,line);
+                if (!what->Node.Node_Address) goto return_now;
+                what->Return.Byte_count=idx+bias;
+              }
+              destory();
+             }
+             while (what->Tracking.Status&(WORK_IN_MAIL|WORK_IN_PROGRESS))
+               Relinquish(0L);
+             what->Return.Opcode=COMPLETE;
+             what->Return.Byte_count=count_sent;
+             what->Node.FPI++;
+            }
+            break;
+      case REWIND:
+             write_formfeed(what,line);
+             while (what->Tracking.Status&(WORK_IN_MAIL|WORK_IN_PROGRESS))
+               Relinquish(0L);
+             what->Return.Opcode=COMPLETE;
+             what->Return.Byte_count=0;
+             what->Return.Status=UFTSTAEOF|UFTSTABOM;
+             what->Node.FPI=0;
+             break;
+      case BACK_RECORD:
+             while (what->Tracking.Status&(WORK_IN_MAIL|WORK_IN_PROGRESS))
+               Relinquish(0L);
+             what->Return.Opcode=COMPLETE;
+             what->Return.Byte_count=0;
+             what->Return.Status=UFTSTAEOF|UFTSTABOM;
+
+             break;
+      case BACK_FILE:
+             while (what->Tracking.Status&(WORK_IN_MAIL|WORK_IN_PROGRESS))
+               Relinquish(0L);
+             what->Return.Opcode=COMPLETE;
+             what->Return.Byte_count=0;
+             what->Return.Status=UFTSTAEOF|UFTSTABOM;
+             break;
+      case ADVANCE_FILE:
+             write_formfeed(what,line);
+             while (what->Tracking.Status&(WORK_IN_MAIL|WORK_IN_PROGRESS))
+               Relinquish(0L);
+             what->Return.Opcode=COMPLETE;
+             what->Return.Byte_count=0;
+             what->Return.Status=UFTSTAEOF;
+             what->Node.FPI++;
+             break;
+      case ADVANCE_RECORD:
+             hiwrite("\r\n",2,line);
+             lines[line].CLP++;
+             while (what->Tracking.Status&(WORK_IN_MAIL|WORK_IN_PROGRESS))
+               Relinquish(0L);
+             what->Return.Opcode=COMPLETE;
+             what->Return.Byte_count=0;
+             what->Node.FPI++;
+             break;
+      case WRITE_EOF:
+             hiwrite("\r\n\n$$",5,line);
+             lines[line].CLP=0;
+             while (what->Tracking.Status&(WORK_IN_MAIL|WORK_IN_PROGRESS))
+               Relinquish(0L);
+             what->Return.Opcode=COMPLETE;
+             what->Return.Byte_count=0;
+             what->Node.FPI++;
+             break;
+      case HOME:
+             if (what->Node.XOptions&UFTXOPDCL)
+               hiclose(line);
+             what->Return.Byte_count=0;
+             what->Node.FPI++;
+             what->Return.Opcode=COMPLETE;
+             break;
+    }

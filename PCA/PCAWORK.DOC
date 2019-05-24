@@ -1,0 +1,182 @@
+This paper is to document the various messages that can appear in the
+work window, why they could be there, and what they mean.
+
+Message                                 Meaning
+-------------                           --------------
+Normal color (Green on Black)           This class of messsages track
+                                        the progress of work through
+                                        the system.
+----------------------------------------------------------------------------
+Ct:#### Ofs:#### Pg:## Ch:# w:#         Ct is the count to thransfer
+                                        Ofs is the offset in the page
+                                        Pg is the page number
+                                        Ch is the channel number (0-3)
+                                        w 1=write to mem 0=read from mem
+                                        All of the above indicate the
+                                        conditions to which the DMA will
+                                        be initialized to for the next
+                                        pending transfer.
+----------------------------------------------------------------------------
+####(####) wds mising                   The first number is the number
+                                        of words left to transfer by the
+                                        DMA, the second number is how
+                                        many words the DMA had left to
+                                        transfer plus how many additional
+                                        pending words the Driver thought
+                                        it needed to transfer.
+----------------------------------------------------------------------------
+#### #### (####,##)                     This will be preceeded by a message
+                                        indicated that the node was not
+                                        linked.  The first number is
+                                        the return offset for the procedure,
+                                        next is the address of the node that
+                                        is in error.  the next two are the
+                                        Node Address (MC address) and Rex
+                                        of the node.
+---------------------------------------------------------------------------
+#### @@@ Time:####                      This is the general format of the
+                                        time stamp message.  the first number
+                                        is the address of the current node
+                                        being worked on.  @@@ is a three
+                                        letter text message indicating what
+                                        timing point the node is at, and
+                                        the time is the number of milli-
+                                        seconds that the node has been alive.
+
+These are the Three letter time stamps
+and what they indicate.
+
+Odd                                     Work was just picked up by the Odd
+                                        channel handling thread.
+
+OSI                                     Odd channel external SI has just been
+                                        generated.
+
+SND                                     Data for a complete Read node with
+                                        data is going to be transferred.
+
+SFL                                     Send of data failed.
+
+DST                                     The node is now no longer in existance.
+
+Evn                                     Work was just picked up by the Even
+                                        channel handling thread.
+
+ESI                                     Even channel external SI has been
+                                        generated.
+
+P>M                                     Going to queue the work to the
+                                        odd channel handling thread.
+
+M>P                                     Going to queue the work to the
+                                        even channel handling thread.
+
+ACK                                     Sloughed work has been acknowledged
+                                        by the modcomp.
+----------------------------------------------------------------------------
+-#### ## RC:## ##                       Node has been received by PCA to
+                                        be sent to the modcomp.  The
+                                        first number is the Node Address,
+                                        followed by Rex.  RC:## indicates
+                                        the Return Code, and the last number
+                                        is the sub-channel the work is from.
+----------------------------------------------------------------------------
+Dead Node.                              The node received by the PCA handler
+                                        was terminated, and therefore was
+                                        not queued to either channel handling
+                                        thread.
+----------------------------------------------------------------------------
+Side:@ Dma:@                            Side is either E or O for even or
+                                        Odd side. DMA is either Y or N for
+                                        whether the mail to input has data
+                                        accompanying it.
+----------------------------------------------------------------------------
+*#### ## to:## ##                       These indicate that work was just
+#### #### ####                          received from the modcomp.  A *
+  -or-                                  indicates that data was also received
++#### ## to:## ##                       while a + indicates mail only.  The
+#### #### ####                          first number after the indication of
+                                        data is the Node's address, which is
+                                        used repeatedly here, because it is
+                                        a unique identifier.  The Rex is the
+                                        next number, followed by the
+                                        Transport and Sub-Channel number to
+                                        send the work to.  The second line
+                                        indicated Options, Byte count, and
+                                        Extended options of the Node.
+----------------------------------------------------------------------------
+Term/                                   If a node has been terminated by the
+Found/                                  modcomp, then these will indicate
+Failed/                                 the status of trying to find the node
+return                                  within the IPC.  Term starts it, and
+                                        will either be followed by a Found
+                                        or a Failed, indicating whether the
+                                        node was found or not.  all of these
+                                        will then be followed by return,
+                                        because we are gonna return the mail
+                                        to the MC.
+----------------------------------------------------------------------------
+INTQ=####                               This is the present values of the
+                                        outstanding interupts.
+
+the masks of the values here are-
+0003                                    EVEN channel TC     interupts
+000c                                    ODD     "     "         "
+0030                                    EVEN    "    select     "
+00c0                                    ODD     "      "        "
+0300                                    EVEN    "    trans init "
+0c00                                    ODD     "      "    "   "
+3000                                    EVEN    "    terminate  "
+c000                                    ODD     "        "      "
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+
+Abnormal color (Black on Green)         This class of message is to indicate
+                                        that something strange, though
+                                        maybe not fatal has happened.
+----------------------------------------------------------------------------
+Data Rejected                           The data transfer to the modcomp
+                                        was rejected for some reason.
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Error color (Red On Grey)               This class of message is to indicate
+                                        that some sort of important error
+                                        has happened.  These messages will
+                                        possibly be accompanied by a Yellow
+                                        on Blue message indicating current
+                                        status and terminate.
+----------------------------------------------------------------------------
+MC on P->M
+(WDG) on P->M
+(NBUSY) on P->M
+Abort DMP P->M.
+Unexpected Xfer Terminate P->M.
+Lost TC P->M
+P->M Xfer Incomplete
+Abort DMP P->M
+Lost MT P->M
+MC on M->P
+(WDG) on M->P
+(NBUSY) on M->P
+Abort DMP M->P.
+Unexpected Xfer Terminate M->P.
+Lost TC M->P
+M->P Xfer Incomplete
+Abort DMP M->P
+Lost MT M->P
+Couldn't open Fill File
+Couldn't read Fill File
+Couldn't allocate Fill Space
+Fill file shorter than expected
+Node not Linked
+Terminateion of a sloughed node... Can Happen HUH?
+WDG
+Dumping Node...                         generated as a test error
+Duplicate Node
+Mail Size Expected
+Mail Size Unknown
+Error on Odd Channel
+Error on Even Channel
+Card Disarmed

@@ -1,0 +1,33 @@
+
+
+CC      =       \batch.ipc\mc
+
+ASM     =       \batch.ipc\asm
+
+LINK    =       \batch.ipc\ml
+
+MODDEP  =       \common.ipc\mod.h\
+                \common.ipc\os.h
+
+VIDDEP  =       \nipc\video\text\video.h
+
+DESTNAME=       ether.exe
+
+!if $d(DEST)
+$(DEST)\$(DESTNAME) : $(DESTNAME)
+        copy $(DESTNAME) $(DEST)
+!endif
+
+
+$(DESTNAME) : ether.obj etherasm.obj ethrutil.obj \nipc\video\text\vidlib.obj
+        $(LINK) ether etherasm ethrutil \nipc\video\text\vidlib
+
+ether.obj : ether.c $(MODDEP) $(VIDDEP) ether.h wdregs.h
+        $(CC) ether
+
+ethrutil.obj : ethrutil.c $(MODDEP) $(VIDDEP) ether.h wdregs.h
+        $(CC) ethrutil
+
+etherasm.obj : etherasm.asm
+        $(ASM) etherasm
+

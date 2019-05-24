@@ -1,0 +1,250 @@
+#define COMMON
+
+/*#define DEBUG*/
+
+#define extern_def
+
+#include <mod.h>
+#include "npca.h"
+#include "multthrd.h"
+
+#ifdef DEBUG
+#include "m:\ipc\video.h"
+
+static window_type far *output;
+#endif
+
+threads_active far *first_thread=0L;
+
+extern void process_node(Node far *what,short my_id);
+extern void init_local_structs(void);
+
+
+void store_node(Node far *what,threads_active far *where)
+{
+  /*this procedure sends a slough of the Node to the PCA driver, and
+    stores the Node in the Node queue attachted to the active thread
+    that we have here */
+  Node_holder far *temp=where->Nodeq;
+
+#ifdef DEBUG
+  displayln(output,"Str");
+#endif
+
+  if (temp)
+  {
+    while (temp->next)
+      temp=temp->next;
+    temp->next=Allocate(sizeof(Node_holder));
+    temp=temp->next;
+  }
+  else
+  {
+    temp=Allocate(sizeof(Node_holder));
+    where->Nodeq=temp;
+  }
+  temp->next=0L;
+  temp->Node=what;
+  if (!(what->Tracking.Status&(SLOUGHED|WORK_ACK|WORK_IN_MAIL)))
+  {
+    what->Return.Opcode=SLOUGH;
+    what->Tracking.Status|=SLOUGHED|WORK_IN_MAIL;       /*stored*/
+    Export(what->Tracking.Source,what);
+  }
+}
+
+void check_outstanding(threads_active far *where)
+{
+  Node_holder far *tempNode;
+  Node_holder far *prior;
+  Node far *check;
+  tempNode=where->Nodeq;
+  prior=0L;
+  while (tempNode)
+  {
+
+    check=tempNode->Node;
+    if (!check->Node.Node_Address)  /*if it was terminated, then free it
+                                 and unchain it from the Node queue*/
+    {
+
+#ifdef DEBUG
+  displayln(output,"Trm");
+#endif
+
+      check->Return.Opcode=COMPLETE;  /*node is complete*/
+      if (!(check->Return.Status&WORK_IN_MAIL))
+      {
+
+#ifdef DEBUG
+  displayln(output,"Ext");
+#endif
+
+        check->Return.Status|=WORK_IN_MAIL;
+        Export(check->Tracking.Source,check);
+      }
+      if (prior)
+      {
+        prior->next=tempNode->next;
+        Free(tempNode);
+        tempNode=prior->next;
+      }
+      else
+      {
+        where->Nodeq=tempNode->next;
+        Free(tempNode);
+        tempNode=where->Nodeq;
+      }
+    }
+    else
+    {
+
+/*#ifdef DEBUG
+  displayln(output,"Ntr");
+#endif*/
+
+      prior=tempNode;
+      tempNode=tempNode->next;
+    }
+  }
+}
+
+
+Node far *get_old_node(short id)
+{
+  /*this procedure retrieves previously stored Node from the queue*/
+  threads_active far *temp=first_thread;
+  Node_holder far *Nodeq;
+  Node far *Node;
+  while (temp)
+  {
+    if (temp->id==id)
+    {
+
+#ifdef DEBUG
+  displayln(output,"Nxt");
+#endif
+
+      while ((Nodeq=temp->Nodeq)!=0)
+      {
+        Node=Nodeq->Node;
+        temp->Nodeq=Nodeq->next;
+        Free(Nodeq);
+        if (Node->Node.Node_Address)
+          return(Node);
+        else
+        {
+          if (Node->Data)
+            Free(Node->Data);
+          Free(Node);
+        }
+      }
+      return(0L);
+    }
+    temp=temp->next;
+  }
+  return(0L);
+}
+
+threads_active far *thread_active(short which)
+{
+  /*This procedure returns true is the thread has already been activated,
+    and false if it hasn't.  If it hasn't been activated, then it is
+    implicitly activated via this routine.  So, if it is called with an
+    inactive thread, then the thread is added to the list of actives,
+    so a false return actually means that it wasn't active, but is now.*/
+  threads_active far *temp=first_thread;
+  if (temp)
+  {
+    while (temp->next)           /*this loop checks all but the last one*/
+    {
+      if (temp->id==which)
+      {
+
+#ifdef DEBUG
+  displayln(output,"Nx1");
+#endif
+
+        return(temp);
+      }
+      temp=temp->next;
+    }
+    if (temp->id==which)  /*check last one*/
+    {
+
+#ifdef DEBUG
+  displayln(output,"Nx2");
+#endif
+
+      return(temp);
+    }
+    temp->next=Allocate(sizeof(threads_active));  /* not before active,
+                                                      so activate*/
+    temp=temp->next;
+  }
+  else
+  {
+    first_thread=Allocate(sizeof(threads_active));
+    temp=first_thread;
+  }
+  temp->Nodeq=0L;
+  temp->next=0L;
+  temp->id=which;
+  return(0L);                          /*return false*/
+}
+
+void deactivate(short what)
+{
+  threads_active far *temp=first_thread;
+  threads_active far *prior=0L;
+  while (temp)
+  {
+    if (temp->id==what)
+    {
+      if (temp->Nodeq)  /*there was still Node*/
+        return;
+      if (prior)
+        prior->next=temp->next;
+      else
+        first_thread=temp->next;
+      Free(temp);
+      perish();
+    }
+    prior=temp;
+    temp=temp->next;
+  }
+  /* Log that we found a problem.... This thread was not found as an active
+     subthread, therefore this thread should not be running here....*/
+  perish();
+}
+
+main()
+{
+  Node far *received;
+  Node far *first_mark;
+  threads_active far *alive;
+  short i;
+  short temp;
+
+
+#ifdef DEBUG
+  output=opendisplay(20,15,40,10,BORDER,0x1f,0x1f,0x2f,"MultThrd");
+#endif
+
+  init_local_structs();
+
+  while (1==1)
+  {
+    received=Import(device_name);
+    if (!(alive=thread_active(received->Node.Channel)))
+             /*check to see if active*/
+    {
+      if (fork(CHILD))
+      {
+        process_node(received,received->Node.Channel);
+      }
+    }
+    else
+      store_node(received,alive);
+  }
+}

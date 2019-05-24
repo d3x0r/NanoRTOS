@@ -1,0 +1,8 @@
+@echo off
+echo /c/s/m/l/v/Lc:\borlandc\lib + >mllink.fil
+echo %IPCBASE%\common.ipc\mmodhead %1 %2 %3 %4 %5>>mllink.fil
+echo %1       >>mllink.fil
+echo %1       >>mllink.fil
+echo %IPCBASE%\common.ipc\jimos cm mathm >>mllink.fil
+tlink @mllink.fil
+echo del mllink.fil

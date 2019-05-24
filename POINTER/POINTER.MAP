@@ -1,0 +1,164 @@
+
+ Start  Stop   Length Name               Class
+
+ 00000H 004C6H 004C7H _TEXT              CODE
+ 004C7H 00965H 0049FH POINTER_TEXT       CODE
+ 00966H 009C5H 00060H _DATA              DATA
+ 009C6H 009E7H 00022H _BSS               BSS
+
+
+Detailed map of segments
+
+ 0000:0000 0099 C=CODE   S=_TEXT          G=(none)  M=mmodhead.ASM ACBP=48
+ 0000:009A 042D C=CODE   S=_TEXT          G=(none)  M=vidlib.asm ACBP=48
+ 004C:0007 049F C=CODE   S=POINTER_TEXT   G=(none)  M=pointer.c  ACBP=28
+ 0096:0006 0058 C=DATA   S=_DATA          G=DGROUP  M=mmodhead.ASM ACBP=48
+ 0096:005E 0008 C=DATA   S=_DATA          G=DGROUP  M=pointer.c  ACBP=48
+ 0096:0066 0000 C=DATA   S=_DATA          G=DGROUP  M=vidlib.asm ACBP=48
+ 0096:0066 0022 C=BSS    S=_BSS           G=DGROUP  M=pointer.c  ACBP=48
+
+  Address         Publics by Name
+
+ 0096:0032 idle  _Allocate
+ 0096:007A idle  _buttons
+ 0096:004E idle  _change_priority
+ 0000:0394 idle  _closedisplay
+ 0000:02DF idle  _clr_display
+ 0000:010E idle  _Clr_window
+ 0096:0042 idle  _Connect_Int
+ 0096:0066 idle  _curtime
+ 0000:0000 idle  _dataseg
+ 0096:005A idle  _delay
+ 0000:004C idle  _destory
+ 0096:001E idle  _device_name
+ 0096:0046 idle  _Disconnect_Int
+ 0000:0488 idle  _disowndisplay
+ 0000:01BF idle  _display
+ 0000:01F8 idle  _displayln
+ 0000:03D2 idle  _dupdisplay
+ 0096:000A idle  _Exit
+ 0096:0016 idle  _Export
+ 0096:0006 idle  _externals
+ 0000:0051 idle  _fork
+ 0096:0036 idle  _Free
+ 0000:02A6 idle  _getattr
+ 0000:031C       _getdisplay
+ 0096:004A idle  _gettime
+ 0096:002E idle  _Get_environ
+ 0000:0187 idle  _get_xy
+ 0096:001A idle  _Import
+ 0096:003A idle  _Inquire_begin
+ 0000:009A idle  _keypressed
+ 0000:005D idle  _ldiv
+ 0000:0071 idle  _lmod
+ 0000:0088 idle  _lmult
+ 004C:0007 idle  _Locate
+ 004C:001F       _main
+ 0000:0358       _moddisplay
+ 0096:0080 idle  _moving
+ 0096:0052 idle  _my_tcbptr
+ 0096:007E idle  _newx
+ 0096:007C idle  _newy
+ 0096:0060 idle  _okay_move
+ 0000:014A idle  _opendisplay
+ 0096:0084 idle  _output
+ 0000:0047       _perish
+ 0000:0233 idle  _position
+ 0096:006E idle  _present
+ 0096:003E idle  _process_control
+ 0000:040E idle  _rawkeypressed
+ 0000:044D idle  _rawreadch
+ 0000:00D6 idle  _readch
+ 0096:000E       _Relinquish
+ 0096:0006       _Request
+ 0096:0078 idle  _resizing
+ 0000:026D idle  _setattr
+ 0096:002A idle  _spawn
+ 0096:0026 idle  _spawn_batch
+ 0096:0056 idle  _swap_to
+ 0096:0012 idle  _Terminate
+ 0096:0064 idle  _upd_buttons
+ 0096:0062 idle  _upd_coord
+ 0096:0076 idle  _vheight
+ 0096:0074 idle  _vwidth
+ 0096:0022 idle  _Wake
+ 0096:006C idle  _wx
+ 0096:006A idle  _wy
+ 0096:005E idle  __buttons
+ 0096:0072 idle  __x
+ 0096:0070 idle  __y
+
+  Address         Publics by Value
+
+ 0000:0000 idle  _dataseg
+ 0000:0047       _perish
+ 0000:004C idle  _destory
+ 0000:0051 idle  _fork
+ 0000:005D idle  _ldiv
+ 0000:0071 idle  _lmod
+ 0000:0088 idle  _lmult
+ 0000:009A idle  _keypressed
+ 0000:00D6 idle  _readch
+ 0000:010E idle  _Clr_window
+ 0000:014A idle  _opendisplay
+ 0000:0187 idle  _get_xy
+ 0000:01BF idle  _display
+ 0000:01F8 idle  _displayln
+ 0000:0233 idle  _position
+ 0000:026D idle  _setattr
+ 0000:02A6 idle  _getattr
+ 0000:02DF idle  _clr_display
+ 0000:031C       _getdisplay
+ 0000:0358       _moddisplay
+ 0000:0394 idle  _closedisplay
+ 0000:03D2 idle  _dupdisplay
+ 0000:040E idle  _rawkeypressed
+ 0000:044D idle  _rawreadch
+ 0000:0488 idle  _disowndisplay
+ 004C:0007 idle  _Locate
+ 004C:001F       _main
+ 0096:0006 idle  _externals
+ 0096:0006       _Request
+ 0096:000A idle  _Exit
+ 0096:000E       _Relinquish
+ 0096:0012 idle  _Terminate
+ 0096:0016 idle  _Export
+ 0096:001A idle  _Import
+ 0096:001E idle  _device_name
+ 0096:0022 idle  _Wake
+ 0096:0026 idle  _spawn_batch
+ 0096:002A idle  _spawn
+ 0096:002E idle  _Get_environ
+ 0096:0032 idle  _Allocate
+ 0096:0036 idle  _Free
+ 0096:003A idle  _Inquire_begin
+ 0096:003E idle  _process_control
+ 0096:0042 idle  _Connect_Int
+ 0096:0046 idle  _Disconnect_Int
+ 0096:004A idle  _gettime
+ 0096:004E idle  _change_priority
+ 0096:0052 idle  _my_tcbptr
+ 0096:0056 idle  _swap_to
+ 0096:005A idle  _delay
+ 0096:005E idle  __buttons
+ 0096:0060 idle  _okay_move
+ 0096:0062 idle  _upd_coord
+ 0096:0064 idle  _upd_buttons
+ 0096:0066 idle  _curtime
+ 0096:006A idle  _wy
+ 0096:006C idle  _wx
+ 0096:006E idle  _present
+ 0096:0070 idle  __y
+ 0096:0072 idle  __x
+ 0096:0074 idle  _vwidth
+ 0096:0076 idle  _vheight
+ 0096:0078 idle  _resizing
+ 0096:007A idle  _buttons
+ 0096:007C idle  _newy
+ 0096:007E idle  _newx
+ 0096:0080 idle  _moving
+ 0096:0084 idle  _output
+
+Program entry point at 0000:0002
+Warning: No stack
+

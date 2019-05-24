@@ -1,0 +1,31 @@
+                                  0                            1
+                            -------                       ------
+   R  F  A  S  E   : R=Channel Not Reset                     Reset
+                     F=Channel's other half Not closed       Closed
+                     A=Have Acked Received SYN               Not Acked
+                     S=Have Sent My SYN                      Not Sent
+                     E=Know other ends address               Ether Not Known
+
+   0  0  1  1  1   : initial conditions
+
+                        Verbose Descriptions
+                      ------------------------
+   X  -  -  -  -   : Reset is cleared 1> when opened
+                                      2> when A S E are reset, or F is set
+                     Reset is set when a reset is received
+
+   -  X  -  -  -   : Final is cleared when Opened
+                     Final is set when a FIN is received
+
+   -  -  X  -  -   : Ack is cleared when I have received a SYN from the
+                        other end, and have Acked it.
+                        Ack is set 1>at Open
+                                   2>When Reset
+                                   3>When received SYN and Seq !=my Ack -1
+
+   -  -  -  X  -   : Syn is cleared when I have gotten My SYN Acked
+                     Syn is set when 1> Reset
+                                     2> Got Error Syn (3 above)
+
+   -  -  -  -  X   : Ether is Set when Opened
+                     Ether is cleared when Arp Is Completed

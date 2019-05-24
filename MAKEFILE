@@ -1,0 +1,56 @@
+
+IPCBASE = \nipc
+MK      =       make -DDEST=\nipc -DOSNAME=ipc
+
+all:
+        cd comm
+        $(MK)
+        cd ..
+
+        cd ether
+        $(MK)
+        cd tcpip
+        $(MK)
+        cd ..
+        cd ..
+
+        cd handlers
+        $(MK)
+        cd ..
+
+        cd hostess
+        $(MK)
+        cd ..
+
+        cd keybrd
+        $(MK)
+        cd ..
+
+        cd pca
+        $(MK)
+        cd ..
+
+        cd pnthros
+        $(MK) -DCXFLAGS=-Ddebugmem -DASMXFLAGS=/Ddebugmem
+        cd ..
+
+        cd pointer
+        $(MK)
+        cd ..
+
+        cd ups
+        $(MK)
+        cd ..
+
+        cd utils
+        $(MK)
+        cd ..
+
+        cd video
+        $(MK)
+        cd text
+        $(MK)
+        cd ..
+        cd ..
+
+

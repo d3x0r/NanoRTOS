@@ -1,0 +1,153 @@
+
+ Start  Stop   Length Name               Class
+
+ 00000H 0029EH 0029FH _TEXT              CODE
+ 002A0H 0037FH 000E0H _DATA              DATA
+ 00380H 00380H 00000H _BSS               BSS
+
+
+Detailed map of segments
+
+ 0000:0000 0072 C=CODE   S=_TEXT          G=(none)  M=mmodhead.asm ACBP=48
+ 0000:0072 022D C=CODE   S=_TEXT          G=(none)  M=iorout.c   ACBP=28
+ 002A:0000 0058 C=DATA   S=_DATA          G=DGROUP  M=mmodhead.asm ACBP=48
+ 002A:0058 0088 C=DATA   S=_DATA          G=DGROUP  M=iorout.c   ACBP=48
+ 002A:00E0 0000 C=BSS    S=_BSS           G=DGROUP  M=iorout.c   ACBP=48
+
+  Address         Publics by Name
+
+ 002A:002C idle  _Allocate
+ 002A:0048 idle  _change_priority
+ 002A:003C idle  _Connect_Int
+ 0000:0000 idle  _dataseg
+ 002A:0054 idle  _delay
+ 0000:002C idle  _destory
+ 002A:0018 idle  _device_name
+ 002A:0040 idle  _Disconnect_Int
+ 002A:0004 idle  _Exit
+ 002A:0010 idle  _Export
+ 002A:0000 idle  _externals
+ 0000:0031 idle  _fork
+ 002A:0030 idle  _Free
+ 002A:0044 idle  _gettime
+ 0000:0147 idle  _Get_Adv_File
+ 002A:0090 idle  _Get_Adv_Filename
+ 0000:0119 idle  _Get_Adv_Record
+ 002A:0081 idle  _Get_Adv_Recordname
+ 0000:00BD idle  _Get_Back_File
+ 002A:0063 idle  _Get_Back_Filename
+ 0000:00EB idle  _Get_Back_Record
+ 002A:0071 idle  _Get_Back_Recordname
+ 0000:022D idle  _Get_Data_NSA
+ 002A:00C6 idle  _Get_Data_NSAname
+ 0000:025B idle  _Get_Data_NSB
+ 002A:00D3 idle  _Get_Data_NSBname
+ 0000:01D1 idle  _Get_Data_SA
+ 002A:00AE idle  _Get_Data_SAname
+ 0000:01FF idle  _Get_Data_SB
+ 002A:00BA idle  _Get_Data_SBname
+ 002A:0028 idle  _Get_environ
+ 0000:0175 idle  _Get_EOF
+ 002A:009D idle  _Get_EOFname
+ 0000:01A3 idle  _Get_Home
+ 002A:00A5 idle  _Get_Homename
+ 0000:008F idle  _Get_Rewind
+ 002A:0058 idle  _Get_Rewindname
+ 002A:0014 idle  _Import
+ 002A:0034 idle  _Inquire_begin
+ 0000:0036 idle  _ldiv
+ 0000:004A idle  _lmod
+ 0000:0061 idle  _lmult
+ 0000:026C       _main
+ 002A:004C idle  _my_tcbptr
+ 0000:0027 idle  _perish
+ 002A:0038 idle  _process_control
+ 002A:0008       _Relinquish
+ 002A:0000 idle  _Request
+ 002A:0024 idle  _spawn
+ 002A:0020 idle  _spawn_batch
+ 002A:0050 idle  _swap_to
+ 002A:000C idle  _Terminate
+ 002A:001C idle  _Wake
+ 0000:012A idle  __Get_Adv_File
+ 0000:00FC idle  __Get_Adv_Record
+ 0000:00A0 idle  __Get_Back_File
+ 0000:00CE idle  __Get_Back_Record
+ 0000:0210 idle  __Get_Data_NSA
+ 0000:023E idle  __Get_Data_NSB
+ 0000:01B4 idle  __Get_Data_SA
+ 0000:01E2 idle  __Get_Data_SB
+ 0000:0158 idle  __Get_EOF
+ 0000:0186 idle  __Get_Home
+ 0000:0072 idle  __Get_Rewind
+
+  Address         Publics by Value
+
+ 0000:0000 idle  _dataseg
+ 0000:0027 idle  _perish
+ 0000:002C idle  _destory
+ 0000:0031 idle  _fork
+ 0000:0036 idle  _ldiv
+ 0000:004A idle  _lmod
+ 0000:0061 idle  _lmult
+ 0000:0072 idle  __Get_Rewind
+ 0000:008F idle  _Get_Rewind
+ 0000:00A0 idle  __Get_Back_File
+ 0000:00BD idle  _Get_Back_File
+ 0000:00CE idle  __Get_Back_Record
+ 0000:00EB idle  _Get_Back_Record
+ 0000:00FC idle  __Get_Adv_Record
+ 0000:0119 idle  _Get_Adv_Record
+ 0000:012A idle  __Get_Adv_File
+ 0000:0147 idle  _Get_Adv_File
+ 0000:0158 idle  __Get_EOF
+ 0000:0175 idle  _Get_EOF
+ 0000:0186 idle  __Get_Home
+ 0000:01A3 idle  _Get_Home
+ 0000:01B4 idle  __Get_Data_SA
+ 0000:01D1 idle  _Get_Data_SA
+ 0000:01E2 idle  __Get_Data_SB
+ 0000:01FF idle  _Get_Data_SB
+ 0000:0210 idle  __Get_Data_NSA
+ 0000:022D idle  _Get_Data_NSA
+ 0000:023E idle  __Get_Data_NSB
+ 0000:025B idle  _Get_Data_NSB
+ 0000:026C       _main
+ 002A:0000 idle  _externals
+ 002A:0000 idle  _Request
+ 002A:0004 idle  _Exit
+ 002A:0008       _Relinquish
+ 002A:000C idle  _Terminate
+ 002A:0010 idle  _Export
+ 002A:0014 idle  _Import
+ 002A:0018 idle  _device_name
+ 002A:001C idle  _Wake
+ 002A:0020 idle  _spawn_batch
+ 002A:0024 idle  _spawn
+ 002A:0028 idle  _Get_environ
+ 002A:002C idle  _Allocate
+ 002A:0030 idle  _Free
+ 002A:0034 idle  _Inquire_begin
+ 002A:0038 idle  _process_control
+ 002A:003C idle  _Connect_Int
+ 002A:0040 idle  _Disconnect_Int
+ 002A:0044 idle  _gettime
+ 002A:0048 idle  _change_priority
+ 002A:004C idle  _my_tcbptr
+ 002A:0050 idle  _swap_to
+ 002A:0054 idle  _delay
+ 002A:0058 idle  _Get_Rewindname
+ 002A:0063 idle  _Get_Back_Filename
+ 002A:0071 idle  _Get_Back_Recordname
+ 002A:0081 idle  _Get_Adv_Recordname
+ 002A:0090 idle  _Get_Adv_Filename
+ 002A:009D idle  _Get_EOFname
+ 002A:00A5 idle  _Get_Homename
+ 002A:00AE idle  _Get_Data_SAname
+ 002A:00BA idle  _Get_Data_SBname
+ 002A:00C6 idle  _Get_Data_NSAname
+ 002A:00D3 idle  _Get_Data_NSBname
+
+Program entry point at 0000:0002
+Warning: No stack
+

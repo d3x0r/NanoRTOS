@@ -1,0 +1,369 @@
+
+ Start  Stop   Length Name               Class
+
+ 00000H 045E6H 045E7H _TEXT              CODE
+ 045E8H 04661H 0007AH keylib_TEXT        CODE
+ 04662H 0483BH 001DAH _DATA              DATA
+ 0483CH 04B83H 00348H _BSS               BSS
+
+
+Detailed map of segments
+
+ 0000:0000 0099 C=CODE   S=_TEXT          G=(none)  M=mmodhead.ASM ACBP=48
+ 0000:0099 3D5A C=CODE   S=_TEXT          G=(none)  M=video.c    ACBP=28
+ 0000:3DF4 0131 C=CODE   S=_TEXT          G=(none)  M=vidasm.asm ACBP=48
+ 0000:3F26 026E C=CODE   S=_TEXT          G=(none)  M=display.asm ACBP=48
+ 0000:4194 0341 C=CODE   S=_TEXT          G=(none)  M=OSLIB      ACBP=48
+ 0000:44D5 00A2 C=CODE   S=_TEXT          G=(none)  M=LONGTOA    ACBP=28
+ 0000:4577 0070 C=CODE   S=_TEXT          G=(none)  M=LTOA1      ACBP=28
+ 045E:0008 007A C=CODE   S=keylib_TEXT    G=(none)  M=keylib.asm ACBP=48
+ 0466:0002 0058 C=DATA   S=_DATA          G=DGROUP  M=mmodhead.ASM ACBP=48
+ 0466:005A 0181 C=DATA   S=_DATA          G=DGROUP  M=video.c    ACBP=48
+ 0466:01DC 0000 C=DATA   S=_DATA          G=DGROUP  M=vidasm.asm ACBP=48
+ 0466:01DC 0000 C=DATA   S=_DATA          G=DGROUP  M=display.asm ACBP=48
+ 0466:01DC 0000 C=DATA   S=_DATA          G=DGROUP  M=keylib.asm ACBP=48
+ 0466:01DC 0000 C=DATA   S=_DATA          G=DGROUP  M=OSLIB      ACBP=48
+ 0466:01DC 0000 C=DATA   S=_DATA          G=DGROUP  M=LONGTOA    ACBP=48
+ 0466:01DC 0000 C=DATA   S=_DATA          G=DGROUP  M=LTOA1      ACBP=48
+ 0466:01DC 0348 C=BSS    S=_BSS           G=DGROUP  M=video.c    ACBP=48
+ 0466:0524 0000 C=BSS    S=_BSS           G=DGROUP  M=LONGTOA    ACBP=48
+
+  Address         Publics by Name
+
+ 0000:3038 idle  _add_link
+ 0466:006C idle  _alloc
+ 0466:002E       _Allocate
+ 0000:41CB       _atoi
+ 0466:051E       _back_scrolled
+ 0000:05B1       _beep
+ 0466:01F9 idle  _blanks
+ 0466:008B idle  _Border_Proto
+ 0000:1FC1 idle  _bury_window
+ 0466:00DF idle  _bury_windowname
+ 0466:004A idle  _change_priority
+ 0466:014D idle  _check_Gch
+ 0466:014B idle  _check_Kpres
+ 0000:426F idle  _close
+ 0000:3578 idle  _closedisplay
+ 0466:0120 idle  _closedisplayname
+ 0000:1382 idle  _clr_display
+ 0466:00CC idle  _clr_displayname
+ 0000:36EB idle  _clr_video
+ 0466:003E idle  _Connect_Int
+ 0000:4237 idle  _create
+ 0466:01E1       _Current_Window
+ 0466:01DC idle  _cursor
+ 0466:0070 idle  _Dalloc
+ 0466:051F idle  _data
+ 0000:0000 idle  _dataseg
+ 0466:0056 idle  _delay
+ 0000:004C idle  _destory
+ 0000:39D7       _destroy_hook
+ 0466:001A idle  _device_name
+ 0466:0042 idle  _Disconnect_Int
+ 0000:3AB2 idle  _disowndisplay
+ 0466:014F idle  _disowndisplayname
+ 0000:3F66       _display
+ 0000:060F idle  _displayln
+ 0466:00B1 idle  _displaylnname
+ 0466:00A9 idle  _displayname
+ 0000:3E83       _display_line
+ 0000:19AF idle  _display_window
+ 0000:023A idle  _draw_border
+ 0000:2054 idle  _dupdisplay
+ 0466:00F3 idle  _dupdisplayname
+ 0466:0006       _Exit
+ 0466:0012 idle  _Export
+ 0466:0002 idle  _externals
+ 0466:01E5 idle  _First_Window
+ 0000:0051 idle  _fork
+ 0000:3934       _fork_hook
+ 0466:0032       _Free
+ 0000:15BD idle  _gen_address_array
+ 0000:200B idle  _getattr
+ 0466:00EB idle  _getattrname
+ 0000:3E21       _getch
+ 0000:38D3 idle  _Getch_check
+ 0000:1543 idle  _getcursorchar
+ 0000:2A3E idle  _getdisplay
+ 0466:0109 idle  _getdisplayname
+ 0466:0046 idle  _gettime
+ 0466:002A       _Get_environ
+ 0000:14F2 idle  _get_xy
+ 0466:00D8 idle  _get_xyname
+ 0466:007B idle  _hex
+ 0000:1E49 idle  _hide_window
+ 0000:3DF4       _hook_vectors
+ 0000:21D8 idle  _icon_window
+ 0466:0016 idle  _Import
+ 0466:0036 idle  _Inquire_begin
+ 0000:4386       _itoa
+ 0000:3E05       _kbhit
+ 0000:378A idle  _keypressed
+ 0466:012D idle  _keypressedname
+ 0000:3888 idle  _keypressed_check
+ 0000:00CE idle  _kill_cursor
+ 0000:005D idle  _ldiv
+ 0000:0071 idle  _lmod
+ 0000:0088 idle  _lmult
+ 0000:0099 idle  _Locate
+ 0000:45BF       _ltoa
+ 0000:3AED       _main
+ 0000:449D idle  _memset
+ 0000:22F7 idle  _moddisplay
+ 0466:00FE idle  _moddisplayname
+ 0466:051D idle  _mono
+ 0466:007A       _mouse
+ 0466:01ED       _mousex
+ 0466:01EB       _mousey
+ 0000:43F4       _movmem
+ 0466:004E       _my_tcbptr
+ 0000:4201 idle  _open
+ 0000:32C8 idle  _opendisplay
+ 0466:0114 idle  _opendisplayname
+ 0466:01DD idle  _output
+ 0000:0047       _perish
+ 0000:1266 idle  _position
+ 0466:00C3 idle  _positionname
+ 0466:003A       _process_control
+ 045E:0008       _rawkeypressed
+ 045E:0047       _rawreadch
+ 0000:42A6 idle  _read
+ 0000:37D8 idle  _readch
+ 0466:0138 idle  _readchname
+ 0000:193C idle  _release
+ 0466:000A       _Relinquish
+ 0466:0066 idle  _remote_keybrd
+ 0000:3118 idle  _remove_link
+ 0466:0002       _Request
+ 0000:0106 idle  _restore_cursor
+ 0466:01F1       _scanlines
+ 0466:01EF       _screenseg
+ 0466:01E9 idle  _screen_ofs
+ 0466:0074 idle  _screen_seg
+ 0000:0EDD idle  _scroll
+ 0000:05B6       _scroll_data
+ 0000:1CF7 idle  _select_window
+ 0000:0EB4 idle  _setattr
+ 0466:00BB idle  _setattrname
+ 0000:4194 idle  _Shell
+ 0000:1032       _show_cursor
+ 0000:159B idle  _show_screen
+ 0466:0026       _spawn
+ 0466:0022 idle  _spawn_batch
+ 0000:4465 idle  _strcat
+ 0000:434D idle  _stricmp
+ 0000:43BC       _strlen
+ 0000:442C idle  _strncpy
+ 0000:4313 idle  _strnicmp
+ 0466:0052 idle  _swap_to
+ 0466:000E idle  _Terminate
+ 0466:0078 idle  _textcolor
+ 0000:45A2 idle  _ultoa
+ 0000:012A idle  _update_Scroll_bars
+ 0000:1302 idle  _update_window
+ 0466:006A       _vheight
+ 0000:3879 idle  _video_exit
+ 0466:013F idle  _video_exitname
+ 0466:01F5       _video_lines
+ 0466:0520 idle  _Video_TCB
+ 0000:2032 idle  _void_mouse
+ 0466:0068       _vwidth
+ 0466:001E idle  _Wake
+ 0466:0305 idle  _Window_addresses
+ 0000:42DC idle  _write
+ 0466:0062       _x
+ 0466:0064       _y
+ 0000:1FA4 idle  __bury_window
+ 0000:355B idle  __closedisplay
+ 0000:1365 idle  __clr_display
+ 0000:3A95 idle  __disowndisplay
+ 0000:00B1 idle  __display
+ 0000:05F2 idle  __displayln
+ 0000:2037 idle  __dupdisplay
+ 0000:1FEE idle  __getattr
+ 0000:2A21 idle  __getdisplay
+ 0000:14D5 idle  __get_xy
+ 0000:376D idle  __keypressed
+ 0000:44D5       __LONGTOA
+ 0000:22DA idle  __moddisplay
+ 0000:32AB idle  __opendisplay
+ 0000:1249 idle  __position
+ 0466:005A idle  __rawkeypressed
+ 0466:005E idle  __rawreadch
+ 0000:37BB idle  __readch
+ 0000:0E97 idle  __setattr
+ 0000:4557 idle  __UTOA
+ 0000:385C idle  __video_exit
+
+  Address         Publics by Value
+
+ 0000:0000 idle  _dataseg
+ 0000:0047       _perish
+ 0000:004C idle  _destory
+ 0000:0051 idle  _fork
+ 0000:005D idle  _ldiv
+ 0000:0071 idle  _lmod
+ 0000:0088 idle  _lmult
+ 0000:0099 idle  _Locate
+ 0000:00B1 idle  __display
+ 0000:00CE idle  _kill_cursor
+ 0000:0106 idle  _restore_cursor
+ 0000:012A idle  _update_Scroll_bars
+ 0000:023A idle  _draw_border
+ 0000:05B1       _beep
+ 0000:05B6       _scroll_data
+ 0000:05F2 idle  __displayln
+ 0000:060F idle  _displayln
+ 0000:0E97 idle  __setattr
+ 0000:0EB4 idle  _setattr
+ 0000:0EDD idle  _scroll
+ 0000:1032       _show_cursor
+ 0000:1249 idle  __position
+ 0000:1266 idle  _position
+ 0000:1302 idle  _update_window
+ 0000:1365 idle  __clr_display
+ 0000:1382 idle  _clr_display
+ 0000:14D5 idle  __get_xy
+ 0000:14F2 idle  _get_xy
+ 0000:1543 idle  _getcursorchar
+ 0000:159B idle  _show_screen
+ 0000:15BD idle  _gen_address_array
+ 0000:193C idle  _release
+ 0000:19AF idle  _display_window
+ 0000:1CF7 idle  _select_window
+ 0000:1E49 idle  _hide_window
+ 0000:1FA4 idle  __bury_window
+ 0000:1FC1 idle  _bury_window
+ 0000:1FEE idle  __getattr
+ 0000:200B idle  _getattr
+ 0000:2032 idle  _void_mouse
+ 0000:2037 idle  __dupdisplay
+ 0000:2054 idle  _dupdisplay
+ 0000:21D8 idle  _icon_window
+ 0000:22DA idle  __moddisplay
+ 0000:22F7 idle  _moddisplay
+ 0000:2A21 idle  __getdisplay
+ 0000:2A3E idle  _getdisplay
+ 0000:3038 idle  _add_link
+ 0000:3118 idle  _remove_link
+ 0000:32AB idle  __opendisplay
+ 0000:32C8 idle  _opendisplay
+ 0000:355B idle  __closedisplay
+ 0000:3578 idle  _closedisplay
+ 0000:36EB idle  _clr_video
+ 0000:376D idle  __keypressed
+ 0000:378A idle  _keypressed
+ 0000:37BB idle  __readch
+ 0000:37D8 idle  _readch
+ 0000:385C idle  __video_exit
+ 0000:3879 idle  _video_exit
+ 0000:3888 idle  _keypressed_check
+ 0000:38D3 idle  _Getch_check
+ 0000:3934       _fork_hook
+ 0000:39D7       _destroy_hook
+ 0000:3A95 idle  __disowndisplay
+ 0000:3AB2 idle  _disowndisplay
+ 0000:3AED       _main
+ 0000:3DF4       _hook_vectors
+ 0000:3E05       _kbhit
+ 0000:3E21       _getch
+ 0000:3E83       _display_line
+ 0000:3F66       _display
+ 0000:4194 idle  _Shell
+ 0000:41CB       _atoi
+ 0000:4201 idle  _open
+ 0000:4237 idle  _create
+ 0000:426F idle  _close
+ 0000:42A6 idle  _read
+ 0000:42DC idle  _write
+ 0000:4313 idle  _strnicmp
+ 0000:434D idle  _stricmp
+ 0000:4386       _itoa
+ 0000:43BC       _strlen
+ 0000:43F4       _movmem
+ 0000:442C idle  _strncpy
+ 0000:4465 idle  _strcat
+ 0000:449D idle  _memset
+ 0000:44D5       __LONGTOA
+ 0000:4557 idle  __UTOA
+ 0000:45A2 idle  _ultoa
+ 0000:45BF       _ltoa
+ 045E:0008       _rawkeypressed
+ 045E:0047       _rawreadch
+ 0466:0002 idle  _externals
+ 0466:0002       _Request
+ 0466:0006       _Exit
+ 0466:000A       _Relinquish
+ 0466:000E idle  _Terminate
+ 0466:0012 idle  _Export
+ 0466:0016 idle  _Import
+ 0466:001A idle  _device_name
+ 0466:001E idle  _Wake
+ 0466:0022 idle  _spawn_batch
+ 0466:0026       _spawn
+ 0466:002A       _Get_environ
+ 0466:002E       _Allocate
+ 0466:0032       _Free
+ 0466:0036 idle  _Inquire_begin
+ 0466:003A       _process_control
+ 0466:003E idle  _Connect_Int
+ 0466:0042 idle  _Disconnect_Int
+ 0466:0046 idle  _gettime
+ 0466:004A idle  _change_priority
+ 0466:004E       _my_tcbptr
+ 0466:0052 idle  _swap_to
+ 0466:0056 idle  _delay
+ 0466:005A idle  __rawkeypressed
+ 0466:005E idle  __rawreadch
+ 0466:0062       _x
+ 0466:0064       _y
+ 0466:0066 idle  _remote_keybrd
+ 0466:0068       _vwidth
+ 0466:006A       _vheight
+ 0466:006C idle  _alloc
+ 0466:0070 idle  _Dalloc
+ 0466:0074 idle  _screen_seg
+ 0466:0078 idle  _textcolor
+ 0466:007A       _mouse
+ 0466:007B idle  _hex
+ 0466:008B idle  _Border_Proto
+ 0466:00A9 idle  _displayname
+ 0466:00B1 idle  _displaylnname
+ 0466:00BB idle  _setattrname
+ 0466:00C3 idle  _positionname
+ 0466:00CC idle  _clr_displayname
+ 0466:00D8 idle  _get_xyname
+ 0466:00DF idle  _bury_windowname
+ 0466:00EB idle  _getattrname
+ 0466:00F3 idle  _dupdisplayname
+ 0466:00FE idle  _moddisplayname
+ 0466:0109 idle  _getdisplayname
+ 0466:0114 idle  _opendisplayname
+ 0466:0120 idle  _closedisplayname
+ 0466:012D idle  _keypressedname
+ 0466:0138 idle  _readchname
+ 0466:013F idle  _video_exitname
+ 0466:014B idle  _check_Kpres
+ 0466:014D idle  _check_Gch
+ 0466:014F idle  _disowndisplayname
+ 0466:01DC idle  _cursor
+ 0466:01DD idle  _output
+ 0466:01E1       _Current_Window
+ 0466:01E5 idle  _First_Window
+ 0466:01E9 idle  _screen_ofs
+ 0466:01EB       _mousey
+ 0466:01ED       _mousex
+ 0466:01EF       _screenseg
+ 0466:01F1       _scanlines
+ 0466:01F5       _video_lines
+ 0466:01F9 idle  _blanks
+ 0466:0305 idle  _Window_addresses
+ 0466:051D idle  _mono
+ 0466:051E       _back_scrolled
+ 0466:051F idle  _data
+ 0466:0520 idle  _Video_TCB
+
+Program entry point at 0000:0002
+Warning: No stack
+

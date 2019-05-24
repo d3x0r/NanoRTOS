@@ -1,0 +1,2 @@
+;This file is auto built by mc.bat 
+-IM:\nipc\common.ipc -w-pro -2 -r- -ml! -c -Drelocatable 

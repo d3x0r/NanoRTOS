@@ -1,0 +1,99 @@
+This is a list of already defined routines, and their associated numbers.
+
+   Number   Routine         Function
+
+      1     Relinquish(short type)
+                            gives up control of current task so that
+                            others may do their work.  type is defined as
+                            what to do to continue.  0=no delay
+                                                     1=never continue
+                                                     ...
+
+      2     Register(short number,proc address)
+                            tells the system executive of the existance
+                            of routines that may be used by other modules.
+
+      3     Request_fill()  asks the executive to go through the program's
+                            header and replace the numbers of routines
+                            with the addresses of the routines.  If the
+                            requested number does not have an address
+                            associated with it, then the number is replaced
+                            with a pointer to the specific routine request
+                            procedure.  If any of these routines are called,
+                            then the routine is stalled until the routines
+                            needed are availiable.
+                                     *** Always External #1 ***
+
+      4     Exit_routine()  Exits the program via the loader, so that
+                            the executive can clean up its memory.
+                                     *** Always External #0 ***
+
+      5     Shell(char *line)
+                            This routine does a shell to dos, and also
+                            removes all memory that was allocated to
+                            procedures that have been dropped to free up
+                            memory.
+
+      6     void *Allocate_mem(unsigned short size)
+                            This routine allocates memory from the low region
+                            for the requesters use.
+
+      7     Free_mem(void *where)
+                            This routine restores allocated memory.
+
+      8     Print_char(window_type *window,char ch)
+                            Print a character in a window;
+
+      9     Print_line(window_type *window,char *line,...)
+                            Print a line in a window;
+
+      10    Position_cursor(window_type *window,short x,short y)
+                            Move cursor to specified location
+
+      11    Select_window(window_type *window,char opts)
+                            moves specified window to forfront, and puts
+                            System cursor on there.
+
+      12    work *Check_queue(short task)
+                            checks the task's queue to see if there is any
+                            work to be done.
+
+      13    Send_queue(work *what)
+                            puts work to be done for output in the output
+                            queue.
+
+      14    window_type *Create_window(short ulx,shor uly,
+                                       short visx,short visy,
+                                       short truex,short truey)
+                            creates a window for text/graphics to be written
+                            in.  visx,visy are the size variables which
+                            control how big the visable portion the window
+                            truly is.  truex,truey are the actual sizes
+                            of the data plane of the window.
+
+      15    clr_window(window_type *window)
+                            Clear the window display of data.
+
+      16    Set_text_color(window_type *window,int c)
+                            Sets the current color of the text of a window
+                            to c.
+
+      17    char *Get_Environ(char *name)
+                            returns a pointer to the text value of the
+                            parameter from the configuration file of that
+                            has the passed name.
+
+      18    Export()
+
+      19    Import()
+
+      20    short kbhit()   returns if a key has bee pressed or not.
+
+      21    short atoi(char *number)
+                            converts text number to actual value.
+
+      22    char getch()    returns the value of the key that was pressed
+                            on the keyboard.
+
+
+

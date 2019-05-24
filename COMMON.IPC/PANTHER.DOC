@@ -1,0 +1,422 @@
+
+
+                      Documentation for &&& OS
+
+   Priciples
+        The concept for the &&& OS was designed and created for the purpose of
+     having an operating platform that was small and simplistic in nature, and
+     acted as a buffer between the applications that were proposed to be writ-
+     ten and the actual underlying OS that did as much to you as for you.
+     Designed in from the ground up were two methods of intertask communication.
+     The first, was the ability to send a message to another task.  This could
+     be visualized as a postal system.  The sender mails the message to a
+     specified destination.  The work is then stored in a queue for the receiv-
+     er to eventually accept.  The second method of intertask communications is
+     the ability to register certain routines of the program for global use.
+     This form of communication allows you to make a driver for a device and
+     register the common routines for access to that device.  Common device
+     driver services to register would be open, read, write, etc.
+        The OS is also prioritized.  Priority levels are from 0, the highest,
+     to 255, the lowest priority.  These are utilized in many ways.  The first
+     is that the tasks are loaded in order of their priority.  Then, if certain
+     events occur that indicates that a high priority program should be running
+     now, then the event can set a flag to have the task scanner begin from the
+     top of the list.  If one exports mail to another task, and the destination
+     is higher in priority than the mailer, then that task is immediately swap-
+     ped to.
+
+   Public/Dynamic/Cleanup Routines
+
+   Functions/Services
+
+   Example Programming Environment
+
+#include "os.h"
+extern module far *far *my_tcbptr;
+#define my_TCB (*my_tcbptr)
+extern void (far *swap_to)(module far *next_to_run);
+extern void (far *change_priority)(char new_priority);
+extern void (far *Exit)(short code);
+extern void (far *Relinquish)(long param);
+extern short (far *Export)(char far*destination,
+                            void far *data);
+extern void far *(far *Import)(char far*WhoIAm);
+extern void far *(far *Terminate)(char far *whose,char pos,
+                                  char cnt,short far *inprogress,...);
+extern void (far *Wake)(short mask,short spec);
+extern short (far *spawn_batch)(char far *batch_name);
+extern short (far *spawn)(char far *name,short stack,char far *dev_name,
+                             short threads);
+extern char far *(far *Get_environ)(char far *environ_name);
+extern void far *(far *Allocate)(short length);
+extern void (far *Free)(void far *pointer);
+extern void (far *Connect_Int)(void far *routine,short Int_Num);
+extern void (far *Disconnect_Int)(void far *routine,short Int_Num);
+extern void (far *gettime)(time_struc far *time);
+extern short far *process_control;
+
+extern char far *device_name;
+extern void perish(void);
+extern short fork(char relation);
+extern void destory(void);
+extern void far *(far *Inquire_begin)(short what);
+
+#define MODULE   0
+#define ENVIRON  1
+#define NODE     2
+#define DEVICE   3
+#define BLOCK    4
+#define ROUTINE  5
+
+#define CHILD 0
+#define BROTHER 1
+#define INDEPENDANT 2
+#define PARENT 3
+#define AUTOREL 0x80
+
+
+#ifdef relocateable   /*for future .EXE files*/
+/*  #undef relocateable*/
+#endif
+
+#ifdef relocatable
+#define public_code(routine) { asm push ds;\
+                               asm mov dx,offset routine;\
+                               asm mov si,offset routine##name;\
+                               asm mov es,seg routine##name;\
+                               asm mov ds,seg routine;\
+                               asm mov ah,1;\
+                               asm int 0x60;\
+                               asm pop ds;}
+#else
+#define public_code(routine) { asm push ds;\
+                               asm mov dx,offset routine;\
+                               asm mov si,offset routine##name;\
+                               asm mov ax,cs;\
+                               asm mov es,ax;\
+                               asm mov ds,ax;\
+                               asm mov ah,1;\
+                               asm int 0x60;\
+                               asm pop ds;}
+#endif
+
+#define public(return,routine,args)  char routine##name[]=#routine; \
+                           return (far routine) args;         \
+                           void _##routine(void) public_code(routine);\
+                           return (far routine) args
+
+#define cleanup(return,routine,args)  char routine##name[]="!"#routine; \
+                           return (far routine) args;         \
+                           void _##routine(void) public_code(routine);\
+                           return (far routine) args
+
+
+#ifdef relocateable
+#define Link_Code(routine)  {\
+  asm pop ds;                     \
+  asm pop bp;                     \
+  asm mov cx,offset routine;      \
+  asm mov dx,offset routine##name;\
+  asm mov ax,seg routine##name;   \
+  asm mov es,ax;                  \
+  asm mov ax,0;\
+  asm int 60h;\
+}
+#else
+#define Link_Code(routine)  {\
+  asm pop bp;                     \
+  asm mov cx,offset routine;      \
+  asm mov dx,offset routine##name;\
+  asm mov ax,cs;                  \
+  asm mov es,ax;                  \
+  asm mov ax,0;\
+  asm int 60h;\
+}
+#endif
+
+#ifdef extern_def
+#define dynamic(return,routine,paramlist) extern char routine##name[]; \
+                               extern return (far routine)paramlist;
+#else
+#define dynamic(return,routine,paramlist) char routine##name[]=#routine; \
+                                          return (far routine)paramlist \
+                                          Link_Code(routine)
+#endif
+
+#ifdef relocateable
+#define Find_Code(routine)  asm mov dx,offset routine##name,\
+  asm mov ax,seg routine##name;   \
+  asm mov es,ax \
+  asm mov ah,2\
+  asm int 60h  \
+  asm mov temp,ax
+#else
+#define Find_Code(routine)  asm mov dx,offset routine##name,\
+  asm mov ax,cs,\
+  asm mov es,ax,\
+  asm mov ah,2,\
+  asm int 60h,\
+  asm mov temp,ax
+#endif
+
+#ifdef locate
+#undef locate
+short Locate(char far *string)
+{
+  short temp;
+  asm mov dx,word ptr string;
+  asm mov es,word ptr string+2;
+  asm mov ah,2;
+  asm int 60h;
+  asm mov temp,ax;
+  return(temp);
+}
+#define locate(routine) Locate(#routine)
+#endif
+
+typedef short window;
+typedef window far *windowptr;
+typedef window far *etherptr;
+
+typedef struct long_data
+{
+  short side;
+  short far *data;
+  short misc_count;
+  short Transport;
+  short Channel;
+  long Node_Address;
+  short rex;
+  short options;
+  short byte_count;
+  short Extended_options;
+  long FPI;
+  short misc[];
+} long_data;
+
+typedef struct short_data
+{
+  char opcode;          /* 0-write 1-read*/
+  char status;          /* if zero packet not done*/
+  char far *buf;
+  short length;
+} short_data;
+
+typedef struct packet
+{
+  char short_pkt;
+  union
+  {
+        long_data longp;
+        short_data shortp;
+  } packet_info;
+}packet;
+
+#define sd packet_info.shortp
+#define ld packet_info.longp
+#define Status1 options
+#define Status2 byte_count
+#define Status3 Extended_options
+
+#ifdef display
+#undef display
+#pragma argsused
+dynamic( void,display,(short far *window,char charac));
+#endif
+
+#ifdef displayln
+#undef displayln
+#pragma argsused
+dynamic ( void,displayln,(short far *window,char far *line,...));
+#endif
+
+#ifdef position
+#undef position
+#pragma argsused
+dynamic( void,position,(short far *window,int x,int y));
+#endif
+#ifdef shell
+#undef shell
+#pragma argsused
+dynamic( void,shell,(char far *line));
+#endif
+#ifdef kbhit
+#undef kbhit
+#pragma argsused
+dynamic( int,kbhit,(windowptr window));
+#endif
+#ifdef atoi
+#undef atoi
+#pragma argsused
+dynamic ( short, atoi,(char far *line));
+#endif
+#ifdef itoa
+#undef itoa
+#pragma argsused
+dynamic ( short, itoa,(short number,char far *line));
+#endif
+#ifdef Clr_window
+#undef Clr_window
+#pragma argsused
+dynamic( void,Clr_window,(void far *));
+#endif
+#ifdef getch
+#undef getch
+#pragma argsused
+dynamic( short,getch,(windowptr window));
+#endif
+#ifdef opendisplay
+#undef opendisplay
+#pragma argsused
+dynamic( windowptr,
+           opendisplay,
+           (short ulx,short uly,short width,short height,short opts,
+           char data_attr,char border_attr,char cursor_attr,char far *title));
+#endif
+#define DISPLAY_ESC 0x0001
+#define NODO_ESC    0x0002
+#define NO_CURSOR   0x0004
+#define NO_SCROLL   0x0010
+#define BORDER      0x0020
+#define SHADOW1     0x0100
+#define SHADOW2     0x0200
+#define SHADOW3     0x0300
+#define NEWLINE     0x0400
+#define NO_DATA     0x1000
+#define NO_TITLE    0x2000
+#define ICON        0x4000
+#define CLOSED      0x8000
+  
+#ifdef get_xy
+#undef get_xy
+#pragma argsused
+dynamic( void,get_xy,
+           (windowptr window,short far *x,short far *y));
+#endif
+#ifdef openether
+#undef openether
+#pragma argsused
+dynamic( etherptr,openether,
+       (char far *source_address,char far *dest_addr,
+        short tsouce,short tdest,char opts));
+#endif
+#ifdef sendether
+#undef sendether
+#pragma argsused
+dynamic( short,sendether,
+         (etherptr ether,char far *buffer,short length));
+#endif
+#ifdef readether
+#undef readether
+#pragma argsused
+dynamic( short,readether,
+      (etherptr ether,char far *buffer,short maxlength,char options));
+#endif
+#ifdef setattr
+#undef setattr
+#pragma argsused
+dynamic( void,setattr,(windowptr window,char attr));
+#endif
+#ifdef getattr
+#undef getattr
+#pragma argsused
+dynamic( char,getattr,(windowptr window));
+#endif
+#ifdef clr_display
+#undef clr_display
+#pragma argsused
+dynamic( void,clr_display,(windowptr window,char notes));
+#endif
+#ifdef close_connection
+#undef close_connection
+#pragma argsused
+dynamic( void,close_connection,(etherptr ether));
+#endif
+#ifdef Ether_term
+#undef Ether_term
+#pragma argsused
+dynamic( void,Ether_term,(etherptr ether,short read));
+#endif
+#ifdef etherflush
+#undef etherflush
+#pragma argsused
+dynamic( void,etherflush,(etherptr ether));
+#endif
+
+#ifdef open
+#undef open
+#pragma argsused
+dynamic( short,open,(char far *name,short options));
+#endif
+#ifdef create
+#undef create
+#pragma argsused
+dynamic( short,create,(char far *name,short options));
+#endif
+
+#ifdef close
+#undef close
+#pragma argsused
+dynamic( void,close,(short handle));
+#endif
+
+#ifdef read
+#undef read
+#pragma argsused
+dynamic( short,read,(void far *buffer,short length,short handle));
+#endif
+#ifdef write
+#undef write
+#pragma argsused
+dynamic( short,write,(void far *buffer,short length,short handle));
+#endif
+
+#ifdef strnicmp
+#undef strnicmp
+#pragma argsused
+dynamic( short,strnicmp,(char far *s1,char far *s2,short length));
+#endif
+#ifdef strcat
+#undef strcat
+#pragma argsused
+dynamic( void,strcat,(char far *s1,char far *s2));
+#endif
+#ifdef strncpy
+#undef strncpy
+#pragma argsused
+dynamic( void,strncpy,(char far *s1,char far *s2,short length));
+#endif
+#ifdef strlen
+#undef strlen
+#pragma argsused
+dynamic(short,strlen,(char far *line));
+#endif
+#ifdef movmem
+#undef movmem
+#pragma argsused
+dynamic(short,movmem,(void far *src,void far *dest,short length));
+#endif
+
+#ifdef getdisplay
+#undef getdisplay
+#pragma argsused
+dynamic(short,getdisplay,(short far *x,short far *y,windowptr far *window));
+#endif
+#ifdef moddisplay
+#undef moddisplay
+#pragma argsused
+dynamic(short,moddisplay,(windowptr window,...));
+#endif
+#ifdef closedisplay
+#undef closedisplay
+#pragma argsused
+dynamic(short,closedisplay,(windowptr window));
+#endif
+#ifdef dupdisplay
+#undef dupdisplay
+#pragma argsused
+dynamic(windowptr,dupdisplay,(windowptr window,short opts));
+#endif
+#pragma warn .rvl
+
+

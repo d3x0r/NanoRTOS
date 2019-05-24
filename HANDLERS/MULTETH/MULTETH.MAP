@@ -1,0 +1,169 @@
+
+ Start  Stop   Length Name               Class
+
+ 00000H 003DAH 003DBH _TEXT              CODE
+ 003DBH 00B57H 0077DH MULTETH_TEXT       CODE
+ 00B58H 010EEH 00597H MULTTHRD_TEXT      CODE
+ 010F0H 01218H 00129H etherlib_TEXT      CODE
+ 0121AH 01281H 00068H _DATA              DATA
+ 01282H 01289H 00008H _BSS               BSS
+
+
+Detailed map of segments
+
+ 0000:0000 0099 C=CODE   S=_TEXT          G=(none)  M=mmodhead.ASM ACBP=48
+ 0000:009A 0341 C=CODE   S=_TEXT          G=(none)  M=OSLIB      ACBP=48
+ 003D:000B 077D C=CODE   S=MULTETH_TEXT   G=(none)  M=multeth.c  ACBP=28
+ 00B5:0008 0597 C=CODE   S=MULTTHRD_TEXT  G=(none)  M=multthrd.c ACBP=28
+ 010F:0000 0129 C=CODE   S=etherlib_TEXT  G=(none)  M=ETHERLIB   ACBP=48
+ 0121:000A 0058 C=DATA   S=_DATA          G=DGROUP  M=mmodhead.ASM ACBP=48
+ 0121:0062 000C C=DATA   S=_DATA          G=DGROUP  M=multeth.c  ACBP=48
+ 0121:006E 0004 C=DATA   S=_DATA          G=DGROUP  M=multthrd.c ACBP=48
+ 0121:0072 0000 C=DATA   S=_DATA          G=DGROUP  M=OSLIB      ACBP=48
+ 0121:0072 0000 C=DATA   S=_DATA          G=DGROUP  M=ETHERLIB   ACBP=48
+ 0121:0072 0008 C=BSS    S=_BSS           G=DGROUP  M=multeth.c  ACBP=48
+ 0121:007A 0000 C=BSS    S=_BSS           G=DGROUP  M=multthrd.c ACBP=48
+
+  Address         Publics by Name
+
+ 0121:0064 idle  _alloc
+ 0121:0036       _Allocate
+ 0000:00D1       _atoi
+ 0121:0052 idle  _change_priority
+ 00B5:0137       _check_outstanding
+ 0000:0175 idle  _close
+ 010F:00B1       _closeether
+ 0121:0046 idle  _Connect_Int
+ 0000:013D idle  _create
+ 0121:0062 idle  _dalloc
+ 0000:0000 idle  _dataseg
+ 00B5:0476       _deactivate
+ 0121:005E idle  _delay
+ 0000:004C       _destory
+ 0121:0022 idle  _device_name
+ 0121:004A idle  _Disconnect_Int
+ 0121:000E       _Exit
+ 0121:001A       _Export
+ 0121:000A idle  _externals
+ 0121:006E       _first_thread
+ 010F:00ED       _flushether
+ 0000:0051       _fork
+ 0121:003A       _Free
+ 0121:004E idle  _gettime
+ 0121:0032       _Get_environ
+ 00B5:0266       _get_old_node
+ 0121:001E       _Import
+ 003D:071B       _init_local_structs
+ 0121:003E idle  _Inquire_begin
+ 0000:028C idle  _itoa
+ 0000:005D idle  _ldiv
+ 0000:0071 idle  _lmod
+ 0000:0088 idle  _lmult
+ 003D:000B idle  _Locate
+ 00B5:0522       _main
+ 0000:03A3 idle  _memset
+ 0000:02FA idle  _movmem
+ 0121:0056       _my_tcbptr
+ 0000:0107 idle  _open
+ 010F:0000       _openether
+ 003D:00C9 idle  _open_terminate_watch
+ 0121:0072 idle  _output
+ 0000:0047       _perish
+ 0121:0042 idle  _process_control
+ 003D:0157       _process_node
+ 0000:01AC idle  _read
+ 010F:0076       _readether
+ 0121:0012       _Relinquish
+ 0121:000A       _Request
+ 010F:003B       _sendether
+ 0000:009A idle  _Shell
+ 00B5:0008       _Slough_work
+ 0121:002E idle  _spawn
+ 0121:002A idle  _spawn_batch
+ 00B5:0057 idle  _store_node
+ 0000:036B idle  _strcat
+ 0000:0253 idle  _stricmp
+ 0000:02C2 idle  _strlen
+ 0000:0332 idle  _strncpy
+ 0000:0219 idle  _strnicmp
+ 0121:005A idle  _swap_to
+ 0121:0016 idle  _Terminate
+ 003D:0023 idle  _terminate_watch
+ 00B5:0364 idle  _thread_active
+ 0121:0026 idle  _Wake
+ 0121:0076 idle  _win
+ 0000:01E2 idle  _write
+
+  Address         Publics by Value
+
+ 0000:0000 idle  _dataseg
+ 0000:0047       _perish
+ 0000:004C       _destory
+ 0000:0051       _fork
+ 0000:005D idle  _ldiv
+ 0000:0071 idle  _lmod
+ 0000:0088 idle  _lmult
+ 0000:009A idle  _Shell
+ 0000:00D1       _atoi
+ 0000:0107 idle  _open
+ 0000:013D idle  _create
+ 0000:0175 idle  _close
+ 0000:01AC idle  _read
+ 0000:01E2 idle  _write
+ 0000:0219 idle  _strnicmp
+ 0000:0253 idle  _stricmp
+ 0000:028C idle  _itoa
+ 0000:02C2 idle  _strlen
+ 0000:02FA idle  _movmem
+ 0000:0332 idle  _strncpy
+ 0000:036B idle  _strcat
+ 0000:03A3 idle  _memset
+ 003D:000B idle  _Locate
+ 003D:0023 idle  _terminate_watch
+ 003D:00C9 idle  _open_terminate_watch
+ 003D:0157       _process_node
+ 003D:071B       _init_local_structs
+ 00B5:0008       _Slough_work
+ 00B5:0057 idle  _store_node
+ 00B5:0137       _check_outstanding
+ 00B5:0266       _get_old_node
+ 00B5:0364 idle  _thread_active
+ 00B5:0476       _deactivate
+ 00B5:0522       _main
+ 010F:0000       _openether
+ 010F:003B       _sendether
+ 010F:0076       _readether
+ 010F:00B1       _closeether
+ 010F:00ED       _flushether
+ 0121:000A idle  _externals
+ 0121:000A       _Request
+ 0121:000E       _Exit
+ 0121:0012       _Relinquish
+ 0121:0016 idle  _Terminate
+ 0121:001A       _Export
+ 0121:001E       _Import
+ 0121:0022 idle  _device_name
+ 0121:0026 idle  _Wake
+ 0121:002A idle  _spawn_batch
+ 0121:002E idle  _spawn
+ 0121:0032       _Get_environ
+ 0121:0036       _Allocate
+ 0121:003A       _Free
+ 0121:003E idle  _Inquire_begin
+ 0121:0042 idle  _process_control
+ 0121:0046 idle  _Connect_Int
+ 0121:004A idle  _Disconnect_Int
+ 0121:004E idle  _gettime
+ 0121:0052 idle  _change_priority
+ 0121:0056       _my_tcbptr
+ 0121:005A idle  _swap_to
+ 0121:005E idle  _delay
+ 0121:0062 idle  _dalloc
+ 0121:0064 idle  _alloc
+ 0121:006E       _first_thread
+ 0121:0072 idle  _output
+ 0121:0076 idle  _win
+
+Program entry point at 0000:0002
+Warning: No stack
+

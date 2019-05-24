@@ -1,0 +1,137 @@
+short ack_socket(connection far *socket,unsigned long ack)
+{
+  /* if the ack is greater than what was sent, but is less than
+     the head of the buffer, then during this time we have been
+     retransmitting, and the other end has completed the hole
+     within itself.  This is not an error, but it is confusing.*/
+  unsigned long max;
+  short data_avail;
+  short new_tail;
+  if (ack<(max=socket->tail_seq))
+    return(false);
+  data_avail=socket->outmaxbnd-socket->outtail;
+  if (data_avail<0)
+    data_avail+=socket->outsize;
+  max+=data_avail;
+  if (max<ack)
+    return(false);
+  /*we at this point have determined that the ack is within reasonable
+    parameters. */
+  new_tail=ack-socket->tail_seq;       /*get amount of data acked */
+  new_tail+=socket->outtail;           /*add amount to old tail */
+  if (new_tail>=socket->outsize)      /*if greater than buffer, must have*/
+    new_tail-=socket->outsize;        /*  wrapped to beginning, so sub size*/
+
+  socket->tail_seq=ack;               /*new sequence begin*/
+  socket->outtail=new_tail;           /*new tail index*/
+
+  /* if the boundries are not equal, then we were working on retransmitting,
+     and for ease of figuring out what to do, we can just say well the other
+     end has not completed what it was missing, and so we can move the
+     boundry of to send to the max boundry.  If it needs more retransmittions
+     then it will be reset to the tail, and we will go again, but in the
+     meantime I am going to assume that everything is kosher.*/
+  if (socket->outmaxbnd!=socket->outbound)
+    socket->outbound=socket->outmaxbnd;
+  if (socket->outtail==socket->outhead&&(socket->state&SCLOSED))
+    socket->flags|=TFIN;
+  return(true);
+}
+
+              {
+                short outstand;
+                /*ack data, move tail pointer, update tail seq...*/
+                if (!ack_socket(current,longswap(buffer->T.ack)))
+                {
+                  send_reset(buffer);
+                }
+                /* if we have acked all data that has been transmitted,
+                   then calculate parameters about the socket timing*/
+                if (current->outtail==current->outmaxbnd)
+                  do_calculation(current);
+                outstand=current->outbound-current->outtail;
+                if (outstand<0)
+                  outstand+=current->outsize;
+                current->Dwindow=intswap(buffer->T.window)-outstand;
+                current->status&=0x31;
+                current->status|=4;
+                if (current->MaxDwindow<intswap(buffer->T.window))
+                  current->MaxDwindow=intswap(buffer->T.window);
+              }
+
+
+void output_task(void)
+{
+  connection far *current;
+  unsigned long curtime;
+  char isclosed;
+  output_TCB=my_TCB;
+  /*this task cycles through the sockets that are active, and handles the
+    transmission of any data that they may have to transmit.  */
+  while (1)
+  {
+    current=first_con;
+    while (current)
+    {
+      if ((current->outbound!=current->outhead)  && !current->state)
+      {
+        /* if we have new data that we can send it at this point.  We
+           have no outstanding items, and the socket looks connected*/
+        short length,offset;
+        char far *buffer;
+        unsigned long sequence;
+        buffer=current->outbuf+current->outbound;
+        length=current->outhead-current->outbound;
+        if (length<0)
+          length=current->outsize-current->outbound;
+        if (length>current->Dwindow)
+          length=current->Dwindow;
+        if (length>max_xmit_size)
+          length=max_xmit_size;
+        if (length)
+        {
+          offset=current->outbound-current->outtail;
+          if (offset<0)
+            offset+=current->outsize;
+          sequence=current->tail_seq+offset;
+          buffer=current->outbuf+current->outbound;
+          if (Send_TCP(current,buffer,length,sequence))
+          {
+            gettime(&last_xmit);
+            current->outbound+=length;
+            if (current->outbound==current->outsize)
+              current->outbound=0;
+
+            if (current->outbound-current->outmaxbnd<0)
+              if (current->outsize+current->outbound-current->outmaxbnd
+                        > current->outmaxbnd)
+                current->outmaxbnd=current->outbound;
+            else
+              current->outmaxbnd=current->outbound;
+          }
+        }
+
+      }
+      gettime(&curtime);
+      if ((curtime-last_xmit)>retrans_time(current) &&
+           current->outtail!=current->outbound &&
+           !current->state)
+      {
+        /*reset the sent-to pointer to the tail of the data as of yet
+          unacknowledged*/
+        current->outbound=current->outtail;
+        current->Dwindow=current->MaxDwindow;
+          current->status&=0x31;
+          current->status|=6;
+      }
+      if (current->flags)
+      {
+        Send_TCP(current,NULL,0,0);
+      }
+      current=current->next;
+    }
+
+    Relinquish(0L);
+  }
+}
+

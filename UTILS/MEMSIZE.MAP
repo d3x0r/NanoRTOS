@@ -1,0 +1,174 @@
+
+ Start  Stop   Length Name               Class
+
+ 00000H 004C6H 004C7H _TEXT              CODE
+ 004C7H 00AA4H 005DEH MEMSIZE_TEXT       CODE
+ 00AA6H 00C25H 00180H _DATA              DATA
+ 00C26H 00C50H 0002BH _BSS               BSS
+
+
+Detailed map of segments
+
+ 0000:0000 0099 C=CODE   S=_TEXT          G=(none)  M=mmodhead.ASM ACBP=48
+ 0000:009A 042D C=CODE   S=_TEXT          G=(none)  M=vidlib.asm ACBP=48
+ 004C:0007 05DE C=CODE   S=MEMSIZE_TEXT   G=(none)  M=memsize.c  ACBP=28
+ 00AA:0006 0058 C=DATA   S=_DATA          G=DGROUP  M=mmodhead.ASM ACBP=48
+ 00AA:005E 0127 C=DATA   S=_DATA          G=DGROUP  M=memsize.c  ACBP=48
+ 00AA:0186 0000 C=DATA   S=_DATA          G=DGROUP  M=vidlib.asm ACBP=48
+ 00AA:0186 002B C=BSS    S=_BSS           G=DGROUP  M=memsize.c  ACBP=48
+
+  Address         Publics by Name
+
+ 00AA:0032 idle  _Allocate
+ 00AA:01A2 idle  _alloc_fails
+ 00AA:004E idle  _change_priority
+ 0000:0394 idle  _closedisplay
+ 0000:02DF idle  _clr_display
+ 0000:010E idle  _Clr_window
+ 00AA:0042 idle  _Connect_Int
+ 00AA:01A8 idle  _curblock
+ 0000:0000 idle  _dataseg
+ 00AA:0190 idle  _data_valid
+ 00AA:005A idle  _delay
+ 0000:004C idle  _destory
+ 00AA:001E idle  _device_name
+ 00AA:0046 idle  _Disconnect_Int
+ 0000:0488 idle  _disowndisplay
+ 0000:01BF idle  _display
+ 0000:01F8       _displayln
+ 00AA:0186 idle  _dump
+ 004C:0118 idle  _Dump_blocks
+ 00AA:005F idle  _Dump_blocksname
+ 0000:03D2 idle  _dupdisplay
+ 00AA:000A       _Exit
+ 00AA:0016 idle  _Export
+ 00AA:0006 idle  _externals
+ 00AA:01AC idle  _first_block
+ 00AA:01A6 idle  _first_seg
+ 0000:0051 idle  _fork
+ 00AA:0036 idle  _Free
+ 0000:02A6 idle  _getattr
+ 0000:031C idle  _getdisplay
+ 00AA:004A idle  _gettime
+ 00AA:002E idle  _Get_environ
+ 0000:0187 idle  _get_xy
+ 00AA:001A idle  _Import
+ 00AA:003A       _Inquire_begin
+ 0000:009A idle  _keypressed
+ 00AA:019C idle  _largest_free
+ 0000:005D idle  _ldiv
+ 0000:0071 idle  _lmod
+ 0000:0088 idle  _lmult
+ 004C:0007 idle  _Locate
+ 004C:028F       _main
+ 00AA:0194 idle  _max_used
+ 004C:0185 idle  _memdiag
+ 00AA:006B idle  _memdiagname
+ 00AA:0192 idle  _min_used
+ 0000:0358 idle  _moddisplay
+ 00AA:0052 idle  _my_tcbptr
+ 00AA:019E idle  _number_free
+ 00AA:0196 idle  _number_used
+ 00AA:005E idle  _okay
+ 0000:014A       _opendisplay
+ 00AA:018A idle  _output
+ 0000:0047 idle  _perish
+ 0000:0233       _position
+ 00AA:018E idle  _prior
+ 00AA:003E       _process_control
+ 0000:040E idle  _rawkeypressed
+ 0000:044D idle  _rawreadch
+ 0000:00D6 idle  _readch
+ 00AA:000E       _Relinquish
+ 00AA:0006       _Request
+ 0000:026D idle  _setattr
+ 00AA:019A idle  _smalest_free
+ 00AA:002A idle  _spawn
+ 00AA:0026 idle  _spawn_batch
+ 00AA:0056 idle  _swap_to
+ 00AA:0012 idle  _Terminate
+ 00AA:01A0 idle  _total_free
+ 00AA:0198 idle  _total_used
+ 00AA:0022 idle  _Wake
+ 004C:00FB idle  __Dump_blocks
+ 004C:0168 idle  __memdiag
+
+  Address         Publics by Value
+
+ 0000:0000 idle  _dataseg
+ 0000:0047 idle  _perish
+ 0000:004C idle  _destory
+ 0000:0051 idle  _fork
+ 0000:005D idle  _ldiv
+ 0000:0071 idle  _lmod
+ 0000:0088 idle  _lmult
+ 0000:009A idle  _keypressed
+ 0000:00D6 idle  _readch
+ 0000:010E idle  _Clr_window
+ 0000:014A       _opendisplay
+ 0000:0187 idle  _get_xy
+ 0000:01BF idle  _display
+ 0000:01F8       _displayln
+ 0000:0233       _position
+ 0000:026D idle  _setattr
+ 0000:02A6 idle  _getattr
+ 0000:02DF idle  _clr_display
+ 0000:031C idle  _getdisplay
+ 0000:0358 idle  _moddisplay
+ 0000:0394 idle  _closedisplay
+ 0000:03D2 idle  _dupdisplay
+ 0000:040E idle  _rawkeypressed
+ 0000:044D idle  _rawreadch
+ 0000:0488 idle  _disowndisplay
+ 004C:0007 idle  _Locate
+ 004C:00FB idle  __Dump_blocks
+ 004C:0118 idle  _Dump_blocks
+ 004C:0168 idle  __memdiag
+ 004C:0185 idle  _memdiag
+ 004C:028F       _main
+ 00AA:0006 idle  _externals
+ 00AA:0006       _Request
+ 00AA:000A       _Exit
+ 00AA:000E       _Relinquish
+ 00AA:0012 idle  _Terminate
+ 00AA:0016 idle  _Export
+ 00AA:001A idle  _Import
+ 00AA:001E idle  _device_name
+ 00AA:0022 idle  _Wake
+ 00AA:0026 idle  _spawn_batch
+ 00AA:002A idle  _spawn
+ 00AA:002E idle  _Get_environ
+ 00AA:0032 idle  _Allocate
+ 00AA:0036 idle  _Free
+ 00AA:003A       _Inquire_begin
+ 00AA:003E       _process_control
+ 00AA:0042 idle  _Connect_Int
+ 00AA:0046 idle  _Disconnect_Int
+ 00AA:004A idle  _gettime
+ 00AA:004E idle  _change_priority
+ 00AA:0052 idle  _my_tcbptr
+ 00AA:0056 idle  _swap_to
+ 00AA:005A idle  _delay
+ 00AA:005E idle  _okay
+ 00AA:005F idle  _Dump_blocksname
+ 00AA:006B idle  _memdiagname
+ 00AA:0186 idle  _dump
+ 00AA:018A idle  _output
+ 00AA:018E idle  _prior
+ 00AA:0190 idle  _data_valid
+ 00AA:0192 idle  _min_used
+ 00AA:0194 idle  _max_used
+ 00AA:0196 idle  _number_used
+ 00AA:0198 idle  _total_used
+ 00AA:019A idle  _smalest_free
+ 00AA:019C idle  _largest_free
+ 00AA:019E idle  _number_free
+ 00AA:01A0 idle  _total_free
+ 00AA:01A2 idle  _alloc_fails
+ 00AA:01A6 idle  _first_seg
+ 00AA:01A8 idle  _curblock
+ 00AA:01AC idle  _first_block
+
+Program entry point at 0000:0002
+Warning: No stack
+

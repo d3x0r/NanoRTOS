@@ -1,0 +1,16 @@
+
+CC      =       \nipc\batch.ipc\mc
+
+ASM     =       \nipc\batch.ipc\asm
+
+LINK    =       \nipc\batch.ipc\ml
+
+PCADEP  =       \nipc\pca\npca.h
+
+MODDEP  =       \nipc\common.ipc\mod.h\
+                \nipc\common.ipc\os.h
+
+VIDDEP  =       \nipc\video\text\video.h
+
+multthrd.obj : multthrd.c multthrd.h $(MODDEP) $(PCADEP) $(VIDDEP)
+        $(CC) multthrd

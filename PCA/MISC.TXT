@@ -1,0 +1,36 @@
+Ether
+
+byte
+  4 flow  MSB
+  Can Form Feed
+  Echo
+  TLC -+
+  PCL -|
+       + Unused
+byte
+  0       LSB
+
+words
+  Source IP
+  Dest IP
+  Source TCP
+  Dest TCP
+  LDTTOF
+
+byte
+  2 bits unused
+  Break
+  Ring
+  Connect
+  Disconnect
+  Line delay
+  bit unused
+
+byte
+  TCL index
+
+
+
+Asynch
+
+

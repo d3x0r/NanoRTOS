@@ -1,0 +1,223 @@
+
+ Start  Stop   Length Name               Class
+
+ 00000H 00862H 00863H _TEXT              CODE
+ 00863H 00B42H 002E0H RAWPRINT_TEXT      CODE
+ 00B43H 017A4H 00C62H LPTDRV_TEXT        CODE
+ 017A6H 017D4H 0002FH lptirq_TEXT        CODE
+ 017D6H 01CCBH 004F6H _DATA              DATA
+ 01CCCH 03CE7H 0201CH _BSS               BSS
+
+
+Detailed map of segments
+
+ 0000:0000 0099 C=CODE   S=_TEXT          G=(none)  M=mmodhead.ASM ACBP=48
+ 0000:009A 042D C=CODE   S=_TEXT          G=(none)  M=vidlib.asm ACBP=48
+ 0000:04C8 0341 C=CODE   S=_TEXT          G=(none)  M=OSLIB      ACBP=48
+ 0000:0809 0028 C=CODE   S=_TEXT          G=(none)  M=INPORT     ACBP=28
+ 0000:0831 0032 C=CODE   S=_TEXT          G=(none)  M=OUTPORT    ACBP=28
+ 0086:0003 02E0 C=CODE   S=RAWPRINT_TEXT  G=(none)  M=rawprint.c ACBP=28
+ 00B4:0003 0C62 C=CODE   S=LPTDRV_TEXT    G=(none)  M=lptdrv.c   ACBP=28
+ 017A:0006 002F C=CODE   S=lptirq_TEXT    G=(none)  M=lptirq.ASM ACBP=48
+ 017D:0006 0058 C=DATA   S=_DATA          G=DGROUP  M=mmodhead.ASM ACBP=48
+ 017D:005E 0118 C=DATA   S=_DATA          G=DGROUP  M=rawprint.c ACBP=48
+ 017D:0176 0382 C=DATA   S=_DATA          G=DGROUP  M=lptdrv.c   ACBP=48
+ 017D:04F8 0004 C=DATA   S=_DATA          G=DGROUP  M=lptirq.ASM ACBP=48
+ 017D:04FC 0000 C=DATA   S=_DATA          G=DGROUP  M=vidlib.asm ACBP=48
+ 017D:04FC 0000 C=DATA   S=_DATA          G=DGROUP  M=OSLIB      ACBP=48
+ 017D:04FC 0000 C=DATA   S=_DATA          G=DGROUP  M=INPORT     ACBP=48
+ 017D:04FC 0000 C=DATA   S=_DATA          G=DGROUP  M=OUTPORT    ACBP=48
+ 017D:04FC 0008 C=BSS    S=_BSS           G=DGROUP  M=rawprint.c ACBP=48
+ 017D:0504 2014 C=BSS    S=_BSS           G=DGROUP  M=lptdrv.c   ACBP=48
+ 017D:2518 0000 C=BSS    S=_BSS           G=DGROUP  M=INPORT     ACBP=48
+ 017D:2518 0000 C=BSS    S=_BSS           G=DGROUP  M=OUTPORT    ACBP=48
+
+  Address         Publics by Name
+
+ 017D:0032       _Allocate
+ 0000:04FF idle  _atoi
+ 017D:004E idle  _change_priority
+ 0000:05A3 idle  _close
+ 0000:0394 idle  _closedisplay
+ 0000:02DF idle  _clr_display
+ 0000:010E idle  _Clr_window
+ 017D:0042 idle  _Connect_Int
+ 00B4:0A40 idle  _connect_prn
+ 0000:056B idle  _create
+ 0000:0000 idle  _dataseg
+ 017D:005A idle  _delay
+ 0000:004C idle  _destory
+ 017D:001E idle  _device_name
+ 017D:0046 idle  _Disconnect_Int
+ 00B4:0A8F idle  _disconnect_prn
+ 017D:0176 idle  _disconnect_prnname
+ 0000:0488 idle  _disowndisplay
+ 0000:01BF       _display
+ 0000:01F8       _displayln
+ 00B4:08DF idle  _DoPortTestIn
+ 00B4:075F idle  _DoPortTestOut
+ 0000:03D2 idle  _dupdisplay
+ 017D:000A idle  _Exit
+ 017D:0016 idle  _Export
+ 017D:0006 idle  _externals
+ 0000:0051       _fork
+ 017D:0036       _Free
+ 0000:02A6 idle  _getattr
+ 0000:031C idle  _getdisplay
+ 0086:007A idle  _GetLine
+ 017D:004A idle  _gettime
+ 017D:002E idle  _Get_environ
+ 0000:0187 idle  _get_xy
+ 017D:001A idle  _Import
+ 0000:0826 idle  _inp
+ 0000:0809 idle  _inport
+ 0000:0812       _inportb
+ 0000:081D idle  _inpw
+ 017D:003A idle  _Inquire_begin
+ 00B4:0417       _irqHandler
+ 0000:06BA idle  _itoa
+ 0000:009A idle  _keypressed
+ 0000:005D idle  _ldiv
+ 017D:2516 idle  _line
+ 0000:0071 idle  _lmod
+ 0000:0088 idle  _lmult
+ 0086:0003 idle  _Locate
+ 017D:050C idle  _lock
+ 017A:0006       _lptintr
+ 0086:00F9       _main
+ 0000:07D1 idle  _memset
+ 0000:0358       _moddisplay
+ 0000:0728 idle  _movmem
+ 017D:0052 idle  _my_tcbptr
+ 017D:04F8       _old_irq
+ 0000:0535 idle  _open
+ 0000:014A       _opendisplay
+ 00B4:0AAE       _OpenLPT
+ 0000:0855 idle  _outp
+ 0000:0831 idle  _outport
+ 0000:083D       _outportb
+ 0000:0849 idle  _outpw
+ 0000:0047 idle  _perish
+ 017D:0186 idle  _PortMode
+ 0000:0233 idle  _position
+ 017D:003E idle  _process_control
+ 017D:0500 idle  _pStdPrn
+ 0000:040E idle  _rawkeypressed
+ 0000:044D idle  _rawreadch
+ 0000:05DA idle  _read
+ 0000:00D6       _readch
+ 0086:001B idle  _ReadPrn
+ 017D:000E       _Relinquish
+ 017D:0006       _Request
+ 0000:026D idle  _setattr
+ 0000:04C8 idle  _Shell
+ 017D:002A idle  _spawn
+ 017D:0026 idle  _spawn_batch
+ 017D:04FC       _stdout
+ 0000:0799 idle  _strcat
+ 0000:0681 idle  _stricmp
+ 0000:06F0       _strlen
+ 0000:0760 idle  _strncpy
+ 0000:0647 idle  _strnicmp
+ 017D:0056 idle  _swap_to
+ 017D:0012 idle  _Terminate
+ 017D:0022 idle  _Wake
+ 0000:0610 idle  _write
+ 00B4:0A72 idle  __disconnect_prn
+
+  Address         Publics by Value
+
+ 0000:0000 idle  _dataseg
+ 0000:0047 idle  _perish
+ 0000:004C idle  _destory
+ 0000:0051       _fork
+ 0000:005D idle  _ldiv
+ 0000:0071 idle  _lmod
+ 0000:0088 idle  _lmult
+ 0000:009A idle  _keypressed
+ 0000:00D6       _readch
+ 0000:010E idle  _Clr_window
+ 0000:014A       _opendisplay
+ 0000:0187 idle  _get_xy
+ 0000:01BF       _display
+ 0000:01F8       _displayln
+ 0000:0233 idle  _position
+ 0000:026D idle  _setattr
+ 0000:02A6 idle  _getattr
+ 0000:02DF idle  _clr_display
+ 0000:031C idle  _getdisplay
+ 0000:0358       _moddisplay
+ 0000:0394 idle  _closedisplay
+ 0000:03D2 idle  _dupdisplay
+ 0000:040E idle  _rawkeypressed
+ 0000:044D idle  _rawreadch
+ 0000:0488 idle  _disowndisplay
+ 0000:04C8 idle  _Shell
+ 0000:04FF idle  _atoi
+ 0000:0535 idle  _open
+ 0000:056B idle  _create
+ 0000:05A3 idle  _close
+ 0000:05DA idle  _read
+ 0000:0610 idle  _write
+ 0000:0647 idle  _strnicmp
+ 0000:0681 idle  _stricmp
+ 0000:06BA idle  _itoa
+ 0000:06F0       _strlen
+ 0000:0728 idle  _movmem
+ 0000:0760 idle  _strncpy
+ 0000:0799 idle  _strcat
+ 0000:07D1 idle  _memset
+ 0000:0809 idle  _inport
+ 0000:0812       _inportb
+ 0000:081D idle  _inpw
+ 0000:0826 idle  _inp
+ 0000:0831 idle  _outport
+ 0000:083D       _outportb
+ 0000:0849 idle  _outpw
+ 0000:0855 idle  _outp
+ 0086:0003 idle  _Locate
+ 0086:001B idle  _ReadPrn
+ 0086:007A idle  _GetLine
+ 0086:00F9       _main
+ 00B4:0417       _irqHandler
+ 00B4:075F idle  _DoPortTestOut
+ 00B4:08DF idle  _DoPortTestIn
+ 00B4:0A40 idle  _connect_prn
+ 00B4:0A72 idle  __disconnect_prn
+ 00B4:0A8F idle  _disconnect_prn
+ 00B4:0AAE       _OpenLPT
+ 017A:0006       _lptintr
+ 017D:0006 idle  _externals
+ 017D:0006       _Request
+ 017D:000A idle  _Exit
+ 017D:000E       _Relinquish
+ 017D:0012 idle  _Terminate
+ 017D:0016 idle  _Export
+ 017D:001A idle  _Import
+ 017D:001E idle  _device_name
+ 017D:0022 idle  _Wake
+ 017D:0026 idle  _spawn_batch
+ 017D:002A idle  _spawn
+ 017D:002E idle  _Get_environ
+ 017D:0032       _Allocate
+ 017D:0036       _Free
+ 017D:003A idle  _Inquire_begin
+ 017D:003E idle  _process_control
+ 017D:0042 idle  _Connect_Int
+ 017D:0046 idle  _Disconnect_Int
+ 017D:004A idle  _gettime
+ 017D:004E idle  _change_priority
+ 017D:0052 idle  _my_tcbptr
+ 017D:0056 idle  _swap_to
+ 017D:005A idle  _delay
+ 017D:0176 idle  _disconnect_prnname
+ 017D:0186 idle  _PortMode
+ 017D:04F8       _old_irq
+ 017D:04FC       _stdout
+ 017D:0500 idle  _pStdPrn
+ 017D:050C idle  _lock
+ 017D:2516 idle  _line
+
+Program entry point at 0000:0002
+Warning: No stack
+

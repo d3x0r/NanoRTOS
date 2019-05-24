@@ -1,0 +1,46 @@
+
+CC      =       \nipc\batch.ipc\mc
+
+ASM     =       \nipc\batch.ipc\asm
+
+LINK    =       \nipc\batch.ipc\ml
+
+PCADEP  =       \nipc\pca\npca.h
+
+COMDEP  =       \nipc\comm\comm.h
+
+MODDEP  =       \nipc\common.ipc\mod.h\
+                \nipc\common.ipc\os.h
+
+VIDDEP  =       \nipc\video\text\video.h
+
+DESTNAME=       all
+
+!if $d(DEST)
+$(DEST)\$(DESTNAME) : $(DESTNAME)
+        copy tasklist.exe $(DEST)
+        copy memsize.exe $(DEST)
+        copy wndw_mgr.exe $(DEST)
+!endif
+
+
+all : tasklist.exe memsize.exe wndw_mgr.exe
+
+tasklist.exe : tasklist.obj \nipc\video\text\vidlib.obj
+        $(LINK) tasklist \nipc\video\text\vidlib
+
+tasklist.obj : tasklist.c $(MODDEP) $(VIDDEP)
+        $(CC) tasklist
+
+memsize.exe : memsize.obj \nipc\video\text\vidlib.obj
+        $(LINK) memsize \nipc\video\text\vidlib
+
+memsize.obj : memsize.c $(MODDEP) $(VIDDEP)
+        $(CC) memsize
+
+wndw_mgr.exe : wndw_mgr.obj \nipc\video\text\vidlib.obj
+        $(LINK) wndw_mgr \nipc\video\text\vidlib
+
+wndw_mgr.obj : wndw_mgr.c $(MODDEP) $(VIDDEP)
+        $(CC) wndw_mgr
+

@@ -1,0 +1,33 @@
+
+CC      =       \nipc\batch.ipc\mc
+
+ASM     =       \nipc\batch.ipc\asm
+
+LINK    =       \nipc\batch.ipc\ml
+
+PCADEP  =       \nipc\pca\npca.h
+
+MODDEP  =       \nipc\common.ipc\mod.h\
+                \nipc\common.ipc\os.h
+
+VIDDEP  =       \nipc\video\text\video.h
+
+COMDEP  =       \nipc\comm\comm.h
+
+DESTNAME=       keybrd.exe
+
+!if $d(DEST)
+$(DEST)\$(DESTNAME) : $(DESTNAME)
+        copy $(DESTNAME) $(DEST)
+!endif
+
+$(DESTNAME) : keybrd.obj kintr.obj ..\video\text\vidkey.obj
+        $(LINK) keybrd kintr ..\video\text\vidkey
+
+keybrd.obj : keybrd.c $(MODDEP) $(VIDDEP) $(COMDEP)
+        ck
+#        $(CC) keybrd
+
+kintr.obj : kintr.asm
+        $(ASM) kintr
+

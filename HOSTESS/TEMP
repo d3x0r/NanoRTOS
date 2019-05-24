@@ -1,0 +1,302 @@
+
+;Main processing, is an infinite loop
+main_10:
+         mov     si,offset line00        ;SI=> 1st line table
+main_30:
+         mov     ax,[si].line_status     ;get line status
+         test    ax,line_active          ;is line active ?
+         jnz     short main_40
+         jmp     main_70                 ;  no ... move on to next line
+main_40:
+         test    ax,Tx_active            ;is transmit active ?
+         jnz     main_70                 ;  yes ... move on to next line
+         call    deq_Tx_data             ;character from xmit queue to send?
+         jc      main_70                 ;  no ... continue
+main_60:
+         cli                             ;protect SCC out from interrupts
+         call    send_data               ;send the caracter in ac
+         sti
+main_70:
+         cmp     si,offset line15        ;last table?
+         jl      short main_75           ;  no ... continue
+         jmp     main_10                 ;otherwise start over ...
+main_75:
+         add     si,line_entry_len       ;bump to next line table
+         jmp     main_30
+cpmain   endp
+
+
+
+;------------------------------------------------------------------------------
+; Name: send_data
+; Purpose: send data character in al out the comm channel.
+; Entry: AL is the character
+;        SI points at the line table entry
+; Exit: None
+send_data proc
+         or      [si].line_status,Tx_active   ; indicate transmit active
+         mov     dx,[si].io_base         ;get base I/O address
+         add     dx,2                    ;offset to data register
+         out     dx,al                   ;move character to SCC
+         ret
+send_data endp
+
+
+;------------------------------------------------------------------------------
+; Name: Check_transmit_flow
+; Purpose: to check the transmit flow control to see if we should send
+;          the data or not
+; Entry: SI points at line data
+; Exit: Carry Reset okay to send
+;       Carry Set not okay to send
+check_transmit_flow proc
+        clc                                        ;set carry-is okay
+        test    [si].Flow_control,Outbound_flowed  ;check to see if already
+        jz      check_transmit_flow_10             ;  flowed if not,check other
+        test    [si].Flow_control,Respect_soft     ;check to see if we should
+        jnz     check_transmit_flow_15             ;actually respect it.
+        and     [si].Flow_control,NOT Outbound_flowed ;if we shouldn't, then we
+                                                   ;clear the condition and
+check_transmit_flow_10:
+        test    [si].Flow_control,Outbound_hard    ;check to check hardware flow
+        jz      check_transmit_flow_20             ;if not, leave
+        mov     dx,[si].io_base                    ;get port
+        mov     al,RR0                             ;set read register 0
+        out     dx,al
+        in      al,dx                              ;read register 0
+        test    al,CTS_                            ;check for CTS
+        jnz     check_transmit_flow_20             ;if present exit
+check_transmit_flow_15:
+        stc
+check_transmit_flow_20:
+        ret
+check_transmit_flow endp
+
+;------------------------------------------------------------------------------
+;Name:    deq_Tx_data
+;Purpose: Remove character from transmit queue
+;Entry:   SI=> line table entry
+;Exit:    carry set if queue is empty, else
+;         carry clear and AL = character
+
+deq_Tx_data proc
+         push    bx
+         test    [si].status,Flowed
+         jz      deq_Tx_data_2
+         mov     bx,[si].Rxq_head
+         sub     bx,[si].Rxq_tail
+         jnc     deq_Tx_data_1
+         neg     bx
+
+deq_Tx_data_1:
+         cmp     bx,Rxb_undr
+         jg      deq_Tx_data_4
+deq_Tx_data_2:
+         call    check_transmit_flow   ;don't even bother to check buffer if
+         jc      deq_Tx_data_10        ; flow control disallows send
+
+         test    [si].status,Send_XOFF ; check to see if we need to send
+                                       ; an XOFF character
+         jz      deq_Tx_data_3
+         clc
+         mov     al,XOFFCHAR
+         and     [si].status,NOT Send_XOFF
+         jmp     deq_Tx_data_10
+deq_Tx_data_3:
+         test    [si].status,Send_XON  ; check to see if we need to send
+                                       ; an XON character
+         jz      deq_Tx_data_6
+deq_Tx_data_4:
+         clc
+         mov     al,XONCHAR
+         and     [si].status,NOT Send_XON
+         and     [si].status,NOT Flowed
+         jmp     deq_Tx_data_10
+deq_Tx_data_6:
+
+deq_Tx_data_9:
+
+         mov     bx,[si].Txq_tail      ;get queue tail
+         cmp     bx,[si].Txq_head      ;is queue empty ?
+         stc                           ;(assume it is)
+         jz      deq_Tx_data_10        ;  yes ... exit
+         push    di                    ;save register
+         mov     di,[si].Txq_offset    ;get queue offset
+         mov     al,[di+bx]            ;remove character
+         pop     di                    ;recover register
+         inc     bx                    ;bump pointer
+         and     bx,Txq_mask           ;  and mask it
+         mov     [si].Txq_tail,bx      ;update pointer
+         clc                           ;return carry clear
+deq_Tx_data_10:
+         pop     bx
+         ret
+deq_Tx_data endp
+
+
+
+;------------------------------------------------------------------------------
+;Name:    TBE_isr
+;Purpose: Common Transmit Buffer Empty Interrupt Service Routine.
+;         This clears the Tx_active flag in the line table to indicate that
+;         a character is no longer in the process of being transmitted.
+;         To keep the time in the ISR short data writes to the SCC are handled
+;         in the main loop.
+;Entry:   AX = line table entry
+;Exit:    Nothing
+
+TBE_isr  proc
+         push    dx                      ; save registers etc.
+         push    bx
+         push    cx
+         push    si
+         push    di
+
+         mov     si,ax                 ;si = line table entry
+         mov     dx,[si].io_base       ;get base I/O address
+         push    dx                    ;save I/O address for isr_ret
+         and     [si].line_status,NOT Tx_active    ;inactive
+
+TBE_isr_10:
+         mov     al,WR0
+         out     dx,al
+         mov     al,reset_Tx_int       ;reset pending Tx interrupt
+         out     dx,al
+TBE_isr_99:
+         jmp     isr_ret               ;common exit ...
+TBE_isr endp
+
+;------------------------------------------------------------------------------
+;Name:    ESC_isr
+;Purpose: Common External Status Change Interrupt Service Routine.  This
+;         doesn't do any real work, just demonstrates how to reset and return.
+;Entry:   AX = line table entry
+;Exit:    Nothing
+
+ESC_isr  proc
+         push    dx                    ;save registers etc.
+         push    bx
+         push    cx
+         push    si
+         push    di
+
+         mov     si,ax                 ;si = line table entry
+         mov     dx,[si].io_base       ;get base I/O address
+         push    dx                    ;save I/O address for isr_ret
+
+         ;External status change processing goes here
+
+         mov     al,WR0
+         out     dx,al
+         mov     al,reset_ext           ;reset external/status interrupts
+         out     dx,al
+         jmp     isr_ret                ;common exit ...
+ESC_isr  endp
+
+;------------------------------------------------------------------------------
+;Name:    RCA_isr
+;Purpose: Common Receive Character Available Interrupt Service Routine
+;Entry:   AX = line table entry
+;Exit:    Nothing
+
+RCA_isr  proc
+         push    dx                    ;save registers etc.
+         push    bx
+         push    cx
+         push    si
+         push    di
+
+         mov     si,ax                 ;si = line table entry
+         mov     dx,[si].io_base       ;get base I/O address
+         push    dx                    ;save I/O address for isr_ret
+         add     dx,2                  ;set up to read data register
+         in      al,dx                 ;input character from SCC
+
+         mov     bx,[si].Rxq_tail
+         sub     bx,[si].Rxq_head
+         dec     bx
+         cmp     bx,0
+         jge     RCA_isr_30
+         add     bx,Rxb_size
+RCA_isr_30:
+;***************** Buffer flow control check
+         test    [si].status,Flowed
+         jz      RCA_isr_32
+         cmp     bx,Rxb_undr
+         jl      RCA_isr_32
+         and     [si].status,NOT Flowed    ;we were flowed, and now regardless
+                                           ;of type we are now releasing it.
+         test    [si].Flow_control,Inbound_soft
+         jz      RCA_isr_31
+         or      [si].status,Send_XON
+;***************** hardware command check
+RCA_isr_31:
+         test    [si].Flow_control,Inbound_hard
+         jz      RCA_isr_32
+         mov     dx,[si].io_base                    ;get port
+         push    ax
+         mov     al,WR5                             ;set read register 0
+         out     dx,al
+         or      byte ptr [si].WR5_,RTS
+         mov     al,[si].WR5_
+         out     dx,al
+         pop     ax
+
+RCA_isr_32:
+         cmp     bx,Rxb_ovr
+         jg      RCA_isr_35
+         or      [si].status,Flowed
+;***************** software command check-conditioned by last write
+         test    [si].Flow_control,Inbound_soft
+         jz      RCA_isr_33
+         or      [si].status,Send_XOFF
+
+;***************** hardware command check
+RCA_isr_33:
+         test    [si].Flow_control,Inbound_hard
+         jz      RCA_isr_35
+;drop RTS
+         mov     dx,[si].io_base                    ;get port
+         push    ax
+         mov     al,WR5                             ;set read register 0
+         out     dx,al
+         and     byte ptr [si].WR5_,NOT RTS
+         mov     al,[si].WR5_
+         out     dx,al
+         pop     ax
+
+
+RCA_isr_35:
+         cmp     bx,1                  ;bx = number of empty spots
+         jl      RCA_isr_99            ;if Rx buffer full exit
+
+         mov     bx,[si].Rxq_head      ;get queue head again
+         mov     di,[si].Rxq_offset    ;get queue offset
+         mov     [di+bx],al            ;add character to queue
+
+         cmp     al,XONCHAR
+         jne     RCA_isr_40
+         test    [si].Flow_control,Respect_soft
+         jz      RCA_isr_40
+         and     [si].Flow_control,NOT Outbound_flowed
+;***************** test for respect x-on/x-off
+
+RCA_isr_40:
+         cmp     al,XOFFCHAR
+         jne     RCA_isr_70
+         test    [si].Flow_control,Respect_soft
+         jz      RCA_isr_70
+         or      [si].Flow_control,Outbound_flowed
+;***************** test for respect x-on/x-off
+         cmp     [si].Break_char,0
+         je      RCA_isr_70
+         cmp     [si].Break_char,al
+         jne     RCA_isr_70
+         or      [si].status,Break_recvd
+RCA_isr_70:
+         inc     bx                    ;bump head pointer
+         and     bx,Rxq_mask           ;  and mask it
+         mov     [si].Rxq_head,bx      ;  and update it
+RCA_isr_99:
+         jmp     isr_ret                ;common exit ...
+RCA_isr endp

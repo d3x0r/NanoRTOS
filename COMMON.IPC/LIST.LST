@@ -1,0 +1,19 @@
+Publics by module
+
+FSTRTOK 	size = 210
+	__fstrtok                       
+
+H_LDIV  	size = 174
+	F_LDIV@                           F_LMOD@
+	F_LUDIV@                          F_LUMOD@
+	LDIV@                             LMOD@
+	LUDIV@                            LUMOD@
+	N_LDIV@                           N_LMOD@
+	N_LUDIV@                          N_LUMOD@
+
+H_LLSH  	size = 33
+	F_LXLSH@                          LXLSH@
+	N_LXLSH@                        
+
+N_LXMUL 	size = 23
+	N_LXMUL@                        

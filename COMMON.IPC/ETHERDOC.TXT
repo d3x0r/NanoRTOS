@@ -1,0 +1,209 @@
+This is what I need.  I need to keep track of me having multiple IPS, and
+talking to multiple IPs, and each of those have multiple TCP sockets.
+
+       Ether
+    IP      IP      IP
+  TCP #1   TCP #1   TCP #1
+  TCP #2            TCP #2
+                    TCP #3
+                    TCP #4
+
+each connection must have
+  Ether Address
+  IP Address
+  TCP sockets
+in order to be unique.
+
+------------------  TCP/IP Protcol Definition ---------------
+
+The following is a block diagram of a complete TCP/IP protocol PACKET.
+
+   0   1   2   3   4   5   6   7   8   9   A   B   C   D   E   F
+ ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÂÄÄÄ¿
+0³   Ether Destination   ³   Ether Source        ³ Type  ³V&H³Srv³
+ ÃÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÅÄÄÄÂÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÅÄÄÄÁÄÄÄ´
+1³IP Len ³Identy ³frags  ³TTL³Prt³Checksm³ IP source     ³  IP   ³
+ ÃÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÁÄÄÄÁÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÂÄÄÄ´
+2³Dest.  ³TCP Src³TCP Dst³ Sequence Num. ³ Acknowlegde   ³Hln³Flg³
+ ÃÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÁÄÄÄ´
+3³Window ³Checksm³Urgent ³ DATA                                  ³
+ ÃÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÙ                                       ³
+ ³                                                               ³
+ ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+IP protocol head starts at  0E
+TCP protocol head starts at 22
+
+Type Field is as follows  (in TRUE order)
+    08 06   ARP
+    80 35   RARP
+    06 00   XNS
+    08 00   IP
+    08 04   CHAOS
+
+-----------------    IP Protocol Head    ---------------------
+
+V&H is version and header
+   7 6 5 4 3 2 1 0
+  ÚÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄ¿
+  ³Version³Head Ln³
+  ÀÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÙ
+  Version must be 4
+  Headln is the length of the IP head. (4 byte granularity)
+
+Srv is Service and is as follows...
+   Unknown values.  Used for special processing by gateways
+   especially.  Unused at this time, but expected to be used
+   in the future.
+   000x xxxx     Routine               -+
+                                        |
+   111x xxxx     Network Managment     -+--- Range of Precedence
+   xxx1 xxxx     Low Delay
+   xxxx 1xxx     High Throughtput
+   xxxx x1xx     High Reliability
+
+IP Len is the total length of the IP packet (including Data)
+
+Identy is the Identity field and is used as a sequence number
+
+frags is a combination of flags and offset for framentations
+   7 6 5 4 3 2 1 0
+  ÚÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄ¿
+  ³Flags³ Offset  ³
+  ÀÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÙ
+   x1x DO NOT frament
+   xx1 Multiple fragments.  last Fragment has this bit 0.
+
+
+TTL is the Time To Live of a packet, so that it is squelched in
+a loopback case.
+   each time another source gets this, and sends it on to another
+   peson, this number is decremented.
+
+Prt is the type of protcol that follows
+   11  UDP
+   06  TCP
+   01  ICMP
+
+Checksum is the one's complement of the one's complement sum of
+the data of the header.  It is initialized to zero for purposes
+of computing the sum.
+
+IP Source is the 4 byte address (130.30.8.101) which is where
+   the data was sent from.
+
+IP Dest is the 4 byte address (130.30.8.104) of where the packet
+   was/is headed.
+
+
+
+------------------   TCP Proctocol head    ---------------------
+
+TCP src is a 16 bit value of the "socket?" where the packet is
+   from.  Senders source should be a number greater than 0400 be-
+   cause numbers below this are reserved as well known ports.
+
+TCP Dst is a 16 bit value of where the packet is headed.
+
+Sequence number is a 32 bit counter that gives the position in
+   the 'stream' this data is to be put.
+
+Acknowledge is a 32 bit reply that is used to acknowledge all data
+   that has been sent and is the value of the first unused byte
+   in the 'stream'.
+
+Hln is the header length. (4 byte granularity)
+
+Flg are flags to be used. The are defined as follows
+   xx1x xxxx   Urgent  -Indicates theat the Urgent field is valid and
+                        should be used.
+
+   xxx1 xxxx   Ack     -Set to tell remote connection that the Acknowledge
+                        field is unused during connection only.
+
+   xxxx 1xxx   Push    -Tells end TCP to trasmit all data in its buffers.
+
+   xxxx x1xx   Reset   -If a packet is received that cannot be identified
+                        as to who it is from, (ie. if your computer reset)
+                        then we have to send a packet with a ReSeT bit to
+                        tell the other end to kill the connection.
+
+   xxxx xx1x   Syn     -Set when connecting.  Other times are unknown.
+
+   xxxx xxx1   Fin     -Used to close a connection.  Send with last bit
+                        of data.
+
+
+Window is an advertisement of how much more data can be received.
+   if the buffers are getting full, then this number is reduced to
+   indicate that there is not enough space to receive the data, so
+   stop transmitting!
+
+Checksum is a checksum of a Prototype IP Head, a TCP head, and
+   the data. It is zeroed for purposes of computing the checksum.
+
+Urgent is a relative pointer from the sequence number of where the
+   urgent data is located.
+
+----------------------- End of Headers -----------------------
+
+The following is a map of the volatile fields.  Must be overlaid
+in order to understand it.
+
+   0   1   2   3   4   5   6   7   8   9   A   B   C   D   E   F
+ ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÂÄÄÄ¿
+0³                       ³                       ³       ³   ³   ³
+ ÃÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÅÄÄÄÂÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÅÄÄÄÁÄÄÄ´
+1³IP Len ³Identy ³frags  ³   ³   ³Checksm³               ³       ³
+ ÃÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÁÄÄÄÁÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÂÄÄÄ´
+2³       ³       ³       ³ Sequence Num. ³ Acknowlegde   ³   ³Flg³
+ ÃÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÁÄÄÄ´
+3³Window ³Checksm³Urgent ³ DATA                                  ³
+ ÃÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÙ                                       ³
+ ³                                                               ³
+ ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+------------------------ ARP protocol  -----------------------
+
+The following is a block diagram of a complete ARP protocol packet
+
+   0   1   2   3   4   5   6   7   8   9   A   B   C   D   E   F
+ ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄ¿
+0³   Ether Destination   ³   Ether Source        ³ Type  ³Hrd Typ³
+ ÃÄÄÄÄÄÄÄÂÄÄÄÂÄÄÄÂÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄ´
+1³Protcol³Hln³Pln³Opcode ³Sender hardware addr   ³ Send Prot Addr³
+ ÃÄÄÄÄÄÄÄÁÄÄÄÁÄÄÄÁÄÄÄÄÄÄÄÅÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+2³Target hardware addr   ³Targ Prot Addr ³
+ ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+Hrd Typ field (Hardware type) is as follows
+     00 01   Ethernet
+
+Protocol is as folows
+     08 00   IP
+
+Hln is the number of bytes in the hardware address.
+
+Pln is the number of bytes in the protocol address.
+
+Opcode is as follows
+     00 04   RARP reply from host
+     00 03   RARP request
+     00 02   ARP reply
+     00 01   ARP Request
+
+----------------------- Pseudo Header -------------------------
+
+The following is a definition of a pseudo header used when computing TCP
+checksums.
+   0   1   2   3   4   5   6   7   8   9   A   B   C   D   E   F
+ ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÂÄÄÄÂÄÄÄÄÄÄÄÂÄÄÄÂÄÄÄÂÄÄÄÂÄÄÄ¿
+0³ Source IP     ³ Destination IP³ 0 ³ 6 ³Length ³ 0 ³ 0 ³ 0 ³ 0 ³
+ ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÁÄÄÄÁÄÄÄÁÄÄÄÄÄÄÄÁÄÄÄÁÄÄÄÁÄÄÄÁÄÄÄÙ
+
+Length is the length of the TCP header and Data only.  could be taken from
+IPs length minus the length of the IP header.
+
+6 is the type of protocol.  in this case TCP. (if in doubt, it comes from
+    the IP prt field.
+

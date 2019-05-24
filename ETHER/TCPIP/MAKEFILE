@@ -1,0 +1,54 @@
+
+CC      =       bcc @m:\nipc\batch.ipc\medres.fil
+
+ASM     =       \nipc\batch.ipc\asm
+
+PCADEP  =       \nipc\pca\npca.h
+
+COMDEP  =       \nipc\comm\comm.h
+
+MODDEP  =       \nipc\common.ipc\mod.h\
+                \nipc\common.ipc\os.h
+
+VIDDEP  =       \nipc\video\text\video.h
+
+VIDLIB  =       \nipc\video\text\vidlib.obj
+
+DESTNAME=       ether.exe
+
+!if $d(DEST)
+$(DEST)\$(DESTNAME) : $(DESTNAME)
+        copy $(DESTNAME) $(DEST)
+!endif
+
+CARDLIBS= wdlib.obj wdasm.obj
+
+.c.obj:
+  $(CC) {$< }
+
+.asm.obj:
+  $(ASM) {$< }
+
+StFILE = echo >mllink.fil
+AdFILE  = echo >>mllink.fil
+
+$(DESTNAME) : ether.obj exports.obj tcpipasm.obj $(VIDLIB) $(CARDLIBS)
+ $(StFILE) /c/s/m/l/v/Lf:\borlandc\lib +
+ $(AdFILE) m:\common.ipc\mmodhead +
+ $(AdFILE) ether exports tcpipasm $(VIDLIB) $(CARLIBS)+
+ $(AdFILE) wdlib wdasm
+ $(AdFILE) ether
+ $(AdFILE) ether
+ $(AdFILE) m:\common.ipc\jimos cm mathm >>mllink.fil
+ tlink @mllink.fil
+ del mllink.fil
+
+ether.obj: ether.c ether.h $(MODDEP) $(VIDDEP)
+
+exports.obj: exports.c ether.h $(MODDEP) $(VIDDEP)
+
+tcpipasm.obj: tcpipasm.asm
+
+wdlib.obj: wdlib.c ether.h wdregs.h
+
+wdasm.obj: wdasm.asm

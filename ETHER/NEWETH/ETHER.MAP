@@ -1,0 +1,326 @@
+
+ Start  Stop   Length Name               Class
+
+ 00000H 03DAAH 03DABH _TEXT              CODE
+ 03DACH 04229H 0047EH _DATA              DATA
+ 0422AH 0425BH 00032H _BSS               BSS
+
+
+Detailed map of segments
+
+ 0000:0000 008B C=CODE   S=_TEXT          G=(none)  M=mmodhead.ASM ACBP=48
+ 0000:008B 2DFD C=CODE   S=_TEXT          G=(none)  M=ether.c    ACBP=28
+ 0000:2E88 0157 C=CODE   S=_TEXT          G=(none)  M=etherasm.ASM ACBP=48
+ 0000:2FDF 069D C=CODE   S=_TEXT          G=(none)  M=ethrutil.c ACBP=28
+ 0000:367C 03EE C=CODE   S=_TEXT          G=(none)  M=vidlib.ASM ACBP=48
+ 0000:3A6A 0341 C=CODE   S=_TEXT          G=(none)  M=OSLIB      ACBP=48
+ 03DA:000C 0058 C=DATA   S=_DATA          G=DGROUP  M=mmodhead.ASM ACBP=48
+ 03DA:0064 0367 C=DATA   S=_DATA          G=DGROUP  M=ether.c    ACBP=48
+ 03DA:03CC 0000 C=DATA   S=_DATA          G=DGROUP  M=etherasm.ASM ACBP=48
+ 03DA:03CC 00BE C=DATA   S=_DATA          G=DGROUP  M=ethrutil.c ACBP=48
+ 03DA:048A 0000 C=DATA   S=_DATA          G=DGROUP  M=vidlib.ASM ACBP=48
+ 03DA:048A 0000 C=DATA   S=_DATA          G=DGROUP  M=OSLIB      ACBP=48
+ 03DA:048A 0032 C=BSS    S=_BSS           G=DGROUP  M=ether.c    ACBP=48
+ 03DA:04BC 0000 C=BSS    S=_BSS           G=DGROUP  M=ethrutil.c ACBP=48
+
+  Address         Publics by Name
+
+ 03DA:0080       _alloc
+ 03DA:0038       _Allocate
+ 0000:0696 idle  _allocate_seq
+ 0000:3AA1       _atoi
+ 03DA:0078 idle  _broad_ether
+ 03DA:04B8 idle  _card_allignment
+ 03DA:04BA idle  _card_collisions
+ 03DA:04B6 idle  _card_crcerrors
+ 0000:2F6C       _Card_int
+ 03DA:04B4 idle  _card_missedcount
+ 03DA:04AE idle  _card_received
+ 03DA:04B0       _card_send_busy
+ 03DA:04B2 idle  _card_sent_count
+ 03DA:0054 idle  _change_priority
+ 0000:3B45 idle  _close
+ 0000:3976 idle  _closedisplay
+ 0000:113E idle  _close_connection
+ 03DA:009F idle  _close_connectionname
+ 0000:141E idle  _close_connections
+ 0000:38C1       _clr_display
+ 0000:36F0 idle  _Clr_window
+ 0000:008B idle  _complete
+ 03DA:0048       _Connect_Int
+ 0000:3B0D idle  _create
+ 03DA:0082       _dalloc
+ 0000:0000 idle  _dataseg
+ 03DA:0060 idle  _delay
+ 0000:0045 idle  _destory
+ 03DA:0024 idle  _device_name
+ 0000:148C idle  _disconnect
+ 03DA:00B0 idle  _disconnectname
+ 03DA:004C       _Disconnect_Int
+ 0000:37A1 idle  _display
+ 0000:37DA       _displayln
+ 0000:39B4 idle  _dupdisplay
+ 03DA:04A2       _end_rec
+ 0000:10EB idle  _etherflush
+ 03DA:0094 idle  _etherflushname
+ 03DA:048B       _ether_ptr
+ 0000:14D5 idle  _Ether_term
+ 03DA:00BC idle  _Ether_termname
+ 03DA:0010 idle  _Exit
+ 03DA:001C idle  _Export
+ 03DA:000C idle  _externals
+ 03DA:0066 idle  _faked_ints
+ 03DA:0084 idle  _first_connection
+ 0000:004A       _fork
+ 03DA:003C       _Free
+ 0000:3888 idle  _getattr
+ 0000:38FE idle  _getdisplay
+ 03DA:0050       _gettime
+ 03DA:0034       _Get_environ
+ 0000:3769 idle  _get_xy
+ 03DA:0020 idle  _Import
+ 0000:35F5       _init
+ 0000:3091       _init_wd
+ 0000:2EBC       _inportb
+ 03DA:0070       _input_TCB
+ 03DA:0040 idle  _Inquire_begin
+ 03DA:007F       _interupt
+ 03DA:04AC       _int_count
+ 03DA:0088       _IO_base
+ 0000:2EC5       _ipcheck
+ 03DA:03FD idle  _IRQ_idx
+ 03DA:03FE idle  _IRQ_mask
+ 03DA:03DC idle  _IRQ_NUM
+ 03DA:03EC idle  _IRQ_port
+ 03DA:03CC idle  _IRQ_table
+ 0000:3C5C idle  _itoa
+ 0000:367C       _keypressed
+ 0000:004F       _ldiv
+ 0000:0063 idle  _lmod
+ 0000:007A       _lmult
+ 0000:2DE7       _main
+ 03DA:0064       _max_retrans_delay
+ 0000:3D73 idle  _memset
+ 0000:393A idle  _moddisplay
+ 0000:3CCA       _movmem
+ 03DA:04A6       _MY_ether
+ 03DA:0058       _my_tcbptr
+ 0000:3AD7 idle  _open
+ 0000:372C       _opendisplay
+ 0000:0C4B idle  _openether
+ 03DA:008A idle  _openethername
+ 0000:2EB0       _outportb
+ 03DA:048F       _output
+ 03DA:0074       _output_TCB
+ 0000:0040       _perish
+ 0000:3815       _position
+ 0000:1FA6 idle  _process_card
+ 0000:29D5 idle  _process_connections
+ 03DA:0044       _process_control
+ 0000:18EC idle  _process_display
+ 0000:39F0 idle  _rawkeypressed
+ 0000:3A2F idle  _rawreadch
+ 0000:3B7C idle  _read
+ 0000:36B8       _readch
+ 0000:150F idle  _readether
+ 03DA:00C7 idle  _readethername
+ 0000:2FDF       _readwd
+ 0000:3062 idle  _readwdcon
+ 0000:04E2 idle  _release
+ 03DA:0014       _Relinquish
+ 0000:05E6 idle  _remove_acked
+ 03DA:000C       _Request
+ 03DA:03FC       _reset_port
+ 0000:0139 idle  _respond
+ 03DA:006C idle  _save_time
+ 0000:169D idle  _sendether
+ 03DA:00D1 idle  _sendethername
+ 0000:0ADE idle  _send_ARP
+ 0000:036A       _send_Ether
+ 0000:335C       _send_reset
+ 0000:07A6 idle  _send_tcp
+ 0000:384F idle  _setattr
+ 0000:3A6A idle  _Shell
+ 0000:2E88 idle  _shiftlong
+ 0000:2E9C idle  _shiftrong
+ 03DA:007E idle  _shuttingdown
+ 03DA:0030 idle  _spawn
+ 03DA:002C idle  _spawn_batch
+ 03DA:04A4       _start_rec
+ 0000:32EA idle  _start_wd
+ 0000:32FA       _stop_wd
+ 0000:3D3B idle  _strcat
+ 0000:3C23 idle  _stricmp
+ 0000:3C92 idle  _strlen
+ 0000:3D02 idle  _strncpy
+ 0000:3BE9 idle  _strnicmp
+ 03DA:005C       _swap_to
+ 0000:2EEA       _tcpcheck
+ 03DA:0493 idle  _tcpwindow
+ 03DA:0018 idle  _Terminate
+ 03DA:0068 idle  _time
+ 03DA:0028 idle  _Wake
+ 0000:0C19 idle  _wake_output
+ 0000:3BB2 idle  _write
+ 0000:3022       _writewd
+ 0000:3078 idle  _writewdcon
+ 0000:1121       __close_connection
+ 0000:146F       __disconnect
+ 0000:10CE       __etherflush
+ 0000:14B8       __Ether_term
+ 0000:0C2E       __openether
+ 0000:14F2       __readether
+ 0000:1680       __sendether
+
+  Address         Publics by Value
+
+ 0000:0000 idle  _dataseg
+ 0000:0040       _perish
+ 0000:0045 idle  _destory
+ 0000:004A       _fork
+ 0000:004F       _ldiv
+ 0000:0063 idle  _lmod
+ 0000:007A       _lmult
+ 0000:008B idle  _complete
+ 0000:0139 idle  _respond
+ 0000:036A       _send_Ether
+ 0000:04E2 idle  _release
+ 0000:05E6 idle  _remove_acked
+ 0000:0696 idle  _allocate_seq
+ 0000:07A6 idle  _send_tcp
+ 0000:0ADE idle  _send_ARP
+ 0000:0C19 idle  _wake_output
+ 0000:0C2E       __openether
+ 0000:0C4B idle  _openether
+ 0000:10CE       __etherflush
+ 0000:10EB idle  _etherflush
+ 0000:1121       __close_connection
+ 0000:113E idle  _close_connection
+ 0000:141E idle  _close_connections
+ 0000:146F       __disconnect
+ 0000:148C idle  _disconnect
+ 0000:14B8       __Ether_term
+ 0000:14D5 idle  _Ether_term
+ 0000:14F2       __readether
+ 0000:150F idle  _readether
+ 0000:1680       __sendether
+ 0000:169D idle  _sendether
+ 0000:18EC idle  _process_display
+ 0000:1FA6 idle  _process_card
+ 0000:29D5 idle  _process_connections
+ 0000:2DE7       _main
+ 0000:2E88 idle  _shiftlong
+ 0000:2E9C idle  _shiftrong
+ 0000:2EB0       _outportb
+ 0000:2EBC       _inportb
+ 0000:2EC5       _ipcheck
+ 0000:2EEA       _tcpcheck
+ 0000:2F6C       _Card_int
+ 0000:2FDF       _readwd
+ 0000:3022       _writewd
+ 0000:3062 idle  _readwdcon
+ 0000:3078 idle  _writewdcon
+ 0000:3091       _init_wd
+ 0000:32EA idle  _start_wd
+ 0000:32FA       _stop_wd
+ 0000:335C       _send_reset
+ 0000:35F5       _init
+ 0000:367C       _keypressed
+ 0000:36B8       _readch
+ 0000:36F0 idle  _Clr_window
+ 0000:372C       _opendisplay
+ 0000:3769 idle  _get_xy
+ 0000:37A1 idle  _display
+ 0000:37DA       _displayln
+ 0000:3815       _position
+ 0000:384F idle  _setattr
+ 0000:3888 idle  _getattr
+ 0000:38C1       _clr_display
+ 0000:38FE idle  _getdisplay
+ 0000:393A idle  _moddisplay
+ 0000:3976 idle  _closedisplay
+ 0000:39B4 idle  _dupdisplay
+ 0000:39F0 idle  _rawkeypressed
+ 0000:3A2F idle  _rawreadch
+ 0000:3A6A idle  _Shell
+ 0000:3AA1       _atoi
+ 0000:3AD7 idle  _open
+ 0000:3B0D idle  _create
+ 0000:3B45 idle  _close
+ 0000:3B7C idle  _read
+ 0000:3BB2 idle  _write
+ 0000:3BE9 idle  _strnicmp
+ 0000:3C23 idle  _stricmp
+ 0000:3C5C idle  _itoa
+ 0000:3C92 idle  _strlen
+ 0000:3CCA       _movmem
+ 0000:3D02 idle  _strncpy
+ 0000:3D3B idle  _strcat
+ 0000:3D73 idle  _memset
+ 03DA:000C idle  _externals
+ 03DA:000C       _Request
+ 03DA:0010 idle  _Exit
+ 03DA:0014       _Relinquish
+ 03DA:0018 idle  _Terminate
+ 03DA:001C idle  _Export
+ 03DA:0020 idle  _Import
+ 03DA:0024 idle  _device_name
+ 03DA:0028 idle  _Wake
+ 03DA:002C idle  _spawn_batch
+ 03DA:0030 idle  _spawn
+ 03DA:0034       _Get_environ
+ 03DA:0038       _Allocate
+ 03DA:003C       _Free
+ 03DA:0040 idle  _Inquire_begin
+ 03DA:0044       _process_control
+ 03DA:0048       _Connect_Int
+ 03DA:004C       _Disconnect_Int
+ 03DA:0050       _gettime
+ 03DA:0054 idle  _change_priority
+ 03DA:0058       _my_tcbptr
+ 03DA:005C       _swap_to
+ 03DA:0060 idle  _delay
+ 03DA:0064       _max_retrans_delay
+ 03DA:0066 idle  _faked_ints
+ 03DA:0068 idle  _time
+ 03DA:006C idle  _save_time
+ 03DA:0070       _input_TCB
+ 03DA:0074       _output_TCB
+ 03DA:0078 idle  _broad_ether
+ 03DA:007E idle  _shuttingdown
+ 03DA:007F       _interupt
+ 03DA:0080       _alloc
+ 03DA:0082       _dalloc
+ 03DA:0084 idle  _first_connection
+ 03DA:0088       _IO_base
+ 03DA:008A idle  _openethername
+ 03DA:0094 idle  _etherflushname
+ 03DA:009F idle  _close_connectionname
+ 03DA:00B0 idle  _disconnectname
+ 03DA:00BC idle  _Ether_termname
+ 03DA:00C7 idle  _readethername
+ 03DA:00D1 idle  _sendethername
+ 03DA:03CC idle  _IRQ_table
+ 03DA:03DC idle  _IRQ_NUM
+ 03DA:03EC idle  _IRQ_port
+ 03DA:03FC       _reset_port
+ 03DA:03FD idle  _IRQ_idx
+ 03DA:03FE idle  _IRQ_mask
+ 03DA:048B       _ether_ptr
+ 03DA:048F       _output
+ 03DA:0493 idle  _tcpwindow
+ 03DA:04A2       _end_rec
+ 03DA:04A4       _start_rec
+ 03DA:04A6       _MY_ether
+ 03DA:04AC       _int_count
+ 03DA:04AE idle  _card_received
+ 03DA:04B0       _card_send_busy
+ 03DA:04B2 idle  _card_sent_count
+ 03DA:04B4 idle  _card_missedcount
+ 03DA:04B6 idle  _card_crcerrors
+ 03DA:04B8 idle  _card_allignment
+ 03DA:04BA idle  _card_collisions
+
+Program entry point at 0000:0002
+Warning: No stack
+

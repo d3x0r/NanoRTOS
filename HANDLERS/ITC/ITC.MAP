@@ -1,0 +1,116 @@
+
+ Start  Stop   Length Name               Class
+
+ 00000H 00B3BH 00B3CH _TEXT              CODE
+ 00B3CH 00B97H 0005CH _DATA              DATA
+ 00B98H 00C17H 00080H _BSS               BSS
+
+
+Detailed map of segments
+
+ 0000:0000 0092 C=CODE   S=_TEXT          G=(none)  M=mmodhead.ASM ACBP=48
+ 0000:0092 051F C=CODE   S=_TEXT          G=(none)  M=itc.c      ACBP=28
+ 0000:05B1 058B C=CODE   S=_TEXT          G=(none)  M=multthrd.c ACBP=28
+ 00B3:000C 0058 C=DATA   S=_DATA          G=DGROUP  M=mmodhead.ASM ACBP=48
+ 00B3:0064 0000 C=DATA   S=_DATA          G=DGROUP  M=itc.c      ACBP=48
+ 00B3:0064 0004 C=DATA   S=_DATA          G=DGROUP  M=multthrd.c ACBP=48
+ 00B3:0068 0080 C=BSS    S=_BSS           G=DGROUP  M=itc.c      ACBP=48
+ 00B3:00E8 0000 C=BSS    S=_BSS           G=DGROUP  M=multthrd.c ACBP=48
+
+  Address         Publics by Name
+
+ 00B3:0038       _Allocate
+ 00B3:0054 idle  _change_priority
+ 0000:06DF       _check_outstanding
+ 00B3:0048 idle  _Connect_Int
+ 0000:0000 idle  _dataseg
+ 0000:0A1D       _deactivate
+ 00B3:0060 idle  _delay
+ 0000:0045       _destory
+ 00B3:0024 idle  _device_name
+ 00B3:004C idle  _Disconnect_Int
+ 00B3:0010       _Exit
+ 00B3:001C       _Export
+ 00B3:000C idle  _externals
+ 00B3:00A8 idle  _first_message
+ 00B3:0064       _first_thread
+ 0000:004A       _fork
+ 00B3:003C       _Free
+ 00B3:0050 idle  _gettime
+ 00B3:0034 idle  _Get_environ
+ 0000:080E       _get_old_node
+ 00B3:0020       _Import
+ 0000:0577       _init_local_structs
+ 00B3:0040 idle  _Inquire_begin
+ 00B3:0068 idle  _last_message
+ 0000:0056 idle  _ldiv
+ 0000:006A idle  _lmod
+ 0000:0081 idle  _lmult
+ 0000:0092 idle  _Locate
+ 0000:0AC7       _main
+ 00B3:0058       _my_tcbptr
+ 0000:0040       _perish
+ 00B3:0044 idle  _process_control
+ 0000:014C       _process_node
+ 00B3:0014       _Relinquish
+ 00B3:000C idle  _Request
+ 0000:05B1       _Slough_work
+ 00B3:0030 idle  _spawn
+ 00B3:002C idle  _spawn_batch
+ 0000:0600 idle  _store_node
+ 00B3:005C idle  _swap_to
+ 00B3:0018 idle  _Terminate
+ 0000:00AA idle  _terminate_watch
+ 0000:090C idle  _thread_active
+ 00B3:0028 idle  _Wake
+
+  Address         Publics by Value
+
+ 0000:0000 idle  _dataseg
+ 0000:0040       _perish
+ 0000:0045       _destory
+ 0000:004A       _fork
+ 0000:0056 idle  _ldiv
+ 0000:006A idle  _lmod
+ 0000:0081 idle  _lmult
+ 0000:0092 idle  _Locate
+ 0000:00AA idle  _terminate_watch
+ 0000:014C       _process_node
+ 0000:0577       _init_local_structs
+ 0000:05B1       _Slough_work
+ 0000:0600 idle  _store_node
+ 0000:06DF       _check_outstanding
+ 0000:080E       _get_old_node
+ 0000:090C idle  _thread_active
+ 0000:0A1D       _deactivate
+ 0000:0AC7       _main
+ 00B3:000C idle  _externals
+ 00B3:000C idle  _Request
+ 00B3:0010       _Exit
+ 00B3:0014       _Relinquish
+ 00B3:0018 idle  _Terminate
+ 00B3:001C       _Export
+ 00B3:0020       _Import
+ 00B3:0024 idle  _device_name
+ 00B3:0028 idle  _Wake
+ 00B3:002C idle  _spawn_batch
+ 00B3:0030 idle  _spawn
+ 00B3:0034 idle  _Get_environ
+ 00B3:0038       _Allocate
+ 00B3:003C       _Free
+ 00B3:0040 idle  _Inquire_begin
+ 00B3:0044 idle  _process_control
+ 00B3:0048 idle  _Connect_Int
+ 00B3:004C idle  _Disconnect_Int
+ 00B3:0050 idle  _gettime
+ 00B3:0054 idle  _change_priority
+ 00B3:0058       _my_tcbptr
+ 00B3:005C idle  _swap_to
+ 00B3:0060 idle  _delay
+ 00B3:0064       _first_thread
+ 00B3:0068 idle  _last_message
+ 00B3:00A8 idle  _first_message
+
+Program entry point at 0000:0002
+Warning: No stack
+

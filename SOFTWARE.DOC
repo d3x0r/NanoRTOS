@@ -1,0 +1,336 @@
+Environment parameters that are numbers can be entered as decimal by
+just entering the value, hexadecimal by entering a # in front of the
+number, or CAN code by entering an @ before the number, the can digits
+must also be uppercase in the case of alphabet. Parameter names are
+non case sensative.
+
+Examples:     Parameter1=10
+              Parameter2=#300
+              Parameter3=@CAN
+
+Note: At this time there are no parameters known of that would make sense
+      to be entered as CAN code.  The ability was provided early on and
+      may at some date make sense to use.
+
+
+Name               : Comm.exe
+Description        : This a driver module for normal asynch communications.
+Environment params : None
+Routines Registered: short comopen(short port,short baud,char bits,char stop,
+                                   char parity,short insize,short outsize,
+                                   char irq,char opts,
+                                   com_socket far * far *returnsocket)
+                     short comread(com_socket far *socket,char far *buffer,
+                                   short maxlen)
+                     short comwrite(com_socket far *socket,char far *buffer,
+                                    short length)
+                     void comsetmodem(com_socket far *socket,char params)
+
+Name               : Config.i
+Description        : Compiled version of config.kbd. (use unproc to decompile)
+OS                 : Panther/OS
+Environment params : None
+Routines Registered: None
+
+Name               : Config.kbd
+Description        : Script for configuring the keys for keybrd.exe.
+                     (use proc to compile to usable form)
+OS                 : Panther/OS
+Environment params : None
+Routines Registered: None
+
+Name               : Cpa.com
+Description        : Control program downloaded to hostess card for Asynch.
+OS                 : Panther/OS
+Environment params : None
+Routines Registered: None
+
+Name               : Diags.cfg
+Description        : Configuration data for Diags.exe
+OS                 : DOS
+
+Name               : Diags.exe
+Description        : Diagnostic program for the PC Adapter.
+OS                 : DOS
+
+Name               : Diskhand.exe
+Description        : Handler to interface Modcomp mailed nodes to the SCSI
+                     disk driver.
+OS                 : Panther/OS
+Environment params : None
+Routines Registered: None
+
+Name               : Dploader.exe
+Description        : Program to download the control program to the hostess
+                     card.  When done it removes its code from memory.
+OS                 : Panther/OS
+Environment params : page - What page of ram the card should be configured
+                            for.  This is just the 2 significant digits.
+                            Example:  Page=#D8 to set the address at
+                                      D800:0000.
+                     port - What port the hostess card is configured to be
+                            talked to at.
+                            Example:  Port=#218
+Routines Registered: None
+
+Name               : Ether.exe
+Description        : Driver program for a Western Digital Ethernet Card.
+OS                 : Panther/OS
+Environment params : ether_base - what port the Ether card is configured to
+                                  use.
+                                  Example: ether_base=#280
+Routines Registered: connection far *openether(char far *source_address,
+                                               char far *dest_address,
+                                               short t_source,short t_dest,
+                                               char opts)
+                     void etherflush(connection far *ether)
+                     void close_connection(connection far *ether)
+                     void Ether_term(connection far *ether,short read)
+                     short readether(connection far *ether,char far *buffer,
+                                     unsigned short maxlength)
+                     short sendether(connection far *ether,char far *buffer,
+                                     unsigned short length))
+
+Name               : Hostess.exe
+Description        : Driver program for a Hostess multichannel communication
+                     card.
+OS                 : Panther/OS
+Environment params : page - What page of ram the card should be configured
+                            for.  This is just the 2 significant digits.
+                            Example:  Page=#D8 to set the address at
+                                      D800:0000.
+                     port - What port the hostess card is configured to be
+                            talked to at.
+                            Example:  Port=#218
+Routines Registered: short hiread(char far *buffer,short length,short line)
+                     short higetblk(char far *buffer,short length,short line)
+                     char  higetc(short line)
+                     short hiwrite(char far *buffer,short length,short line)
+                     short hiopen(short line)
+                     short hiclose(short line)
+                     short hiflush(char far *buffer,short length,short line)
+
+Name               : Hosthand.exe
+Description        : Handler for Modcomp mailed nodes to the hostess driver.
+OS                 : Panther/OS
+Environment params : None
+Routines Registered: None
+
+Name               : Huge.exe
+Description        : DMA test program used with or from the diagnostic program.
+OS                 : DOS
+
+Name               : Ipc.exe
+Description        : Operating system by which the programs which run under
+                     Panther/OS may be run.
+OS                 : DOS
+Environment params : Timed - if the parameter is present then a high resolution
+                             (1 Ms) timer is used.  Otherwise the normal PC
+                             clock is used (54 Ms).
+Routines Registered: void Shell(void)
+                     short atoi(char far *number)
+                     short open(char far *filename,short opts)
+                     short create(char far *filename,short opts)
+                     void close(short handle)
+                     short read(char far *buffer,short length,short handle)
+                     short write(char far *buffer,short length,short handle)
+                     short strnicmp(char far *string1,char far *string2,
+                                    short max)
+                     short stricmp(char far *string1,char far *string2)
+                     char itoa(short number,char far *string)
+                     short strlen(char far *string)
+                     void movmem(void far *source,void far *dest,short length)
+                     void strncpy(char far *source,char far *dest,short len)
+                     void strcat(char far *dest,char far *source)
+                     void memset(void far *dest,short value,short count)
+
+Name               : Itc.exe
+Description        : InterTask Communications handler.  This handler buffers
+                     writes and WEOs in memory until subsequent reads remove
+                     the data.
+OS                 : Panther/OS
+Environment params : None
+Routines Registered: None
+
+Name               : keybrd.exe
+Description        : Keyboard driver program to read the keyboard and generate
+                     the appropriate events depending on the configuration
+                     file config.i.
+OS                 : Panther/OS
+Environment params : None
+Routines Registered: char rawkeypressed(void)
+                     char rawreadch(void)
+
+Name               : Memsize.exe
+Description        : Memory diagnostic program that goes through and verifies
+                     the integraty of the memory allocation and deallocation
+                     that occurs in Panther/OS.
+OS                 : Panther/OS
+Environment params : None
+Routines Registered: void memdiag(short intruptable)
+
+Name               : Multeth.exe
+Description        : Ethernet Handler that translates Modcomp mailed nodes
+                     to the ethernet Driver.
+OS                 : Panther/OS
+Environment params : sockes - maximum number of sockets that are allowed to
+                              be open at any given time.
+                              Example: Sockets=16
+Routines Registered: None
+
+Name               : Nulleth.exe
+Description        : Ethernet replacement driver.  This driver acts as the
+                     Itc.exe handler acts, in that it merely buffers the
+                     writes and write end of files until subsequent reads
+                     remove the data.
+OS                 : Panther/OS
+Environment params : None
+Routines Registered: connection far *openether(char far *source_address,
+                                               char far *dest_address,
+                                               short t_source,short t_dest,
+                                               char opts)
+                     void etherflush(connection far *ether)
+                     void close_connection(connection far *ether)
+                     void Ether_term(connection far *ether,short read)
+                     short readether(connection far *ether,char far *buffer,
+                                     unsigned short maxlength)
+                     short sendether(connection far *ether,char far *buffer,
+                                     unsigned short length))
+
+Name               : Pca.exe
+Description        : Driver program for the PC Adapter.  This program reads
+                     the card and formats a mail packet to be sent to the
+                     appropriate handler.
+OS                 : Panther/OS
+Environment params : debug - if present then the PCA_Diagnostic window
+                             is also present and updated.  One can get
+                             a few more cycles out of the box if this
+                             parameter is commented out.
+                     fill - this gives the name of the fill file if the
+                            IPC is to be booted from.
+                            Example: fill=BIPC.MCS
+                     PCA_Base - This gives the base port address of the
+                                card.
+                                Example: PCA_Base=#300
+                     PCA_DMA_In - this gives the DMA channel for Modcmp to PC
+                                  transfers.
+                     PCA_DMA_Out - this gives the DMA channel for PC to
+                                   Modcomp transfers.
+                     PCA_IRQ     - this gives the IRQ that the card is
+                                   configured to generate interupts on.
+                     PCA_DEVice - This gives the device address of the IPC
+                                  on the modcomp bus.
+                     PCA_DMP - this gives the DMP channel of the IPC on
+                               the modcomp bus.
+                     PCA_Priority - this gives the priority level of the IPC
+                                    for modcomp SIs and DMP transfers.
+                     xx=name - xx is a number, and name is the handler
+                               device name to ship mail on the xx transport
+                               to.
+                               Example:
+                                1=DISK   would configure mail from transport
+                                         1 to be mailed to the handler whos
+                                         device name was configured as DISK.
+Routines Registered: None
+
+
+Name               : Pointer.exe
+Description        : Program to read the mouse and update the mouse cursor on
+                     the screen.  It also interprets the action of the mouse
+                     buttons.
+OS                 : Panther/OS
+Environment params : None
+Routines Registered: None
+
+
+Name               : Proc.exe
+Description        : Program to compile the keyboard configuration file.
+OS                 : DOS
+
+Name               : Scsidisk.exe
+Description        : Driver for the SCSI disk drive.
+OS                 : Panther/OS
+Environment params : config - sets up the configuration of the SCSI disk,
+                              this is followed by two parameters, one
+                              is the number of enteries in the cache, and
+                              the other is the method of searching the
+                              cache.
+                              Example - config=50 hash
+                                        config=10 search
+Routines Registered: char far *find_sector(unsigned long address)
+                     short get_sectors(unsigned long address,
+                                       unsigned short far *data,
+                                       unsigned short size)
+                     short put_sector(unsigned long address,
+                                      unsigned short far *data,
+                                      unsigned short size)
+                     short put_sectors(unsigned long address,
+                                       unsigned short far *data,
+                                       unsigned short size)
+
+Name               : Scsitape.exe
+Description        : Driver for the SCSI tape drive.
+OS                 : Panther/OS
+Environment params : None
+Routines Registered:
+
+Name               : Tapehand.exe
+Description        :
+OS                 : Panther/OS
+Environment params :
+Routines Registered:
+
+Name               : Tasklist.exe
+Description        : Program to list the tasks and other important information
+                     about the executing programs.
+OS                 : Panther/OS
+Environment params : None
+Routines Registered: None
+
+Name               : Unproc.exe
+Description        : Program to decompile a keyboard configuration file
+OS                 : DOS
+
+Name               : Ups.exe
+Description        : Program to watch the status of a UPS connected through
+                     one of the com channels.
+OS                 : Panther/OS
+Environment params : None
+Routines Registered: None
+
+Name               : Video.exe
+Description        : Program to provide routines for handling screen IO.
+OS                 : Panther/OS
+Environment params : vheight - sets the vertical height of the screen.
+                     video - sets the base address of video memory.
+                             Example: Video=#b800 (CGA/VGA/EGA)
+                                      video=#b000 (Monochrome)
+Routines Registered: short keypressed(windowptr window)
+                     char readch(windowptr window)
+                     void Clr_window(windowptr window)
+                     windowptr opendisplay(short ulx,short uly,short width,
+                                           short height,short opts,
+                                           char data_attr,char border_attr,
+                                           char cursor_attr,char far *title)
+                     void get_xy(windowptr window,short far *x,short far *y)
+                     void display(windowptr window,char charac)
+                     void displayln(windowptr window,char far *line,...)
+                     void position(windowptr window,int x,int y)
+                     void setattr(windowptr window,char attr)
+                     char getattr(windowptr window)
+                     void clr_display(windowptr window,char notes)
+                     short getdisplay(short far *x,short far *y,
+                                      windowptr far *window)
+                     short moddisplay(windowptr window,...)
+                     short closedisplay(windowptr window)
+                     windowptr dupdisplay(windowptr window,short opts)
+
+
+Name               : Wndw_mgr.exe
+Description        : Program will provide more control over the windows on
+                     the screen.
+OS                 : Panther/OS
+Environment params : None
+Routines Registered: None
+
+

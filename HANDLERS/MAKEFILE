@@ -1,0 +1,9 @@
+
+
+multthrd.obj :
+#        cd itc
+#        make -DDEST=$(DEST)
+#        cd ..
+        cd multeth
+        make -DDEST=$(DEST)
+        cd ..

@@ -1,0 +1,29 @@
+
+CC      =       \nipc\batch.ipc\mc
+
+ASM     =       \nipc\batch.ipc\asm
+
+LINK    =       \nipc\batch.ipc\ml
+
+MODDEP  =       \nipc\common.ipc\mod.h\
+                \nipc\common.ipc\os.h
+
+VIDDEP  =       \nipc\video\text\video.h
+
+DESTNAME=       comm.exe
+
+!if $d(DEST)
+$(DEST)\$(DESTNAME) : $(DESTNAME)
+        copy $(DESTNAME) $(DEST)
+!endif
+
+$(DESTNAME) : comm.obj comware.obj
+        $(LINK) comm comware ..\video\text\vidlib
+
+comm.obj : comm.c $(MODDEP) comm.h $(VIDDEP)
+        $(CC) comm
+
+comware.obj : comware.asm
+        $(ASM) comware
+
+

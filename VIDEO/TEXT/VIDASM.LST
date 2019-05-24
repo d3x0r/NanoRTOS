@@ -1,0 +1,396 @@
+Turbo Assembler	 Version 2.5	    10/28/93 10:42:29	    Page 1
+vidasm.ASM
+
+
+
+      1	0000			     .model small,c
+      2
+      3				     ;_COM segment byte	public 'CODE' USE16
+      4				     ;assume cs:_COM,ds:_COM,ss:_COM
+      5
+      6	*000			     video STRUC
+      7	*000  01*(0000)			     count	     dw	 0
+      8	*002  01*(00000000)		     window_addr     dd	 0
+      9	*006  01*(00000000)		     next_line_seg   dd	 0
+     10	*00A  01*(00000000)		     video_addr	     dd	 0
+     11	*00E			     video ENDS
+     12
+     13	*000			     window STRUC
+     14	*000  01*(????)			     ulx	     dw	 ?
+     15	*002  01*(????)			     uly	     dw	 ?    ;upper left corner of window
+     16	*004  01*(????)			     width	     dw	 ?
+     17	*006  01*(????)			     height	     dw	 ?    ;height and width	of dataplane of	window
+     18	*008  01*(????)			     dwidth	     dw	 ?
+     19	*00A  01*(????)			     dheight	     dw	 ?    ;height and width	of display portion
+     20	*00C  01*(????)			     owidth	     dw	 ?
+     21	*00E  01*(????)			     oheight	     dw	 ?    ;save of dwidth,dheight for deiconing
+     22	*010  01*(????)			     xofs	     dw	 ?
+     23	*012  01*(????)			     yofs	     dw	 ?    ;offset of upper left corner of data plane
+     24	*014  01*(????)			     cursx	     dw	 ?
+     25	*016  01*(????)			     cursy	     dw	 ?    ;coords of cursor	in the window
+     26	*018  01*(????)			     _cursx	     dw	 ?
+     27	*01A  01*(????)			     _cursy	     dw	 ?    ;last coords of cursor
+     28	*01C  01*(????)			     status	     dw	 ?    ;current status of window	...??????
+     29	*01E  01*(????)			     opts	     dw	 ?    ;options for the window.
+     30	*020  01*(????????)		     key_buffer	     dd	 ?    ;keyboard	buffer structure
+     31	*024  01*(??)			     cursattr	     db	 ?
+     32	*025  01*(??)			     borattr	     db	 ?
+     33	*026  01*(??)			     backattr	     db	 ?    ;current attributes of various items.
+     34	*027  01*(????????)		     data	     dd	 ?    ;address of the dataplane
+     35	*02B  01*(????????)		     border	     dd	 ?    ;address of border data
+     36	*02F  01*(????????)		     shadow	     dd	 ?    ;address of shadow data
+     37	*033  01*(10*(??))		     title	     db	 16 dup(?) ; title of the window
+     38	*043  01*(????????)		     next_window     dd	 ?
+     39	*047  01*(????????)		     prev_window     dd	 ?    ;pointers	to the next and	prior windows in list
+     40	*04B  01*(????????)		     mouse_handle    dd	 ?    ;pointer to mouse	handling procedure
+     41	*04F  01*(????????)		     lines	     dd	 ?    ;array of	pointers to lines to show on screen
+     42	*053			     window ENDS
+     43
+     44
+     45	0000			     .data
+     46
+     47				     extrn x:byte
+     48				     extrn y:byte
+     49				     extrn Relinquish:dword
+     50				     extrn scanlines:dword
+     51				     extrn video_lines:dword
+     52				     extrn screenseg:word
+     53				     extrn vheight:word
+     54				     extrn vwidth:word
+     55				     extrn mousex:word
+     56				     extrn mousey:word
+     57				     extrn mouse:byte
+Turbo Assembler	 Version 2.5	    10/28/93 10:42:29	    Page 2
+vidasm.ASM
+
+
+
+     58				     extrn Current_Window:dword
+     59				     extrn fork_hook:far
+     60				     extrn destroy_hook:far
+     61
+     62	0000			     .code
+     63
+     64				     public getch;
+     65				     public kbhit;
+     66				     public display_line
+     67				     public hook_vectors
+     68
+     69	0000			     hook_vectors proc far
+     70	0000  BE 0000s			     mov si,seg	destroy_hook
+     71	0003  BA 0000e			     mov dx,offset destroy_hook
+     72	0006  B9 0000s			     mov cx,seg	fork_hook
+     73	0009  BB 0000e			     mov bx,offset fork_hook
+     74	000C  B8 0009			     mov ax,9
+     75	000F  CD 60			     int 60h
+1    76	0011  CB			     RET     0000h
+     77	0012			     endp
+     78
+     79
+     80	0012			     kbhit proc	far
+     81				     ;	 8  win	far
+     82				     ;	 6  win	near
+     83				     ;	 4  far
+     84				     ;	 2  near
+     85				     ;	bp- bp
+     86				     ;
+     87	0012  55			     push    bp
+     88	0013  8B EC			     mov     bp,sp
+     89	0015  2E: 80 3E	002Dr 00	     cmp     cs:hold,0
+     90	001B  75 0B			     jne     gotchar
+     91	001D  B4 01			     mov     ah,1
+     92	001F  CD 16			     int     16h
+     93	0021  75 05			     jnz     gotchar
+     94	0023			     nochar:
+     95	0023  33 C0			     xor     ax,ax
+     96	0025  EB 04 90			     jmp     endproc
+     97	0028			     gotchar:
+     98	0028  B8 FFFF			     mov     ax,0ffffh
+     99	002B			     endproc:
+    100	002B  5D			     pop     bp
+1   101	002C  CB			     RET     0000h
+    102	002D			     kbhit endp
+    103
+    104	002D  00		     hold db  0
+    105
+    106	002E			     getch proc	far
+    107				     ;
+    108				     ;	8  far win
+    109				     ;	6  near	win
+    110				     ;	4  far ret
+    111				     ;	2  near	ret
+    112				     ; bp- bp
+    113	002E  55			     push    bp
+    114	002F  8B EC			     mov     bp,sp
+Turbo Assembler	 Version 2.5	    10/28/93 10:42:29	    Page 3
+vidasm.ASM
+
+
+
+    115	0031  2E: 80 3E	002Dr 00	     cmp     cs:hold,0
+    116	0037  74 0D			     je	     wait1
+    117	0039  2E: A0 002Dr		     mov     al,cs:hold
+    118	003D  2E: C6 06	002Dr 00	     mov     cs:hold,0
+    119	0043  EB 27 90			     jmp     leave_get
+    120	0046			     wait1:
+    121	0046  B4 01			     mov     ah,1
+    122	0048  CD 16			     int     16h
+    123	004A  75 0D			     jnz     continget
+    124	004C  33 C0			     xor     ax,ax
+    125	004E  50			     push    ax
+    126	004F  50			     push    ax
+    127	0050  FF 1E 0000e		     call    Relinquish
+    128	0054  83 C4 04			     add     sp,4d
+    129	0057  EB ED			     jmp     wait1
+    130	0059			     continget:
+    131	0059  B4 00			     mov     ah,0
+    132	005B  CD 16			     int     16h
+    133	005D  3C 00			     cmp     al,0
+    134	005F  2E: C6 06	002Dr 00	     mov     cs:hold,0
+    135	0065  75 05			     jnz     leave_get
+    136	0067  2E: 88 26	002Dr		     mov     cs:hold,ah
+    137	006C			     leave_get:
+    138	006C  B4 00			     mov     ah,0
+    139	006E  5D			     pop     bp
+1   140	006F  CB			     RET     0000h
+    141	0070			     getch endp
+    142
+    143	0070  70		     color_table     db	     70h
+    144	0071  60				     db	     60h
+    145	0072  40				     db	     40h
+    146	0073  50				     db	     50h
+    147	0074  20				     db	     20h
+    148	0075  30				     db	     30h
+    149	0076  10				     db	     10h
+    150	0077  00				     db	     00h
+    151	0078  70				     db	     70h
+    152	0079  60				     db	     60h
+    153	007A  40				     db	     40h
+    154	007B  50				     db	     50h
+    155	007C  20				     db	     20h
+    156	007D  30				     db	     30h
+    157	007E  10				     db	     10h
+    158	007F  00				     db	     00h
+    159
+    160	0080  70		     mono_table	     db	     70h
+    161	0081  70				     db	     70h
+    162	0082  70				     db	     70h
+    163	0083  70				     db	     70h
+    164	0084  70				     db	     70h
+    165	0085  70				     db	     70h
+    166	0086  70				     db	     70h
+    167	0087  00				     db	     00h
+    168	0088  70				     db	     70h
+    169	0089  70				     db	     70h
+    170	008A  70				     db	     70h
+    171	008B  70				     db	     70h
+Turbo Assembler	 Version 2.5	    10/28/93 10:42:29	    Page 4
+vidasm.ASM
+
+
+
+    172	008C  70				     db	     70h
+    173	008D  70				     db	     70h
+    174	008E  70				     db	     70h
+    175	008F  00				     db	     00h
+    176
+    177	0090			     display_line proc,line:word
+    178				     ; +6,+8 Window pointer
+    179				     ; +4    line
+    180				     ; +2    near
+    181				     ; -0    bp
+    182				     ;
+1   183	0090  55			     PUSH    BP
+1   184	0091  8B EC			     MOV     BP,SP
+1   185	0093  1E			     push    ds
+    186	0094  57			     push    di
+    187	0095  B8 0000s			     mov     ax,seg screenseg
+    188	0098  8E D8			     mov     ds,ax
+    189	009A  8B 5E 04			     mov     bx,line
+    190	009D  83 FB 00			     cmp     bx,0
+    191	00A0  7D 03			     jnl     testheight;
+    192	00A2  E9 008A			     jmp     contin_exit
+    193	00A5			     testheight:
+    194	00A5  3B 1E 0000e		     cmp     bx,vheight
+    195	00A9  7C 03			     jnge    do_line;
+    196	00AB  E9 0081			     jmp     contin_exit
+    197	00AE			     do_line:
+    198	00AE  D1 E3			     shl     bx,1;
+    199	00B0  CC			     int 3
+    200	00B1  C4 3E 0000e		     les     di,scanlines
+    201	00B5  26: 8B 39			     mov     di,es:[bx+di]
+    202	00B8  D1 E3			     shl     bx,1
+    203	00BA  57			     push    di
+    204	00BB  C4 3E 0000e		     les     di,video_lines
+    205	00BF  26: C4 19			     les     bx,es:[di+bx]
+    206	00C2  5F			     pop     di
+    207	00C3  EB 19 90			     jmp     test_line
+    208	00C6			     display_line_seg:
+    209
+    210	00C6  26: 8A 0F			     mov     cl,byte ptr es:[bx].count
+    211	00C9  32 ED			     xor     ch,ch;
+    212	00CB  06			     push    es
+    213	00CC  1E			     push    ds
+    214	00CD  A1 0000e			     mov     ax,screenseg
+    215	00D0  26: C5 77	02		     lds     si,dword ptr es:[bx].window_addr
+    216	00D4  8E C0			     mov     es,ax
+    217	00D6  F3> A5			     rep     movsw
+    218	00D8  1F			     pop     ds
+    219	00D9  07			     pop     es
+    220	00DA  26: C4 5F	06		     les     bx,es:[bx].next_line_seg
+    221
+    222	00DE			     test_line:
+    223	00DE  8C C0			     mov     ax,es
+    224	00E0  0B C3			     or	     ax,bx
+    225	00E2  74 02			     jz	     exit1
+    226	00E4  EB E0			     jmp     display_line_seg		     ;else go to display;
+    227	00E6			     exit1:
+    228	00E6  80 3E 0000e 00		     cmp     mouse,0
+Turbo Assembler	 Version 2.5	    10/28/93 10:42:29	    Page 5
+vidasm.ASM
+
+
+
+    229	00EB  74 42			     je	     contin_exit
+    230	00ED  8B 5E 04			     mov     bx,line
+    231	00F0  3B 1E 0000e		     cmp     bx,mousey
+    232	00F4  75 39			     jne     contin_exit
+    233	00F6  A1 0000e			     mov     ax,vwidth
+    234	00F9  F7 E3			     mul     bx
+    235	00FB  03 06 0000e		     add     ax,mousex
+    236	00FF  D1 E0			     shl     ax,1
+    237	0101  40			     inc     ax
+    238	0102  8B F8			     mov     di,ax
+    239	0104  8E 06 0000e		     mov     es,screenseg
+    240	0108  26: 8A 1D			     mov     bl,es:[di]
+    241	010B  8A C3			     mov     al,bl
+    242	010D  24 0F			     and     al,0fh
+    243	010F  32 FF			     xor     bh,bh
+    244	0111  B1 04			     mov     cl,4
+    245	0113  D3 EB			     shr     bx,cl
+    246	0115  81 3E 0000e B000		     cmp     screenseg,0b000h
+    247	011B  74 08			     je	     mono
+    248	011D  2E: 8A 9F	0070r		     mov     bl,cs:color_table+bx
+    249	0122  EB 06 90			     jmp     contin
+    250	0125			     mono:
+    251	0125  2E: 8A 9F	0080r		     mov     bl,cs:mono_table+bx
+    252	012A			     contin:
+    253	012A  0A C3			     or	     al,bl
+    254	012C  26: 88 05			     mov     es:[di],al
+    255	012F			     contin_exit:
+    256	012F  5F			     pop     di
+    257	0130  1F			     pop     ds
+1   258	0131  5D			     POP     BP
+1   259	0132  C3			     RET     0000h
+    260	0133			     display_line endp
+    261
+    262
+    263
+    264
+    265				     END
+Turbo Assembler	 Version 2.5	    10/28/93 10:42:29	    Page 6
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??date				  Text	 "10/28/93"
+??filename			  Text	 "vidasm  "
+??time				  Text	 "10:42:29"
+??version			  Number 0205
+@CodeSize			  Text	 0
+@Cpu				  Text	 0101H
+@DataSize			  Text	 0
+@FileName			  Text	 vidasm
+@Model				  Text	 2
+@WordSize			  Text	 2
+@code				  Text	 _TEXT
+@curseg				  Text	 _TEXT
+@data				  Text	 DGROUP
+Current_Window (_Current_Window)  Dword	 DGROUP:---- Extern
+Relinquish (_Relinquish)	  Dword	 DGROUP:---- Extern
+color_table			  Byte	 _TEXT:0070
+contin				  Near	 _TEXT:012A
+contin_exit			  Near	 _TEXT:012F
+continget			  Near	 _TEXT:0059
+destroy_hook (_destroy_hook)	  Far	 DGROUP:---- Extern
+display_line (_display_line)	  Near	 _TEXT:0090
+display_line_seg		  Near	 _TEXT:00C6
+do_line				  Near	 _TEXT:00AE
+endproc				  Near	 _TEXT:002B
+exit1				  Near	 _TEXT:00E6
+fork_hook (_fork_hook)		  Far	 DGROUP:---- Extern
+getch (_getch)			  Far	 _TEXT:002E
+gotchar				  Near	 _TEXT:0028
+hold				  Byte	 _TEXT:002D
+hook_vectors (_hook_vectors)	  Far	 _TEXT:0000
+kbhit (_kbhit)			  Far	 _TEXT:0012
+leave_get			  Near	 _TEXT:006C
+line				  Number [DGROUP:BP+0004]
+mono				  Near	 _TEXT:0125
+mono_table			  Byte	 _TEXT:0080
+mouse (_mouse)			  Byte	 DGROUP:---- Extern
+mousex (_mousex)		  Word	 DGROUP:---- Extern
+mousey (_mousey)		  Word	 DGROUP:---- Extern
+nochar				  Near	 _TEXT:0023
+scanlines (_scanlines)		  Dword	 DGROUP:---- Extern
+screenseg (_screenseg)		  Word	 DGROUP:---- Extern
+test_line			  Near	 _TEXT:00DE
+testheight			  Near	 _TEXT:00A5
+vheight	(_vheight)		  Word	 DGROUP:---- Extern
+video_lines (_video_lines)	  Dword	 DGROUP:---- Extern
+vwidth (_vwidth)		  Word	 DGROUP:---- Extern
+wait1				  Near	 _TEXT:0046
+x (_x)				  Byte	 DGROUP:---- Extern
+y (_y)				  Byte	 DGROUP:---- Extern
+Turbo Assembler	 Version 2.5	    10/28/93 10:42:29	    Page 7
+Symbol Table
+
+
+
+
+Structure Name			  Type	Offset
+
+video
+ count				  Word	 0000
+ window_addr			  Dword	 0002
+ next_line_seg			  Dword	 0006
+ video_addr			  Dword	 000A
+window
+ ulx				  Word	 0000
+ uly				  Word	 0002
+ width				  Word	 0004
+ height				  Word	 0006
+ dwidth				  Word	 0008
+ dheight			  Word	 000A
+ owidth				  Word	 000C
+ oheight			  Word	 000E
+ xofs				  Word	 0010
+ yofs				  Word	 0012
+ cursx				  Word	 0014
+ cursy				  Word	 0016
+ _cursx				  Word	 0018
+ _cursy				  Word	 001A
+ status				  Word	 001C
+ opts				  Word	 001E
+ key_buffer			  Dword	 0020
+ cursattr			  Byte	 0024
+ borattr			  Byte	 0025
+ backattr			  Byte	 0026
+ data				  Dword	 0027
+ border				  Dword	 002B
+ shadow				  Dword	 002F
+ title				  Byte	 0033
+ next_window			  Dword	 0043
+ prev_window			  Dword	 0047
+ mouse_handle			  Dword	 004B
+ lines				  Dword	 004F
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  _DATA				  16  0000 Word	  Public  DATA
+_TEXT				  16  0133 Word	  Public  CODE
+
