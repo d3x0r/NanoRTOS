@@ -17,6 +17,7 @@ I updated it subsequently.
   print("Intelligent Peripheral Controller\r\n");
   print("Copyright (c) 1992,1993 Logical Data Corporation\r\n");
   print("All Rights Reserved.\r\n");
+  print("Requested release for research purposes... (pending)\r\n" );
   print("Copyright (c) 2019 Freedom Collective\r\n");
   print("No Rights Reserved.\r\n");
   print("Released Open Source 2019;WTFPL");
