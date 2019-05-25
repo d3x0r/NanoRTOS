@@ -9,7 +9,7 @@ This is a small, single processor, multithreading, cooperative operating system.
 - Originally NIPC (New Intelligent Peripheral Controller)
 - Renamed at some point to PNTHROS  (Panther OS.)
 
-While writing this document about directory structure; I found this HEADER
+While writing this document about directory structure; I found this header
 emitted in loader.c.
 I updated it subsequently.
 
@@ -78,12 +78,11 @@ the `BATCH.IPC` folder has batch files to do compile, assemble and link.
    - `NPCA.H` - 
  - DISK - Obsolete SCSI controller.
  - ETHER - Obsolete western digital ether driver + TCP Stack (could be salvaged).
- - PCA - Obsolete proprietary hardware interface to other computers
  - HANDLERS - ??? New Versions of Older things?  Dev things before other things?
  - HOSTESS - This was a driver for a smart COM port card that had offboard CPU to control the com ports, allowing protocols to be offloaded to external card, and sending full packet buffers to CPU.  16/32 port RS-232 for Dialup/Terminal Sharing services.
  - KEYBRD - Keyboard/Mouse Driver; take keyboard scan codes, and make numbers and letters out of them.  Uses a text CONFIG.KBD that gets compiled to a CONFIG.I file.  PROC.C is the processor. UNPROC.C is a de-coimpiler of the configuration.
  - LISP - Hobby project to introduce a command-line LISP processor.  It parses text a little bit (gets expressions).  Doesn't do much
- - __*LOADER*__ - This is the core OS.  
+ - __LOADER__ - This is the core OS.  
     - EXEC.ASM - Executive Services ( general interface like int 21/syscall) looks like a wrapper for some other fucntions to Regsiter and Request functions, fork, relinquish, ...
     - HUGEHEAD.ASM - entry point code for main to setup stack.
     - LOADER.C - Entry point for OS.  Loads other modules; Core OS.
@@ -93,7 +92,6 @@ the `BATCH.IPC` folder has batch files to do compile, assemble and link.
     - OSLIB.ASM - this would be like the IMPORT library header.  Modules link to this, which requests the address of the CRT routines from the OS core.
     - SWAPPER.ASM - This handles stack(thread) creation, and swapping.  Tasks are given stacks themselves, but are tracked separately so we can get per-module CPU usage.  Also handles interrupt context switching.  Allowing interrupts to use system services and return.
     - MAKEFILE - the script to make this module.
-  - PNTHROS - copy of above. (newer?older?)
   - MULTHAND - Not sure... 
   - PARALLEL - port for parallel port on classic PC.
   - PCA - LDC proprietary hardware- PC Adapter (makes PC slave of another system)
