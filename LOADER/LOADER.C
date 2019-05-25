@@ -1648,6 +1648,11 @@ void main(char far *params,char far *inpath)
   print("Intelligent Peripheral Controller\r\n");
   print("Copyright (c) 1992,1993 Logical Data Corporation\r\n");
   print("All Rights Reserved.\r\n");
+  print("Copyright (c) 2019 Freedom Collective\r\n");
+  print("No Rights Reserved.\r\n");
+  print("Released Open Source 2019;WTFPL");
+  print("If you make it better, maybe share that back?\r\n");
+
   EOPath=final_dot(inpath);     /*get where the dot extension is*/
   EOPath[0]=0;                  /*get rid of prior extention*/
   while (EOPath[0]!='\\'&&       /*back up to the first slash or begin of
