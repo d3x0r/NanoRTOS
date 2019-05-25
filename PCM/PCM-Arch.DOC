@@ -1,0 +1,82 @@
+  This is the new proposed archetecture for PC Mynah C.00.  This version
+will be implemented under Panther OS.  Configuration files will either
+be text based or a compiled version of text.  External Protocols will be
+supported.  Everything that is not nessecary will be swapped to disk on
+a swap.
+  Terminal Emulation files should be perferably user programable so that
+they can be field updated.  Therefore they need to be based on a
+structure that can be compiled and inputed as norm.  Each window could
+have a different translator.
+  Behind the scenes look will be a wiring between an input device, a
+translator and an output window.  Multiple sessions could be run at the
+same time then.  The keyboard will of course focus on the attentive
+window.  Certain keys will bring up the main menu and certain other
+global functions.  Menus could be left up and merely turn the attention
+to another window to access it.  Each session will have to be either
+created when it comes up, or they have to be configured outside to be
+set-up.  I beleive I could probably save what I have active upon an exit
+and restore everything to that state.
+
+  Peices and parts that I have availiable now.
+      Comm
+      Ether
+
+        (translators)
+
+      Video
+      Keyboard
+
+
+
+new desision.  Objects as translation filter boxes.  Wire then in so that
+you call the translator with availiable incoming characters.  so, a switch
+board manager is pulling from the connections it made to the outside world
+on the behalf of a requestor, and is piping it actively to the screen output
+that the requestor specified as the destination.  Therefore there are three
+types of programs in this set.  One someone to decide to make a connection,
+and operator if you will.  One will become a pump from passive to active,
+one thread per pump will run here.  One will be passive in itself, and
+be merely a routine that will process the character(s).
+
+   Process_data(dimensions,buffer,...)
+     dimensions-  specifies how the buffer is laid out.
+              0 - just character
+              1 - a line of characters
+              2 - an array of characters  (usable?)
+              3 - a cube of characters    (usable?)
+
+   Source(*Device_structure)
+   Output(*Device_structure)
+     Device_structure
+     {
+       type- character describing what kind of device this is
+       union
+       {
+         device specific sturctures.
+       }parameters;
+     }
+
+   then can we multiply split the information?  Yes we can.  We can define
+     another dest from a single source.  but we cannot specitfy one com channel
+     to go to multiple translators.
+
+   A translator looks at the character to process, and either accepts it or
+   passes it to the next translator in the list.  All translation familys
+   should be ended with a glass-tty device so that the output is at least
+   output.  The keyboard backfeed must also be specified.
+
+
+
+      Source Pool of Info
+      ToSource
+      ToDest
+
+
+   Translators are then responcible for captures that go on... this is common
+   code, so I'm not sure that that is where the capture should be.  One can
+   either capture raw or cooked, inbound and/or outbound data.
+
+      Change Attrib
+      output(window,dimensions,buffer,...)
+
+
