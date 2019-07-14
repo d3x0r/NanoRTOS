@@ -26,6 +26,14 @@ I updated it subsequently.
 
 LDC May still exist.  This code is from before 1995.  LDC Did continue development on their own sysems, even migrating to QNX for the host operating system instead of DOS.  
 
+### Rights
+I found Richard Whitworth (owner of LDC) on linked in, and attempted to contact him that way, and there was no response.  (Is he dead?).
+I contacted MicroSystems(?)  - the company which purchased borland.  Borland retained (apparently) the rights to their compiler IP until they were finally bought as a hole.  They Contacted me on the phone and I spoke to an assistent legal representative.  They have not returned my call.
+If anyone cares to claim any part of this, I'll remove from abandonware (Much like Diablo2 after 2018 Reverse engineering) (See)[https://www.myabandonware.com/game/diablo-3it]
+
+> Diablo is available a small price on the following websites, and is no longer abandonware. GoG.com provide the best releases and does not include DRM, please buy from them! You can read our online store guide.
+
+
 
 ## What is This?
 
